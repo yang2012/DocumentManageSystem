@@ -67,6 +67,7 @@
     
     <bean id="statisticAction" class="dmsystem.action.StatisticAction" scope="prototype">
     	<property name="documentTypeService" ref="documentTypeService" />
+    	<property name="statisticService" ref="statisticService" />
     </bean>
     
     <bean id="userAction" class="dmsystem.action.UserAction" scope="prototype">
@@ -137,6 +138,12 @@
     <bean id="modifyPasswordService" class="dmsystem.service.ModifyPasswordServiceImpl" scope="prototype">
         <property name="modifyPasswordDao" ref="modifyPasswordDao" />
     </bean>
+    
+    <bean id="statisticService" class="dmsystem.service.StatisticServiceImpl" scope="prototype">
+        <property name="statisticDao" ref="statisticDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="operationDao" ref="operationDao" />
+    </bean>
 
     <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao" />
@@ -188,6 +195,10 @@
     </bean>
     
     <bean id="modifyPasswordDao" class="dmsystem.dao.ModifyPasswordDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+    
+    <bean id="statisticDao" class="dmsystem.dao.StatisticDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
     
