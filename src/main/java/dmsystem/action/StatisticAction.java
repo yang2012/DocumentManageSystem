@@ -6,8 +6,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import dmsystem.entity.DocumentType;
+import dmsystem.entity.Statistic;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentTypeService;
+import dmsystem.service.StatisticService;
 
 /**
  * 
@@ -23,21 +25,60 @@ public class StatisticAction extends ActionSupport {
 	private User user;
 
 	private String time;
-	private String operationType;
-	private String username;
+	private String fromDate;
+	private String toDate;
 
 	private DocumentTypeService documentTypeService;
+	private StatisticService statisticService;
+
 	private List<DocumentType> documentTypes;
 
-	public String retrievestatistic() {
+	private List<Statistic> statisticListWeek;
+	private List<Statistic> statisticListMonth;
+	private List<Statistic> statisticListYear;
+	private List<Statistic> statisticList;
+
+	public String retrievestatistic() throws Exception {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		documentTypes = this.documentTypeService.getAll();
-		
+
 		if (user == null) {
 			return LOGIN;
-		} else
-			return SUCCESS;
+		}
+
+		this.statisticListWeek = this.statisticService
+				.retrieveStatistic("week");
+		this.statisticListMonth = this.statisticService
+				.retrieveStatistic("month");
+		this.statisticListYear = this.statisticService
+				.retrieveStatistic("year");
+
+		this.statisticList = this.statisticListWeek;
+
+		return SUCCESS;
+	}
+
+	public String generatestatistic() throws Exception {
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+
+		if (user == null) {
+			return LOGIN;
+		}
+
+		this.statisticListWeek = this.statisticService
+				.retrieveStatistic("week");
+		this.statisticListMonth = this.statisticService
+				.retrieveStatistic("month");
+		this.statisticListYear = this.statisticService
+				.retrieveStatistic("year");
+
+		this.statisticList = this.statisticService.retrieveStatisticForPeriod(
+				fromDate, toDate);
+
+		return SUCCESS;
 	}
 
 	public String getTime() {
@@ -48,20 +89,20 @@ public class StatisticAction extends ActionSupport {
 		this.time = time;
 	}
 
-	public String getOperationType() {
-		return operationType;
+	public String getFromDate() {
+		return fromDate;
 	}
 
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getToDate() {
+		return toDate;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 
 	public User getUser() {
@@ -86,6 +127,46 @@ public class StatisticAction extends ActionSupport {
 
 	public void setDocumentTypes(List<DocumentType> documentTypes) {
 		this.documentTypes = documentTypes;
+	}
+
+	public StatisticService getStatisticService() {
+		return statisticService;
+	}
+
+	public void setStatisticService(StatisticService statisticService) {
+		this.statisticService = statisticService;
+	}
+
+	public List<Statistic> getStatisticListWeek() {
+		return statisticListWeek;
+	}
+
+	public void setStatisticListWeek(List<Statistic> statisticListWeek) {
+		this.statisticListWeek = statisticListWeek;
+	}
+
+	public List<Statistic> getStatisticListMonth() {
+		return statisticListMonth;
+	}
+
+	public void setStatisticListMonth(List<Statistic> statisticListMonth) {
+		this.statisticListMonth = statisticListMonth;
+	}
+
+	public List<Statistic> getStatisticListYear() {
+		return statisticListYear;
+	}
+
+	public void setStatisticListYear(List<Statistic> statisticListYear) {
+		this.statisticListYear = statisticListYear;
+	}
+
+	public List<Statistic> getStatisticList() {
+		return statisticList;
+	}
+
+	public void setStatisticList(List<Statistic> statisticList) {
+		this.statisticList = statisticList;
 	}
 
 }

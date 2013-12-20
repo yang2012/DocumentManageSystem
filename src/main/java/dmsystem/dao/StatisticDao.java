@@ -58,7 +58,7 @@ public class StatisticDao {
 		Session session = this.hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session
-				.createQuery("from Operation op where op.time>? && op.time<=?");
+				.createQuery("from Operation op where op.time>? and op.time<=?");
 		query.setDate(0, fromDate);
 		query.setDate(1, toDate);
 

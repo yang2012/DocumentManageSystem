@@ -10,6 +10,10 @@
         <action name="getstatistic" method="retrievestatistic" class="statisticAction">
             <result name="success" type="freemarker">/pages/statistic.vtl</result>
         </action>
+        
+        <action name="generatestatistic" method="generatestatistic" class="statisticAction">
+            <result name="success" type="freemarker">/pages/statistic.vtl</result>
+        </action>
 
     </package>
 </struts>
