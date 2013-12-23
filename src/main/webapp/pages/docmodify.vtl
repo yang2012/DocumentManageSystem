@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>文献管理系统</title>
+    <!-- Le styles -->
+      <link href="/source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+      <link href="/source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+      <script src="/source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
+      <script src="/source/static/bootstrap/js/bootstrap.js"></script>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .bread-nav{
+        font-size: 20px;
+      }
+
+      .discription{
+          padding-left: 20px;
+          padding-right: 50px;
+      }
+      .addition{
+          background: #eeeeee;
+      }
+    </style>
+    <script type="text/javascript">
+        function choose(s){
+            if(s==1){
+                addition=newAddition();
+                divEditor=editDiv("editor","编辑");
+                divISBN=editDiv("isbn","ISBN");
+                addition.appendChild(divEditor);
+                addition.appendChild(divISBN);
+            }
+            if(s==2){
+                addition=newAddition();
+                divBookName=editDiv("bookname","图书名");
+                divEditor=editDiv("editor","编辑");
+                divISBN=editDiv("isbn","ISBN");
+
+                addition.appendChild(divBookName);
+                addition.appendChild(divEditor);
+                addition.appendChild(divISBN);
+
+            }
+            if(s==3){
+                addition=newAddition();
+                divPublication=editDiv("publication","出处");
+                divVolume=editDiv("volume","卷");
+                divIssue=editDiv("issue","期");
+                divDOI=editDiv("doi","DOI");
+                addition.appendChild(divPublication);
+                addition.appendChild(divVolume);
+                addition.appendChild(divIssue);
+                addition.appendChild(divDOI);
+            }
+            if(s==4){
+                addition=newAddition();
+                divPublication=editDiv("publication","出处");
+                divCity=editDiv("city","城市");
+                divDOI=editDiv("doi","DOI");
+                addition.appendChild(divPublication);
+                addition.appendChild(divCity);
+                addition.appendChild(divDOI);
+            }
+            if(s==5){
+                addition=newAddition();
+                divschool=editDiv("school","学校");
+                addition.appendChild(divschool);
+            }
+            if(s==6){
+                addition=newAddition();
+            }
+            if(s==7){
+                addition=newAddition();
+            }
+
+            function editDiv(english,chinese){
+                label=createLabel();
+                input=createInput();
+                div1=createDiv1();
+                div=createDiv();
+                label.setAttribute("for",english);
+                label.innerText=chinese+" *";
+                input.setAttribute("name",english);
+                input.setAttribute("placeholder",chinese);
+                div1.appendChild(input);
+                div.appendChild(label);
+                div.appendChild(div1);
+                return div;
+            }
+            function newAddition(){
+                var addition=document.getElementsByClassName("addition")[0];
+                while(addition.hasChildNodes()){
+                    addition.removeChild(addition.firstChild);
+                }//删除所有原有节点
+                addition.setAttribute("class","discription addition show");//设置可见
+                return addition;
+            }
+            function createDiv(){
+                div=document.createElement("div");
+                div.className="form-group";
+                return div;
+            }
+            function createDiv1(){
+                div1=document.createElement("div");
+                div1.className="col-sm-9";
+                return div1;
+            }
+            function createLabel(){
+                label=document.createElement("label");
+                label.className="col-sm-2 control-label";
+                return label;
+            }
+            function createInput(){
+                input=document.createElement("input");
+                input.setAttribute("type","text");
+                input.setAttribute("class","form-control");
+                return input;
+            }
+        }
+        window.onload=function init(){
+               var select=document.getElementsByName("documentType")[0];
+               var option=select.firstChild;
+               while(option!=null){
+                    if(option.innerHTML=="${document.documentType.name}"){
+                        option.selected = 'selected';
+                        break;
+                    }else{
+                        option=option.nextSibling;
+                        }
+                }
+                if(option!=null){
+                	choose(option.value);
+                	}
+        }
+    </script>
+    </style>
+
+  </head>
+    <body>
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/user/normal/index"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/user/normal/index"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
+            <li><a href="/doc/normal/addDoc"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-stats"></span>&nbsp;工作记录统计</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a><span class="glyphicon glyphicon-user"></span>&nbsp;${user.name}</a>
+            </li>
+            <li>
+              <a href="/"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
+            </li>
+            <li>
+              <a href="/user/normal/updateInfo/${user.id}"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+      </div>
+
+
+      <div class="container">
+        <div class="row">
+          <br/>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2">
+              <img class="pull-left" src="/source/image/logo.jpg" /></div>
+            <div class="col-xs-8">
+
+            <form class="well form-search"><br/>
+              <div class="input-group"><input type="text" class="form-control">
+                <span class="input-group-btn">
+                  <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;<strong>搜索文章</strong></button>
+                </span>
+              </div><!-- /input-group -->
+            </form>
+            </div>
+        </div>
+
+        <div class="row">
+		      <div class="col-xs-1"></div>
+          <div class="col-xs-10" style="background-color:#CCEEFF;">
+            <h2 style="background-color:#58D3F7;text-align:center;"><hr/>
+            编辑文献资料<hr/></h2>
+
+            <div class="col-xs-7">
+              <span class="label label-info">标题：</span><br/><br/>
+              <i>${document.title}</i></div>
+              <div class="col-xs-2 pull-right">
+            </div>
+
+
+            <form class="form-horizontal well" role="form" method="POST">
+
+              <div class="form-group discription">
+                <label for="author" class="col-sm-2 control-label">标签 *</label>
+                <div class="col-sm-9">
+                    <div class="well">
+                      
+                    <#list document.tags as tag>
+                    
+                      <span class="label label-success">${tag.name}</span>
+                      <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </#list>
+                      
+                      <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#tagModal"><span class="glyphicon glyphicon-plus"></span></button>
+                      <br />
+                    </div>
+
+                </div>
+              </div>
+            
+              <div class="form-group discription">
+                <label for="author" class="col-sm-2 control-label">作者 *</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="author" value=${document.author}></input>
+                </div>
+              </div>
+                  
+              <div class="form-group discription">
+                <label for="year" class="col-sm-2 control-label">出版年份 *</label>
+                <div class="col-sm-9">
+                   <input type="text" class="form-control" name="year" value=${document.year}>
+                </div>
+              </div>
+              
+              <div class="form-group discription">
+                <label for="pages" class="col-sm-2 control-label">页码 *</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="pages" value=${document.pages}>
+                </div>
+              </div>
+              
+              <div class="form-group discription">
+                <label for="abstracts" class="col-sm-2 control-label">摘要 *</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" name="abstracts" rows="5">${document.abstracts}</textarea>
+                </div>
+              </div>
+              
+              <div class="form-group discription">
+                <label for="keyword" class="col-sm-2 control-label">关键字 *</label>
+                <div class="col-sm-9">
+                   <textarea class="form-control" name="keywords" rows="3">${document.keywords}
+                   </textarea>
+                </div>
+              </div>
+     
+              <div class="form-group discription">
+                 <label for="publisher" class="col-sm-2 control-label">出版社 *</label>
+                 <div class="col-sm-9">
+                   <input type="text" class="form-control" name="publisher" value=${document.publisher}>
+                 </div>
+              </div>
+       
+              <div class="form-group discription">
+                <label for="url" class="col-sm-2 control-label">在线的网址 *</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="url" value=${document.url}>
+                </div>
+              </div>
+            
+              <div class="form-group discription">
+                <label for="type" class="col-sm-2 control-label">文献类型 *</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="documentType" onchange="choose(this.options[this.options.selectedIndex].value)">
+                    <option value="1">图书</option>
+                    <option value="2">图书章节</option>
+                    <option value="3">期刊</option>
+                    <option value="4">会议</option>
+                    <option value="5">学位论文</option>
+                    <option value="6">技术报告</option>
+                    <option value="7">在线资源</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="discription addition"></div>
+              
+              <div class="row">
+                <div class="col-xs-5"></div>
+                <div class=" col-xs-7">
+                  <button type="button" class="btn btn-default">取消修改</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+              </div>
+              <br/>
+            </form>
+          </div>
+        </div>
+        
+        <footer>
+          <a class="pull-right" href="#"><span class="glyphicon glyphicon-arrow-up"></span>返回顶部</a>
+        </footer>  
+        
+        </div>
+
+        <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新建一个标签</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <div class="col-xs-2"></div>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="tag" placeholder="标签名称...">
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">新建标签</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  </body>
+</html>

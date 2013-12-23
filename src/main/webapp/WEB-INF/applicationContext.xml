@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<context:annotation-config />
+	
+	<context:component-scan base-package="dmsystem" />
+
+	<tx:annotation-driven />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="dmsystem.entity"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.connection.pool_size">1</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="session" class="org.springframework.orm.hibernate3.SessionFactoryUtils" factory-method="getSession" scope="prototype">
+        <constructor-arg ref="sessionFactory" />
+        <constructor-arg value="false" />
+    </bean>
+
+    <!-- Hibernate -->
+    <bean id="hibernateUtil" class="dmsystem.util.HibernateUtil">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- Actions -->
+    <bean id="loginAction" class="dmsystem.action.LoginAction" scope="prototype">
+        <property name="userService" ref="userService" />
+    </bean>
+
+    <bean id="userAction" class="dmsystem.action.UserAction" scope="prototype">
+        <property name="documentService" ref="documentService" />
+    </bean>
+
+
+    <!-- Account Services -->
+    <bean id="userService" class="dmsystem.service.UserServiceImpl">
+        <property name="userDao" ref="userDao" />
+    </bean>
+
+    <!-- Book Services -->
+    <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
+        <property name="documentDao" ref="documentDao" />
+    </bean>
+
+    <!-- DAO -->
+    <bean id="userDao" class="dmsystem.dao.UserDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+
+    <bean id="documentDao" class="dmsystem.dao.DocumentDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+        <property name="documentTypeDao" ref="documnetTypeDao" />
+        <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
+        <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
+    </bean>
+
+    <bean id="documnetTypeDao" class="dmsystem.dao.DocumentTypeDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+
+    <bean id="documentExtraPropertyDao" class="dmsystem.dao.DocumentExtraPropertyDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+
+    <bean id="documentWithExtraPropertyDao" class="dmsystem.dao.DocumentWithExtraPropertyDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+</beans>

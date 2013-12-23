@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" extends="struts-default">
+        <interceptors>
+            <interceptor name="authorization" class="dmsystem.interceptor.AuthorizationInterceptor" />
+
+            <interceptor-stack name="authorizationStack">
+                <interceptor-ref name="authorization">
+                    <param name="skipActions">login, logout</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="authorizationStack" />
+
+        <global-results>
+            <result name="login" type="redirectAction">login!input</result>
+        </global-results>
+
+        <action name="">
+            <result>login.jsp</result>
+        </action>
+    </package>
+
+    <include file="account.xml" />
+    <include file="document.xml" />
+</struts>

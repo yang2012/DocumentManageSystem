@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>文献管理系统管理员</title>
+    <!-- Le styles -->
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统管理员</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/source/template/adminuser"><span class="glyphicon glyphicon-list"></span>&nbsp;用户列表</a></li>
+                <li><a href="/source/template/admindocument"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;文献配置</a></li>
+                <li><a href="/source/template/admincomment"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;评价配置</a></li>
+                <li><a href="/source/template/adminreference"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;引用关系配置</a></li>
+                <li><a href="/source/template/adminmeeting"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;会议名称配置</a></li>
+                <li><a href="/source/template/admintag"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;标签配置</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href=""><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10" style="background-color:#CCEEFF;">
+            <h2 style="background-color:#58D3F7;text-align:center;">
+                <hr/>
+                文献标签配置
+                <hr/>
+            </h2>
+            <div width="50%">
+                <table class="table table-hover table-bordered">
+                    <tr align="center">
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="text" name="id" class="form-control"value="2013">
+                            </td>
+                            <td>
+                                <input type="submit" class="btn-info btn form-control"value="保存修改">
+                            </td>
+                        </form>
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="button" class="btn-info btn form-control" name="delete" value="删除">
+                            </td>
+                        </form>
+                    </tr>
+                    <tr align="center">
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="text" name="id" class="form-control"value="Android">
+                            </td>
+                            <td>
+                                <input type="submit" class="btn-info btn form-control"value="保存修改">
+                            </td>
+                        </form>
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="button" class="btn-info btn form-control" name="delete" value="删除">
+                            </td>
+                        </form>
+                    </tr>
+                    <tr align="center">
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="text" name="id" class="form-control"value="HCI">
+                            </td>
+                            <td>
+                                <input type="submit" class="btn-info btn form-control"value="保存修改">
+                            </td>
+                        </form>
+                        <form>
+                            <td>
+                                <input type="hidden" name="id" value="001">
+                                <input type="button" class="btn-info btn form-control" name="delete" value="删除">
+                            </td>
+                        </form>
+                    </tr>
+                    <tr align="center">
+                        <form>
+                            <td colspan="2">
+                                <input type="text" name="id" class="form-control">
+                            </td>
+                            <td colspan="1">
+                                <input type="button" class="btn-default btn form-control" name="delete" value="添加">
+                            </td>
+                        </form>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a class="pull-right" href="#"><span class="glyphicon glyphicon-arrow-up"></span>返回顶部</a>
+    </footer>
+</div>
+
+</body>
+</html>
