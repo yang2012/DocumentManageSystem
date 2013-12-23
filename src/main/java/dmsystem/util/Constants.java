@@ -7,10 +7,10 @@ public class Constants {
     // Cookie
     public static final String kCredentialsKey = "DMSystemCredentials";
 
-    // Roles
-    public static final String kAdminRole = "Admin";
-    public static final String kNormalRole = "Normal";
-    public static final String kUnauthorizedRole = "Unauthorized";
+    // Authorities
+    public static final Integer kAdminAuthority = 2;
+    public static final Integer kNormalAuthority = 1;
+    public static final Integer kUnauthorizedAuthority = 0;
 
     // Authority of system Roles
     public static enum Authority {

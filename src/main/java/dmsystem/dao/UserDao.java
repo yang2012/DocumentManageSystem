@@ -8,7 +8,6 @@ import org.hibernate.Session;
 
 import dmsystem.entity.User;
 import dmsystem.util.Constants;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
@@ -97,14 +96,14 @@ public class UserDao {
     	Set<String> keys = values.keySet();
     	for(String key :keys){
     		if (key.equals(Constants.kUsernameField)) {
-                String username = (String) values.get(key);
+                String username = values.get(key);
                 user.setUsername(username);
                 user.setPassword(username);
             } else if(key.equals(Constants.kNameField)) {
-                String name = (String) values.get(key);
+                String name = values.get(key);
                 user.setName(name);
             } else if(key.equals(Constants.kAuthorityField)) {
-                Integer authority =Integer.parseInt(values.get(key));
+                Integer authority = Integer.parseInt(values.get(key));
                 user.setAuthority(authority);
             } 
     	}          

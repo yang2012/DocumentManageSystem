@@ -4,7 +4,6 @@ import dmsystem.entity.DocumentType;
 import dmsystem.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;;
 
 public class DocumentTypeDao {
 

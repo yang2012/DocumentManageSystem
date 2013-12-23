@@ -59,6 +59,7 @@
 
     <bean id="userAction" class="dmsystem.action.UserAction" scope="prototype">
         <property name="documentService" ref="documentService" />
+        <property name="userService" ref="userService" />
     </bean>
 
 

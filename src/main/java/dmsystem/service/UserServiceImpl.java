@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import dmsystem.entity.User;
 import dmsystem.dao.UserDao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserServiceImpl implements UserService {
@@ -34,5 +37,20 @@ public class UserServiceImpl implements UserService {
 
     public User getUser(String username) {
         return userDao.getUser(username);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> getAllUsers() {
+        List<User> users = null;
+        try {
+            users = userDao.getAllUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // just return empty list
+            users = new ArrayList<User>(0);
+        }
+
+        return users;
     }
 }

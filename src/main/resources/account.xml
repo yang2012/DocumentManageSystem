@@ -5,7 +5,8 @@
 
 <struts>
 
-    <package name="account" extends="struts-default">
+    <package name="account" extends="default">
+
         <action name="login" class="loginAction">
             <result type="redirect">/</result>
             <result name="input">/login.jsp</result>

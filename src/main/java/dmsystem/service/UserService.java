@@ -2,9 +2,13 @@ package dmsystem.service;
 
 import dmsystem.entity.User;
 
+import java.util.List;
+
 public interface UserService {
 	
 	void save(User user);
 
     public User authenticate(String username, String password);
+
+    public List<User> getAllUsers();
 }

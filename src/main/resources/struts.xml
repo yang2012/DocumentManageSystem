@@ -8,7 +8,7 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
 
-    <package name="default" extends="struts-default">
+    <package name="default" extends="struts-default" namespace="/">
         <interceptors>
             <interceptor name="authorization" class="dmsystem.interceptor.AuthorizationInterceptor" />
 
@@ -23,7 +23,12 @@
         <default-interceptor-ref name="authorizationStack" />
 
         <global-results>
-            <result name="login" type="redirectAction">login!input</result>
+            <result name="error">/Error.jsp</result>
+            <result name="invalid.token">/Error.jsp</result>
+            <result name="login" type="redirectAction">
+                <param name="actionName">login</param>
+                <param name="namespace">/account</param>
+            </result>
         </global-results>
 
         <action name="">
