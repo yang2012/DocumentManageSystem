@@ -17,7 +17,6 @@ import org.hibernate.criterion.Order;
 public class HibernateUtil {
 	
 	private static final Log log = LogFactory.getLog("DMSystem");
-    private static HibernateUtil _instance;
 
     private SessionFactory sessionFactory;
 
@@ -27,14 +26,6 @@ public class HibernateUtil {
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
-    }
-
-    public static HibernateUtil instance() {
-        if (_instance == null) {
-            _instance = new HibernateUtil();
-        }
-
-        return _instance;
     }
 
 	public void persist(Object transientInstance) throws Exception {

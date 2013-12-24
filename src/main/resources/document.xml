@@ -5,5 +5,12 @@
 
 <struts>
     <package name="document" extends="default">
+        <action name="upload" class="dmsystem.action.AttachmentAction" method="upload">
+            <result name="success" type="redirect">/index</result>
+        </action>
+
+        <action name="show" class="dmsystem.action.AttachmentAction" method="show">
+            <result name="success">/pages/file_upload_form.jsp</result>
+        </action>
     </package>
 </struts>

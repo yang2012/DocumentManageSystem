@@ -1,5 +1,7 @@
 package dmsystem.util;
 
+import org.apache.struts2.ServletActionContext;
+
 import java.io.File;
 
 /**
@@ -13,8 +15,8 @@ public class FileUtility {
     }
 
     public static String getResourceDirectory() {
-        return System.getProperty("user.home")
-                + File.separator + "Developer" + File.separator + "DMSystemResource";
+        return ServletActionContext.getServletContext()
+                .getRealPath("/") + File.separator + "upload";
     }
 
     public static String getFileUrl(String filename) {
