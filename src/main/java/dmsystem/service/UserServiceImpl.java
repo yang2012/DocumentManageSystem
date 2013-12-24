@@ -52,4 +52,23 @@ public class UserServiceImpl implements UserService {
 
         return users;
     }
+    @SuppressWarnings("unchecked")   
+    public void modify(User user){
+    	try {
+			userDao.update(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+    }
+    
+    @SuppressWarnings("unchecked")   
+    public void delete(User user){
+    	try {
+			userDao.remove(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }

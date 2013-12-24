@@ -30,12 +30,9 @@
                 <param name="namespace">/account</param>
             </result>
         </global-results>
-
-        <action name="">
-            <result>login.jsp</result>
-        </action>
     </package>
 
     <include file="account.xml" />
     <include file="document.xml" />
+    <include file="user.xml" />
 </struts>

@@ -61,6 +61,10 @@
         <property name="documentService" ref="documentService" />
         <property name="userService" ref="userService" />
     </bean>
+    
+    <bean id="userManageAction" class="dmsystem.action.UserManageAction" scope="prototype">
+    	<property name="userService" ref="userService" />
+    </bean>
 
 
     <!-- Account Services -->

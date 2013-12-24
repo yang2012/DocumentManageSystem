@@ -46,6 +46,7 @@ public class UserDao {
         try {
             ts = session.beginTransaction();
             session.save(user);
+            System.out.println("here");
             ts.commit();
         } finally {
             session.close();

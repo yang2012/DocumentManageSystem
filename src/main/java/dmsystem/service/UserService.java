@@ -7,6 +7,9 @@ import java.util.List;
 public interface UserService {
 	
 	void save(User user);
+	
+	void modify(User user);
+	void delete(User user);
 
     public User authenticate(String username, String password);
 
