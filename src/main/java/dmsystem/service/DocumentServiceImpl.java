@@ -15,7 +15,6 @@ public class DocumentServiceImpl implements DocumentService {
         this.documentDao = documentDao;
     }
 
-    @Override
     public List<Document> getAll() {
         List<Document> documents = null;
         try {

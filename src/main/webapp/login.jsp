@@ -36,7 +36,7 @@
       <div class="row" id="div_login">
         <div class="col-xs-1"></div>
         <div style="background-color:#CCEEFF;" class="col-xs-5">
-          <form class="form-signin" role="form" action="/login" method="POST" name="login">
+          <form class="form-signin" role="form" action="account/login" method="POST" name="login">
             <h2 class="form-signin-heading" style="text-align:center;">登录</h2>
             <br/>&nbsp;&nbsp;
             <span class="glyphicon glyphicon-user"></span>
@@ -54,7 +54,7 @@
           <br/>
         </div>
 
-        <div class="col-xs-4"><img src="/source/image/background.jpg" /></div>
+        <div class="col-xs-4"><img src="<c:url value="/source/image/background.jpg" />" /></div>
       </div> 
     </div>
   </body>

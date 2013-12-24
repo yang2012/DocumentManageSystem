@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
     public List<User> getAllUsers() {
         List<User> users = null;
         try {
