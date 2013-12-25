@@ -10,6 +10,11 @@
             <result name="login">/login.jsp</result>
             <result name="success" type="freemarker">/pages/admindocument.vtl</result>
         </action>
+        
+        <action name="addDocType" method="addDocType" class="docconfAction">
+        	<result name="login">/login.jsp</result>
+        	<result name="success" type="redirect">/docconf/getdocconf</result>
+        </action>
 
     </package>
 </struts>

@@ -7,4 +7,5 @@ import dmsystem.entity.DocumentType;
 
 public interface DocumentTypeService {
 	public List<DocumentType> getAll();
+	public void addDocType(DocumentType documentType);
 }

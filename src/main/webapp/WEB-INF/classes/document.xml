@@ -5,5 +5,33 @@
 
 <struts>
     <package name="document" extends="default">
+        <action name="upload" class="attachmentAction" method="upload">
+            <result name="success" type="redirect">/index</result>
+        </action>
+
+        <action name="showdoc" class="documentAction" method="showInfo">
+            <result name="success" type="freemarker">/pages/docinfo.vtl</result>
+        </action>
+
+        <!-- Upload document including modification and create -->
+        <action name="showupload" class="documentUploadAction" method="showUpload">
+            <result name="success" type="freemarker">/pages/docimport.vtl</result>
+        </action>
+
+        <action name="commitupload" class="documentUploadAction" method="commitUpload">
+            <result name="success" type="redirect">/index</result>
+        </action>
+
+        <action name="showmodification" class="documentUploadAction" method="showModification">
+            <result name="success" type="freemarker">/pages/docmodify.vtl</result>
+        </action>
+
+        <action name="commitmodification" class="documentUploadAction" method="commitModification">
+            <result name="success" type="redirect">/index</result>
+        </action>
+
+        <action name="getextraproperties" class="documentUploadAction" method="getExtraproperties">
+            <result name="success">/pages/docextraproperty.jsp</result>
+        </action>
     </package>
 </struts>

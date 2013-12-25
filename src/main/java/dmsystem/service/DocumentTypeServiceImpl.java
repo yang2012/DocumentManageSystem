@@ -26,4 +26,14 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 		return ld;
 	}
+	
+	public void addDocType(DocumentType documentType){
+		try {
+			this.documentTypeDao.add(documentType);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
