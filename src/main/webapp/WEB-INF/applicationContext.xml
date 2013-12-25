@@ -68,6 +68,7 @@
 
 	<bean id="docconfAction" class="dmsystem.action.DocconfAction" scope="prototype">
 		<property name="userService" ref="userService" />
+		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 
     <!-- Account Services -->
@@ -79,6 +80,9 @@
     <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao" />
     </bean>
+    <bean id="documentTypeService" class="dmsystem.service.DocumentTypeServiceImpl">
+    	<property name="documentTypeDao" ref="documentTypeDao"></property>
+    </bean>
 
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
@@ -87,12 +91,12 @@
 
     <bean id="documentDao" class="dmsystem.dao.DocumentDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
-        <property name="documentTypeDao" ref="documnetTypeDao" />
+        <property name="documentTypeDao" ref="documentTypeDao" />
         <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
         <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
     </bean>
 
-    <bean id="documnetTypeDao" class="dmsystem.dao.DocumentTypeDao">
+    <bean id="documentTypeDao" class="dmsystem.dao.DocumentTypeDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
 
