@@ -45,7 +45,6 @@ public class DocumentServiceImpl implements DocumentService {
         return documents;
     }
 
-    @Override
     public Document get(Integer docId) {
         Document document = null;
         try {
@@ -56,7 +55,6 @@ public class DocumentServiceImpl implements DocumentService {
         return document;
     }
 
-    @Override
     public Document upload(User user, Integer documentTypeId, Document transientDocument, List<ExtraPropertyWrapper> extraPropertyWrappers) {
         Document persistentDocument = null;
 
@@ -87,7 +85,6 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    @Override
     public Document update(Integer documentTypeId, Document transientDocument, List<ExtraPropertyWrapper> extraPropertyWrappers) {
         Document persistentDocument = null;
 
@@ -115,7 +112,6 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    @Override
     public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId) {
         Set<DocumentExtraProperty> extraProperties = null;
         try {

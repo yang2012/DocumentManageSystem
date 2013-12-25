@@ -9,12 +9,10 @@ import java.util.List;
  */
 public class AttachmentServiceImpl implements AttachmentService {
 
-    @Override
     public void save(List<Attachment> attachments) {
 
     }
 
-    @Override
     public void delete(List<Attachment> attachments) {
 
     }
