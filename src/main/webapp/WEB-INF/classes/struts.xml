@@ -37,4 +37,6 @@
     <include file="document.xml" />
     <include file="user.xml" />
     <include file="docconf.xml" />
+    <include file="advanceddocsearch.xml" />
+    <include file="simpledocsearch.xml" />
 </struts>

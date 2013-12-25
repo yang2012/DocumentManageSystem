@@ -70,6 +70,16 @@
 		<property name="userService" ref="userService" />
 	</bean>
 
+	<bean id="advancedDocSearchAction" class="dmsystem.action.AdvancedDocSearchAction"
+		scope="prototype">
+		<property name="docSearchService" ref="docSearchService" />
+	</bean>
+
+	<bean id="simpleDocSearchAction" class="dmsystem.action.SimpleDocSearchAction"
+		scope="prototype">
+		<property name="docSearchService" ref="docSearchService" />
+	</bean>
+	
     <!-- Account Services -->
     <bean id="userService" class="dmsystem.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
