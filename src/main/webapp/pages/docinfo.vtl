@@ -87,7 +87,7 @@
               <span class="label label-info">标题：</span><br/><br/>
               <i>${document.title}</i></div>
               <div class="col-xs-5 pull-right">
-              <a href="/doc/normal/modifyDoc/${document.id}" class="btn btn-primary active"><span class="glyphicon glyphicon-edit"></span>&nbsp;
+              <a href="/document/showmodification?docId=${document.id}" class="btn btn-primary active"><span class="glyphicon glyphicon-edit"></span>&nbsp;
               编辑
               </a>
               &nbsp;&nbsp;
@@ -160,19 +160,7 @@
                 <div id="collapseComment" class="panel-collapse collapse out">
                   <div class="panel-body">
 
-                    <div class="well">
-                      <p>2013-12-18-14:23</p>
-                      <strong>MF1332089&nbsp;</strong>说：
-                      <p>文章不错，值得一读~</P>
-                    </div>
-                    
-                    <div class="well">
-                      <p>2013-12-18-14:23</p>
-                      <strong>MF1332082&nbsp;</strong>说：
-                      <p>楼上+1</P>
-                    </div>
-
-                  <!-- <#list document.evaluations as evaluation>
+                   <#list document.evaluations as evaluation>
                     
                     <#if evaluation.published>
 
@@ -183,7 +171,7 @@
                     </div>
                     </#if>
 
-                  </#list> -->
+                  </#list>
                     
                   </div>
                 </div>
