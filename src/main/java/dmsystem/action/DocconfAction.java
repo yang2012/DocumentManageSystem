@@ -1,9 +1,15 @@
 package dmsystem.action;
 
+import java.util.List;
+import java.util.Set;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import dmsystem.entity.DocumentExtraProperty;
+import dmsystem.entity.DocumentType;
 import dmsystem.entity.User;
+import dmsystem.service.DocumentTypeService;
 import dmsystem.service.UserService;
 import dmsystem.util.Constants;
 
@@ -14,6 +20,14 @@ public class DocconfAction extends ActionSupport{
 	private static final long serialVersionUID = 7832026651557331002L;
 	private User user;
 	private UserService userService;
+	private DocumentTypeService documentTypeService;
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+	private List<DocumentType> documentTypes;
 	public UserService getUserService() {
 		return userService;
 	}
@@ -34,11 +48,18 @@ public class DocconfAction extends ActionSupport{
 		}
 		String result = null;
 		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+			documentTypes=this.documentTypeService.getAll();
 			result = SUCCESS;
 		} else {
 			return LOGIN;
 		}
 		return result;
+	}
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
 	}
 
 }

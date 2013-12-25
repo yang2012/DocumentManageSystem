@@ -12,7 +12,6 @@
             padding-bottom: 40px;
         }
     </style>
-
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -60,31 +59,19 @@
                         <td align="center">
                             <strong>文献属性\文献类型</strong>
                         </td>
+                        <#list documentTypes as documentType>
                         <td align="center">
-                            <strong>图书</strong>
+                            <strong>${documentType.name}</strong>
                         </td>
-                        <td align="center">
-                            <strong>图书章节</strong>
-                        </td>
-                        <td align="center">
-                            <strong>期刊</strong>
-                        </td>
-                        <td align="center">
-                            <strong>学位论文</strong>
-                        </td>
-                        <td align="center">
-                            <strong>技术报告</strong>
-                        </td>
-                        <td align="center">
-                            <strong>在线资源</strong>
-                        </td>
-                        <td align="center">
+                        </#list>
+                        <td>
                             <button class="btn btn-info"><strong>add</strong></button>
                         </td>
                         </thead>
+                        <#list documentTypes as documentType>
                         <tr align="center">
                                 <td>
-                                    <strong>标题</strong>
+                                    <strong>${documentType.extraProperties}</strong>
                                 </td>
                                 <td>
                                     <input type="checkbox" checked>
@@ -105,167 +92,7 @@
                                     <input type="checkbox" checked>
                                 </td>
                         </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>作者</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>出版年份</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>页码</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>摘要</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>关键字</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <strong>出版社</strong>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                                <button class="btn btn-info"><strong>add</strong></button>
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                            <td>
-                                <input type="checkbox" checked hidden="hidden">
-                            </td>
-                        </tr>
+                        </#list>
                         <tr align="center">
                             <td colspan="8">
                                 <button class="btn btn-info">

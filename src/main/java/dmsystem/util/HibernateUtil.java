@@ -5,9 +5,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.*;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 import org.hibernate.criterion.Order;
 
@@ -17,7 +14,6 @@ import org.hibernate.criterion.Order;
 public class HibernateUtil {
 	
 	private static final Log log = LogFactory.getLog("DMSystem");
-    private static HibernateUtil _instance;
 
     private SessionFactory sessionFactory;
 
@@ -29,17 +25,9 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    public static HibernateUtil instance() {
-        if (_instance == null) {
-            _instance = new HibernateUtil();
-        }
-
-        return _instance;
-    }
-
 	public void persist(Object transientInstance) throws Exception {
 		log.debug("persisting instance");
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 	    try {
 	        session.beginTransaction();
 	        session.save(transientInstance);
@@ -49,17 +37,13 @@ public class HibernateUtil {
 	        session.getTransaction().rollback();
 			log.error("persist failed", he);
 			throw he;
-	    } finally {
-	        if (session != null) {
-	            session.close();
-	        }
 	    }
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public void persist(List transientInstances) throws Exception {
 		log.debug("persisting list of instances");
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 	    try {
 	        session.beginTransaction();
 	        
@@ -72,16 +56,12 @@ public class HibernateUtil {
 	        session.getTransaction().rollback();
 			log.error("persist failed", he);
 			throw he;
-	    } finally {
-	        if (session != null) {
-	            session.close();
-	        }
 	    }
 	}
 
 	public void remove(Object persistentInstance) throws Exception {
 		log.debug("removing instance");
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		try {
 	        session.beginTransaction();
 	        session.delete(persistentInstance);
@@ -90,16 +70,12 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("remove failed", re);
 			throw re;
-		} finally {
-	        if (session != null) {
-	            session.close();
-	        }
-	    }
+		}
 	}
 
 	public void update(Object detachedInstance) throws Exception {
 		log.debug("merging instance");
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		try {
 	        session.beginTransaction();
 	        session.update(detachedInstance);
@@ -108,15 +84,13 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
 			throw re;
-		} finally {
-			session.close();
 		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	public Object findById(Class objectClass, int id) throws Exception {
 		log.debug("getting instance with id: " + id);
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		try {
 	        session.beginTransaction();
 			Object instance = session.get(objectClass, id);
@@ -125,37 +99,14 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		} finally {
-	        if (session != null) {
-	            session.close();
-	        }
-	    }
+		}
 	}
 
-    public Object initialize(Object proxy) {
-        log.debug("initializing instance");
-        Session session = sessionFactory.openSession();
-        try {
-            session.beginTransaction();
-            if (Hibernate.isInitialized(proxy)) {
-                Hibernate.initialize(proxy);
-            }
-            log.debug("initialize successful");
-        } catch (RuntimeException re) {
-            log.error("initialize failed", re);
-            throw re;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return proxy;
-    }
 	
 	@SuppressWarnings("rawtypes")
 	public List getAll(Class objectClass, String orderByProperty, Boolean asc) throws Exception {
 		log.debug("getting all instance");
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		try {
 	        session.beginTransaction();
             Criteria criteria = session.createCriteria(objectClass);
@@ -171,10 +122,6 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		} finally {
-	        if (session != null) {
-	            session.close();
-	        }
-	    }
+		}
 	}
 }

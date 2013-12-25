@@ -252,4 +252,47 @@ public class Document implements java.io.Serializable {
     public void setEvaluations(Set<Evaluation> evaluations) {
         this.evaluations = evaluations;
     }
+
+
+    public void updateInfo(Document document) {
+        String title = document.getTitle();
+        if (title != null && !title.equals(this.title)) {
+            this.title = title;
+        }
+
+        String author = document.getAuthor();
+        if (author != null && !author.equals(this.author)) {
+            this.author = author;
+        }
+
+        String url = document.getUrl();
+        if (url != null && !url.equals(this.url)) {
+            this.url = url;
+        }
+
+        String publisher = document.getPublisher();
+        if (publisher != null && !publisher.equals(this.publisher)) {
+            this.publisher = publisher;
+        }
+
+        String abstracts = document.getAbstracts();
+        if (abstracts != null && !abstracts.equals(this.abstracts)) {
+            this.abstracts = abstracts;
+        }
+
+        String keywords = document.getKeywords();
+        if (keywords != null && !keywords.equals(this.keywords)) {
+            this.keywords = keywords;
+        }
+
+        String year = document.getYear();
+        if (year != null && !year.equals(this.year)) {
+            this.year = year;
+        }
+
+        Integer pages = document.getPages();
+        if (!pages.equals(this.pages)) {
+            this.pages = pages;
+        }
+    }
 }

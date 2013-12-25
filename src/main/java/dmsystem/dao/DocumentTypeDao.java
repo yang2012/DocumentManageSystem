@@ -1,5 +1,8 @@
 package dmsystem.dao;
 
+import java.util.List;
+
+import dmsystem.entity.Document;
 import dmsystem.entity.DocumentType;
 import dmsystem.util.HibernateUtil;
 import org.hibernate.Query;
@@ -45,4 +48,10 @@ public class DocumentTypeDao {
             return null;
         }
     }
+    
+	@SuppressWarnings("unchecked")
+	public List<DocumentType> getAll() throws Exception {
+		return hibernateUtil.getAll(DocumentType.class, "id", false);
+	}
+
 }
