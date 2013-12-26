@@ -22,50 +22,64 @@ import java.util.Set;
  */
 public class UserDao {
 
-    private HibernateUtil hibernateUtil;
+	private HibernateUtil hibernateUtil;
 
-    public void setHibernateUtil(HibernateUtil hibernateUtil) {
-        this.hibernateUtil = hibernateUtil;
-    }
+	public void setHibernateUtil(HibernateUtil hibernateUtil) {
+		this.hibernateUtil = hibernateUtil;
+	}
 
-    public User getUser(String username) {
-        Session session = hibernateUtil.getSessionFactory().openSession();
-        try {
-            Query query = session.createQuery("from User user where user.username = :username");
-            query.setString("username", username);
-            query.setMaxResults(1);
-            return (User)query.uniqueResult();
-        } finally {
-            session.close();
-        }
-    }
+	public User getUser(String username) {
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		try {
+			Query query = session
+					.createQuery("from User user where user.username = :username");
+			query.setString("username", username);
+			query.setMaxResults(1);
+			return (User) query.uniqueResult();
+		} finally {
+			session.close();
+		}
+	}
 
-    public void addUser(User user) {
-        Session session = hibernateUtil.getSessionFactory().openSession();
-        Transaction ts = null;
-        try {
-            ts = session.beginTransaction();
-            session.save(user);
-            System.out.println("here");
-            ts.commit();
-        } finally {
-            session.close();
-        }
-    }
+	public void addUser(User user) {
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.save(user);
+			ts.commit();
+		} finally {
+			session.close();
+		}
+	}
 
 	public void add(Map<String, String> values) throws Exception {
-		User transientInstance=new User();
-		transientInstance=this._update(transientInstance,values);
+		User transientInstance = new User();
+		transientInstance = this._update(transientInstance, values);
 		hibernateUtil.persist(transientInstance);
 	}
 
 	public void remove(User persistentInstance) throws Exception {
-		hibernateUtil.remove(persistentInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.delete(persistentInstance);
+			ts.commit();
+		} finally {
+			session.close();
+		}
 	}
 
 	public void update(User detachedInstance) throws Exception {
-		if (detachedInstance != null) {
-			hibernateUtil.update(detachedInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.update(detachedInstance);
+			ts.commit();
+		} finally {
+			session.close();
 		}
 	}
 
@@ -88,26 +102,27 @@ public class UserDao {
 		}
 	}
 
-    @SuppressWarnings("unchecked")
-    public List<User> getAllUser() throws Exception {
-        return hibernateUtil.getAll(User.class, "name", true);
-    }
-    
-    private User _update(User user, Map<String, String> values) throws Exception {
-    	Set<String> keys = values.keySet();
-    	for(String key :keys){
-    		if (key.equals(Constants.kUsernameField)) {
-                String username = values.get(key);
-                user.setUsername(username);
-                user.setPassword(username);
-            } else if(key.equals(Constants.kNameField)) {
-                String name = values.get(key);
-                user.setName(name);
-            } else if(key.equals(Constants.kAuthorityField)) {
-                Integer authority = Integer.parseInt(values.get(key));
-                user.setAuthority(authority);
-            } 
-    	}          
-        return user;
-    }
+	@SuppressWarnings("unchecked")
+	public List<User> getAllUser() throws Exception {
+		return hibernateUtil.getAll(User.class, "name", true);
+	}
+
+	private User _update(User user, Map<String, String> values)
+			throws Exception {
+		Set<String> keys = values.keySet();
+		for (String key : keys) {
+			if (key.equals(Constants.kUsernameField)) {
+				String username = values.get(key);
+				user.setUsername(username);
+				user.setPassword(username);
+			} else if (key.equals(Constants.kNameField)) {
+				String name = values.get(key);
+				user.setName(name);
+			} else if (key.equals(Constants.kAuthorityField)) {
+				Integer authority = Integer.parseInt(values.get(key));
+				user.setAuthority(authority);
+			}
+		}
+		return user;
+	}
 }
