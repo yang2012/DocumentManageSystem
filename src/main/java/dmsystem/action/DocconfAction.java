@@ -145,5 +145,23 @@ public class DocconfAction extends ActionSupport{
 		}
 		return result;
 	}
+	
+	public String delExtraProperty(){
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		String result = null;
+		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+			DocumentExtraProperty documentExtraProperty=new DocumentExtraProperty();
+			documentExtraProperty.setId(id);
+			this.documentTypeService.delDocumentExtraProperty(documentExtraProperty);
+			result = SUCCESS;
+		} else {
+			return LOGIN;
+		}
+		return result;
+	}
 
 }

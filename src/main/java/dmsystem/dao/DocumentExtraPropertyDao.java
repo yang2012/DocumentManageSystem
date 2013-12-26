@@ -35,7 +35,15 @@ public class DocumentExtraPropertyDao {
 	}
 
 	public void remove(DocumentExtraProperty persistentInstance) throws Exception {
-		hibernateUtil.remove(persistentInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.delete(persistentInstance);
+			ts.commit();
+		} finally {
+			session.close();
+			}
 	}
 
 	public void update(DocumentExtraProperty detachedInstance) throws Exception {

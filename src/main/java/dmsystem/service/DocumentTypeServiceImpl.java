@@ -76,4 +76,13 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 			e.printStackTrace();
 		}
 	}
+	
+	public void delDocumentExtraProperty(DocumentExtraProperty documentExtraType){
+		try {
+			this.documentExtraProperyDao.remove(documentExtraType);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
