@@ -19,6 +19,13 @@ public class DocconfAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 7832026651557331002L;
 	private String name;
+	private int id;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -80,6 +87,24 @@ public class DocconfAction extends ActionSupport{
 			DocumentType documentType=new DocumentType();
 			documentType.setName(name);
 			this.documentTypeService.addDocType(documentType);
+			result = SUCCESS;
+		} else {
+			return LOGIN;
+		}
+		return result;
+	}
+	
+	public String delDocType(){
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		String result = null;
+		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+			DocumentType documentType=new DocumentType();
+			documentType.setId(id);
+			this.documentTypeService.delDocType(documentType);
 			result = SUCCESS;
 		} else {
 			return LOGIN;

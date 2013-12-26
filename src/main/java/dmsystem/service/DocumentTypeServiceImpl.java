@@ -36,4 +36,12 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 		
 	}
+	
+	public void delDocType(DocumentType documentType){
+		try{
+			this.documentTypeDao.remove(documentType);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

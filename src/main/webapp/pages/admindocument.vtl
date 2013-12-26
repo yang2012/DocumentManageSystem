@@ -65,7 +65,7 @@
             <div style="width:50%; padding:0 10% 0 15%; float:left;">
                     <table class="table table-hover table-bordered" name="table" >
                     	<tr >
-                    		<td align="center">
+                    		<td align="center" colspan="2">
                     			<strong>文献类型</strong>
                     		</td>
                     	</tr>
@@ -74,15 +74,23 @@
                         	<td align="center" onclick="show('${documentType.name}');">
                             	${documentType.name}
                         	</td>
+                        	<td align="center">
+                        		<form method="POST" action="docconf/delDocType">
+                        		<input type=hidden name="id" value="${documentType.id}"/>
+                        		<input type=submit class="btn btn-info" value="删除" <#if (documentType.documents?size>0)> disabled </#if> />
+                        		</form>
+                        	</td>
                         </tr>
                         </#list>
                         <tr>
-                        <td align="center">
-                        	<form action="docconf/addDocType" method="POST">
-                        	<input type=text size=18px name="name" />
-                            <button class="btn btn-info" type="subimt">add</button>
-                            </form>
-                        </td>
+                        <form action="docconf/addDocType" method="POST">
+                        	<td align="center">
+                        	   	<input type=text size=18px name="name" />
+                        	</td>
+                        	<td>
+                            	<button class="btn btn-info" type="subimt">添加</button>
+	                        </td>
+	                    </form>
                         </tr>
                     </table>
             </div>
@@ -91,7 +99,7 @@
                     <table class="table table-hover" name=${documentType.name} style="display:none">
                     	<tr>
                     		<td align="center" colspan="2">
-                    			<strong>文献属性</strong>
+                    			<strong>${documentType.name}文献属性</strong>
                     		</td>
                     	</tr>
                     	<#list documentType.extraProperties as extraProperty>
