@@ -4,7 +4,10 @@ package dmsystem.dao;
 
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.util.HibernateUtil;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  * Utility object for domain model class DocumentExtraProperty.
@@ -20,7 +23,15 @@ public class DocumentExtraPropertyDao {
     }
 	
 	public void add(DocumentExtraProperty transientInstance) throws Exception {
-		hibernateUtil.persist(transientInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.save(transientInstance);
+			ts.commit();
+		} finally {
+			session.close();
+			}
 	}
 
 	public void remove(DocumentExtraProperty persistentInstance) throws Exception {

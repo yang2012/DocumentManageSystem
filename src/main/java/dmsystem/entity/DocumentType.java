@@ -5,6 +5,7 @@ package dmsystem.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -73,7 +76,7 @@ public class DocumentType implements java.io.Serializable {
 		this.documents = documents;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentType")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentType" ,cascade={CascadeType.REMOVE})
 	public Set<DocumentExtraProperty> getExtraProperties() {
 		return extraProperties;
 	}

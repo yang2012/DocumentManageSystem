@@ -18,7 +18,15 @@ public class DocumentTypeDao {
     }
 
 	public void add(DocumentType transientInstance) throws Exception {
-		hibernateUtil.persist(transientInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.save(transientInstance);
+			ts.commit();
+		} finally {
+			session.close();
+			}
 	}
 
 	public void remove(DocumentType persistentInstance) throws Exception {

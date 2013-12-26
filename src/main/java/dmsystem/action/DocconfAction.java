@@ -20,6 +20,20 @@ public class DocconfAction extends ActionSupport{
 	private static final long serialVersionUID = 7832026651557331002L;
 	private String name;
 	private int id;
+	private int docTypeId;
+	private String propertyName;
+	public String getPropertyName() {
+		return propertyName;
+	}
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+	public int getDocTypeId() {
+		return docTypeId;
+	}
+	public void setDocTypeId(int docTypeId) {
+		this.docTypeId = docTypeId;
+	}
 	public int getId() {
 		return id;
 	}
@@ -105,6 +119,26 @@ public class DocconfAction extends ActionSupport{
 			DocumentType documentType=new DocumentType();
 			documentType.setId(id);
 			this.documentTypeService.delDocType(documentType);
+			result = SUCCESS;
+		} else {
+			return LOGIN;
+		}
+		return result;
+	}
+	
+	public String addExtraProperty(){
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		String result = null;
+		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+			DocumentExtraProperty documentExtraProperty=new DocumentExtraProperty();
+			DocumentType documentType=documentTypeService.getDocumentTypeById(docTypeId);
+			documentExtraProperty.setDocumentType(documentType);
+			documentExtraProperty.setPropertyName(propertyName);
+			this.documentTypeService.addDocumentExtraProperty(documentExtraProperty);
 			result = SUCCESS;
 		} else {
 			return LOGIN;

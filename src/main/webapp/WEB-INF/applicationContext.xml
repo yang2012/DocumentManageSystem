@@ -95,6 +95,7 @@
     </bean>
     <bean id="documentTypeService" class="dmsystem.service.DocumentTypeServiceImpl">
     	<property name="documentTypeDao" ref="documentTypeDao"></property>
+    	<property name="documentExtraProperyDao" ref="documentExtraPropertyDao"></property>
     </bean>
 
     <bean id="attachmentService" class="dmsystem.service.AttachmentServiceImpl">

@@ -20,5 +20,10 @@
 			<result name="login">/login.jsp</result>
 			<result name="success" type="redirect">/docconf/getdocconf</result>
 		</action>
+		
+		<action name="addExtraProperty" method="addExtraProperty" class="docconfAction">
+			<result name="login">/login.jsp</result>
+			<result name="success" type="redirect">/docconf/getdocconf</result>
+		</action>
     </package>
 </struts>
