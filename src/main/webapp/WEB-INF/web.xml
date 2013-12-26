@@ -5,8 +5,6 @@
 
 	<display-name>Document Management System</display-name>
 
-    <display-name>s2sh</display-name>
-
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>

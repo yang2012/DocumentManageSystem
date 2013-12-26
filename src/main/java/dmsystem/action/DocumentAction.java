@@ -3,7 +3,6 @@ package dmsystem.action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Document;
-import dmsystem.entity.ExtraPropertyWrapper;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentService;
 

@@ -1,6 +1,7 @@
 package dmsystem.service;
 
 import java.util.List;
+import java.util.Set;
 
 import dmsystem.dao.DocumentExtraPropertyDao;
 import dmsystem.dao.DocumentTypeDao;
@@ -38,7 +39,7 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 		return ld;
 	}
-	
+
 	public void addDocType(DocumentType documentType){
 		try {
 			this.documentTypeDao.add(documentType);
@@ -85,4 +86,17 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 			e.printStackTrace();
 		}
 	}
+
+    @Override
+    public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId) {
+        Set<DocumentExtraProperty> extraProperties = null;
+        try {
+            DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
+            extraProperties = documentType.getExtraProperties();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return extraProperties;
+    }
 }

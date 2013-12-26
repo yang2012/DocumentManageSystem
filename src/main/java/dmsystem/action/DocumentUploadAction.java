@@ -4,9 +4,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Document;
 import dmsystem.entity.DocumentExtraProperty;
-import dmsystem.entity.ExtraPropertyWrapper;
+import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentService;
+import dmsystem.service.DocumentTypeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class DocumentUploadAction extends ActionSupport {
 
     private DocumentService documentService;
+    private DocumentTypeService documentTypeService;
 
     private Integer docId;
 
@@ -26,7 +28,7 @@ public class DocumentUploadAction extends ActionSupport {
     private Document document;
 
     private Integer documentTypeId;
-    private List<ExtraPropertyWrapper> extraPropertyWrappers;
+    private List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers;
 
     public DocumentService getDocumentService() {
         return documentService;
@@ -34,6 +36,14 @@ public class DocumentUploadAction extends ActionSupport {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
     public Integer getDocId() {
@@ -68,12 +78,12 @@ public class DocumentUploadAction extends ActionSupport {
         this.document = document;
     }
 
-    public List<ExtraPropertyWrapper> getExtraPropertyWrappers() {
-        return extraPropertyWrappers;
+    public List<DocumentExtraPropertyWrapper> getDocumentExtraPropertyWrappers() {
+        return documentExtraPropertyWrappers;
     }
 
-    public void setExtraPropertyWrappers(List<ExtraPropertyWrapper> extraPropertyWrappers) {
-        this.extraPropertyWrappers = extraPropertyWrappers;
+    public void setDocumentExtraPropertyWrappers(List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
+        this.documentExtraPropertyWrappers = documentExtraPropertyWrappers;
     }
 
     public String showUpload() {
@@ -83,8 +93,8 @@ public class DocumentUploadAction extends ActionSupport {
     }
 
     public String commitUpload() {
-        user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-        Document persistentDocument = this.documentService.upload(user, documentTypeId, this.document, this.extraPropertyWrappers);
+        this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
+        Document persistentDocument = this.documentService.upload(this.user, documentTypeId, this.document, this.documentExtraPropertyWrappers);
 
         if (persistentDocument != null) {
             return SUCCESS;
@@ -94,7 +104,7 @@ public class DocumentUploadAction extends ActionSupport {
     }
 
     public String showModification() {
-        user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
+        this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
 
         this.document = this.documentService.get(this.docId);
 
@@ -106,27 +116,27 @@ public class DocumentUploadAction extends ActionSupport {
     }
 
     public String commitModification() {
-        System.out.println(this.document.getTitle());
+        Document persistentDocument = this.documentService.update(this.documentTypeId, this.document, this.documentExtraPropertyWrappers);
         return SUCCESS;
     }
 
     public String getExtraproperties() {
-        Set<DocumentExtraProperty> extraProperties = this.documentService.getExtraProperties(this.documentTypeId);
+        Set<DocumentExtraProperty> extraProperties = this.documentTypeService.getExtraProperties(this.documentTypeId);
 
-        this.extraPropertyWrappers = this._convert(extraProperties);
+        this.documentExtraPropertyWrappers = this._convert(extraProperties);
 
         return SUCCESS;
     }
 
-    private List<ExtraPropertyWrapper> _convert(Set<DocumentExtraProperty> extraProperties) {
-        List<ExtraPropertyWrapper> extraPropertyWrappers = new ArrayList<ExtraPropertyWrapper>(0);
+    private List<DocumentExtraPropertyWrapper> _convert(Set<DocumentExtraProperty> extraProperties) {
+        List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers = new ArrayList<DocumentExtraPropertyWrapper>(0);
         for (DocumentExtraProperty extraProperty : extraProperties) {
-            ExtraPropertyWrapper extraPropertyWrapper = new ExtraPropertyWrapper();
-            extraPropertyWrapper.setExtraPropertyName(extraProperty.getPropertyName());
-            extraPropertyWrapper.setExtraPropertyId(extraProperty.getId());
+            DocumentExtraPropertyWrapper documentExtraPropertyWrapper = new DocumentExtraPropertyWrapper();
+            documentExtraPropertyWrapper.setExtraPropertyName(extraProperty.getPropertyName());
+            documentExtraPropertyWrapper.setExtraPropertyId(extraProperty.getId());
 
-            extraPropertyWrappers.add(extraPropertyWrapper);
+            documentExtraPropertyWrappers.add(documentExtraPropertyWrapper);
         }
-        return extraPropertyWrappers;
+        return documentExtraPropertyWrappers;
     }
 }

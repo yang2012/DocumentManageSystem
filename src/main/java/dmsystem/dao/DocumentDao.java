@@ -14,7 +14,6 @@ import dmsystem.entity.DocumentWithExtraProperty;
 import dmsystem.entity.DocumentType;
 import dmsystem.util.Constants;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.SessionFactory;
 
 /**
  * Utility object for domain model class Document.
@@ -33,12 +32,24 @@ public class DocumentDao {
         this.hibernateUtil = hibernateUtil;
     }
 
+    public DocumentTypeDao getDocumentTypeDao() {
+        return documentTypeDao;
+    }
+
     public void setDocumentTypeDao(DocumentTypeDao documentTypeDao) {
         this.documentTypeDao = documentTypeDao;
     }
 
+    public DocumentWithExtraPropertyDao getDocumentWithExtraPropertyDao() {
+        return documentWithExtraPropertyDao;
+    }
+
     public void setDocumentWithExtraPropertyDao(DocumentWithExtraPropertyDao documentWithExtraPropertyDao) {
         this.documentWithExtraPropertyDao = documentWithExtraPropertyDao;
+    }
+
+    public DocumentExtraPropertyDao getDocumentExtraPropertyDao() {
+        return documentExtraPropertyDao;
     }
 
     public void setDocumentExtraPropertyDao(DocumentExtraPropertyDao documentExtraPropertyDao) {

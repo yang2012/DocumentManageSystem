@@ -76,6 +76,19 @@
 		<property name="docSearchService" ref="docSearchService" />
 	</bean>
 
+    <bean id="attachmentAction" class="dmsystem.action.AttachmentAction">
+        <property name="attachmentService" ref="attachmentService" />
+    </bean>
+
+    <bean id="documentAction" class="dmsystem.action.DocumentAction">
+        <property name="documentService" ref="documentService" />
+    </bean>
+
+    <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction">
+        <property name="documentService" ref="documentService" />
+        <property name="documentTypeService" ref="documentTypeService" />
+    </bean>
+
 	<bean id="simpleDocSearchAction" class="dmsystem.action.SimpleDocSearchAction"
 		scope="prototype">
 		<property name="docSearchService" ref="docSearchService" />
@@ -97,10 +110,8 @@
     <!-- Book Services -->
     <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao" />
-        <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
-        <property name="documentTypeDao" ref="documentTypeDao" />
-        <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
     </bean>
+
     <bean id="documentTypeService" class="dmsystem.service.DocumentTypeServiceImpl">
     	<property name="documentTypeDao" ref="documentTypeDao"></property>
     	<property name="documentExtraPropertyDao" ref="documentExtraPropertyDao"></property>

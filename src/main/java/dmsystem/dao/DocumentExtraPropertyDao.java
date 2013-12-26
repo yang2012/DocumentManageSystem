@@ -5,10 +5,6 @@ package dmsystem.dao;
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.util.HibernateUtil;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 /**
  * Utility object for domain model class DocumentExtraProperty.
  * @see dmsystem.entity.DocumentExtraProperty
@@ -23,27 +19,11 @@ public class DocumentExtraPropertyDao {
     }
 	
 	public void add(DocumentExtraProperty transientInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.save(transientInstance);
-			ts.commit();
-		} finally {
-			session.close();
-			}
+        hibernateUtil.persist(transientInstance);
 	}
 
 	public void remove(DocumentExtraProperty persistentInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(persistentInstance);
-			ts.commit();
-		} finally {
-			session.close();
-			}
+		hibernateUtil.remove(persistentInstance);
 	}
 
 	public void update(DocumentExtraProperty detachedInstance) throws Exception {

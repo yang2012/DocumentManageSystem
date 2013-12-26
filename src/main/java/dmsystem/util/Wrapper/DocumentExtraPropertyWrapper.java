@@ -1,9 +1,9 @@
-package dmsystem.entity;
+package dmsystem.util.Wrapper;
 
 /**
  * Created by justinyang on 13-12-25.
  */
-public class ExtraPropertyWrapper {
+public class DocumentExtraPropertyWrapper {
     private Integer extraPropertyId;
     private String extraPropertyName;
     private String extraPropertyValue;

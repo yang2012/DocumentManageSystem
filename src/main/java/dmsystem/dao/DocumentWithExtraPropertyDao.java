@@ -6,7 +6,6 @@ import dmsystem.entity.DocumentWithExtraProperty;
 import dmsystem.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 /**
  * Created by justinyang on 13-12-18.

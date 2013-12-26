@@ -4,7 +4,6 @@ package dmsystem.dao;
 
 import dmsystem.entity.Operation;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.SessionFactory;
 
 /**
  * Utility object for domain model class Operation.

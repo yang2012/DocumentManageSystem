@@ -1,38 +1,21 @@
 package dmsystem.service;
 
 import dmsystem.dao.DocumentDao;
-import dmsystem.dao.DocumentExtraPropertyDao;
-import dmsystem.dao.DocumentTypeDao;
-import dmsystem.dao.DocumentWithExtraPropertyDao;
 import dmsystem.entity.*;
+import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by justinyang on 13-12-23.
  */
 public class DocumentServiceImpl implements DocumentService {
+
     private DocumentDao documentDao;
-    private DocumentTypeDao documentTypeDao;
-    private DocumentExtraPropertyDao documentExtraPropertyDao;
-    private DocumentWithExtraPropertyDao documentWithExtraPropertyDao;
 
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;
-    }
-
-    public void setDocumentTypeDao(DocumentTypeDao documentTypeDao) {
-        this.documentTypeDao = documentTypeDao;
-    }
-
-    public void setDocumentExtraPropertyDao(DocumentExtraPropertyDao documentExtraPropertyDao) {
-        this.documentExtraPropertyDao = documentExtraPropertyDao;
-    }
-
-    public void setDocumentWithExtraPropertyDao(DocumentWithExtraPropertyDao documentWithExtraPropertyDao) {
-        this.documentWithExtraPropertyDao = documentWithExtraPropertyDao;
     }
 
     public List<Document> getAll() {
@@ -55,7 +38,8 @@ public class DocumentServiceImpl implements DocumentService {
         return document;
     }
 
-    public Document upload(User user, Integer documentTypeId, Document transientDocument, List<ExtraPropertyWrapper> extraPropertyWrappers) {
+    @Override
+    public Document upload(User user, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
         if (user == null || documentTypeId == 0 || transientDocument == null) {
@@ -63,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         try {
-            DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
+            DocumentType documentType = this.documentDao.getDocumentTypeDao().findById(documentTypeId);
 
             persistentDocument = new Document();
             persistentDocument.updateInfo(transientDocument);
@@ -74,7 +58,7 @@ public class DocumentServiceImpl implements DocumentService {
             this.documentDao.add(persistentDocument);
 
             // Set extra properties
-            this._setExtraProperties(persistentDocument, extraPropertyWrappers);
+            this._setExtraProperties(persistentDocument, documentExtraPropertyWrappers);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +69,8 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    public Document update(Integer documentTypeId, Document transientDocument, List<ExtraPropertyWrapper> extraPropertyWrappers) {
+    @Override
+    public Document update(Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
         if (documentTypeId == 0 || transientDocument == null) {
@@ -93,7 +78,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         try {
-            DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
+            DocumentType documentType = this.documentDao.getDocumentTypeDao().findById(documentTypeId);
 
             persistentDocument = new Document();
             persistentDocument.updateInfo(transientDocument);
@@ -101,7 +86,7 @@ public class DocumentServiceImpl implements DocumentService {
             this.documentDao.update(persistentDocument);
 
             // update extra properties
-            this._refreshExtraProperties(persistentDocument, extraPropertyWrappers);
+            this._refreshExtraProperties(persistentDocument, documentExtraPropertyWrappers);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,46 +97,40 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId) {
-        Set<DocumentExtraProperty> extraProperties = null;
-        try {
-            DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
-            extraProperties = documentType.getExtraProperties();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void _setExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
+        if (documentExtraPropertyWrappers == null) {
+            return;
         }
-
-        return extraProperties;
-    }
-
-    private void _setExtraProperties(Document document, List<ExtraPropertyWrapper> extraPropertyWrappers) throws Exception {
-        for (ExtraPropertyWrapper extraPropertyWrapper : extraPropertyWrappers) {
-            DocumentExtraProperty extraProperty = this.documentExtraPropertyDao.findById(extraPropertyWrapper.getExtraPropertyId());
+        for (DocumentExtraPropertyWrapper documentExtraPropertyWrapper : documentExtraPropertyWrappers) {
+            DocumentExtraProperty extraProperty = this.documentDao.getDocumentExtraPropertyDao().findById(documentExtraPropertyWrapper.getExtraPropertyId());
             DocumentWithExtraProperty documentWithExtraProperty = new DocumentWithExtraProperty();
 
             documentWithExtraProperty.setDocument(document);
             documentWithExtraProperty.setDocumentExtraProperty(extraProperty);
-            documentWithExtraProperty.setPropertyValue(extraPropertyWrapper.getExtraPropertyValue());
-            this.documentWithExtraPropertyDao.add(documentWithExtraProperty);
+            documentWithExtraProperty.setPropertyValue(documentExtraPropertyWrapper.getExtraPropertyValue());
+            this.documentDao.getDocumentWithExtraPropertyDao().add(documentWithExtraProperty);
         }
     }
 
-    private void _refreshExtraProperties(Document document, List<ExtraPropertyWrapper> extraPropertyWrappers) throws Exception {
-        for (ExtraPropertyWrapper extraPropertyWrapper : extraPropertyWrappers) {
-            Integer id = extraPropertyWrapper.getExtraPropertyId();
-            String value = extraPropertyWrapper.getExtraPropertyValue();
-            DocumentExtraProperty extraProperty = this.documentExtraPropertyDao.findById(id);
-            DocumentWithExtraProperty documentWithExtraProperty = this.documentWithExtraPropertyDao.find(document, extraProperty);
+    private void _refreshExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
+        if (documentExtraPropertyWrappers == null) {
+            return;
+        }
+        for (DocumentExtraPropertyWrapper documentExtraPropertyWrapper : documentExtraPropertyWrappers) {
+            Integer id = documentExtraPropertyWrapper.getExtraPropertyId();
+            String value = documentExtraPropertyWrapper.getExtraPropertyValue();
+            DocumentExtraProperty extraProperty = this.documentDao.getDocumentExtraPropertyDao().findById(id);
+            DocumentWithExtraProperty documentWithExtraProperty = this.documentDao.getDocumentWithExtraPropertyDao().find(document, extraProperty);
             if (documentWithExtraProperty == null) {
                 documentWithExtraProperty = new DocumentWithExtraProperty();
 
                 documentWithExtraProperty.setDocument(document);
                 documentWithExtraProperty.setDocumentExtraProperty(extraProperty);
                 documentWithExtraProperty.setPropertyValue(value);
-                documentWithExtraPropertyDao.add(documentWithExtraProperty);
+                this.documentDao.getDocumentWithExtraPropertyDao().add(documentWithExtraProperty);
             } else {
                 documentWithExtraProperty.setPropertyValue(value);
-                documentWithExtraPropertyDao.update(documentWithExtraProperty);
+                this.documentDao.getDocumentWithExtraPropertyDao().update(documentWithExtraProperty);
             }
         }
     }

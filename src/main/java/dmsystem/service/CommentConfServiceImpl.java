@@ -2,13 +2,13 @@ package dmsystem.service;
 
 import java.util.List;
 
-import dmsystem.dao.EvaluationExtrapropertyDao;
+import dmsystem.dao.EvaluationExtraPropertyDao;
 import dmsystem.entity.EvaluationExtraProperty;
 
 public class CommentConfServiceImpl implements CommentConfService{
-	EvaluationExtrapropertyDao evaluationExtrapropertyDao;
-	public void setEvaluationExtrapropertyDao(
-			EvaluationExtrapropertyDao evaluationExtrapropertyDao) {
+	EvaluationExtraPropertyDao evaluationExtrapropertyDao;
+	public void setEvaluationExtraPropertyDao(
+			EvaluationExtraPropertyDao evaluationExtrapropertyDao) {
 		this.evaluationExtrapropertyDao = evaluationExtrapropertyDao;
 	}
 	public List<EvaluationExtraProperty> getAll(){
@@ -21,16 +21,28 @@ public class CommentConfServiceImpl implements CommentConfService{
 		return null;
 	}
 	public void addEvaluationExtraProperty(EvaluationExtraProperty evaluationExtraProperty) {
-		this.evaluationExtrapropertyDao.addEvaluationExtraProperty(evaluationExtraProperty);
-		
-	}
+        try {
+            this.evaluationExtrapropertyDao.add(evaluationExtraProperty);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 	public void delEvaluationExtraProperty(
 			EvaluationExtraProperty evaluationExtraProperty) {
-		this.evaluationExtrapropertyDao.delEvaluationExtraProperty(evaluationExtraProperty);
-		
-	}
+        try {
+            this.evaluationExtrapropertyDao.remove(evaluationExtraProperty);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 	
 	public void modEvaluationExtraProperty(EvaluationExtraProperty evaluationExtraProperty){
-		this.evaluationExtrapropertyDao.modEvaluationExtraProperty(evaluationExtraProperty);
-	}
+        try {
+            this.evaluationExtrapropertyDao.update(evaluationExtraProperty);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

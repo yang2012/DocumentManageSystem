@@ -28,8 +28,6 @@
             <result name="login" type="redirectAction">
                 <param name="actionName">login</param>
                 <param name="namespace">/account</param>
-                <param name="namespace">/docconf</param>
-                <param name="namespace">/user</param>
             </result>
         </global-results>
     </package>
@@ -44,3 +42,4 @@
     <include file="refconf.xml" />
     <include file="meeconf.xml" />
     </struts>
+</struts>

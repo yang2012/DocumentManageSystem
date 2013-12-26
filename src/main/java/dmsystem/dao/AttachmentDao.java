@@ -10,7 +10,6 @@ import dmsystem.entity.Attachment;
 import dmsystem.entity.Document;
 import dmsystem.util.FileUtility;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.SessionFactory;
 
 /**
  * Utility object for domain model class Attachment.
