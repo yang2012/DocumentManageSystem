@@ -81,6 +81,10 @@
 		<property name="docSearchService" ref="docSearchService" />
 	</bean>
 	
+	<bean id="comconfAction" class="dmsystem.action.ComconfAction" scope="prototype">
+		<property name="commentConfService" ref="commentConfService"></property>
+	</bean>
+	
     <!-- Account Services -->
     <bean id="userService" class="dmsystem.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
@@ -95,11 +99,15 @@
     </bean>
     <bean id="documentTypeService" class="dmsystem.service.DocumentTypeServiceImpl">
     	<property name="documentTypeDao" ref="documentTypeDao"></property>
-    	<property name="documentExtraProperyDao" ref="documentExtraPropertyDao"></property>
+    	<property name="documentExtraPropertyDao" ref="documentExtraPropertyDao"></property>
     </bean>
 
     <bean id="attachmentService" class="dmsystem.service.AttachmentServiceImpl">
 
+    </bean>
+    
+    <bean id="commentConfService" class="dmsystem.service.CommentConfServiceImpl">
+    	<property name="evaluationExtrapropertyDao" ref="evaluationExtrapropertyDao"></property>
     </bean>
 
     <!-- DAO -->
@@ -124,5 +132,9 @@
 
     <bean id="documentWithExtraPropertyDao" class="dmsystem.dao.DocumentWithExtraPropertyDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+    
+    <bean id="evaluationExtrapropertyDao" class="dmsystem.dao.EvaluationExtrapropertyDao">
+    	<property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
 </beans>

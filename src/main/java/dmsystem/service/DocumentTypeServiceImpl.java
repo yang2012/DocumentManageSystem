@@ -9,15 +9,15 @@ import dmsystem.entity.DocumentType;
 
 public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 	private DocumentTypeDao documentTypeDao;
-	private DocumentExtraPropertyDao documentExtraProperyDao;
+	private DocumentExtraPropertyDao documentExtraPropertyDao;
 	
-	public DocumentExtraPropertyDao getDocumentExtraProperyDao() {
-		return documentExtraProperyDao;
+	public DocumentExtraPropertyDao getDocumentExtraPropertyDao() {
+		return documentExtraPropertyDao;
 	}
 
-	public void setDocumentExtraProperyDao(
+	public void setDocumentExtraPropertyDao(
 			DocumentExtraPropertyDao documentExtraProperyDao) {
-		this.documentExtraProperyDao = documentExtraProperyDao;
+		this.documentExtraPropertyDao = documentExtraProperyDao;
 	}
 
 	public DocumentTypeDao getDocumentTypeDao() {
@@ -70,7 +70,7 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 	
 	public void addDocumentExtraProperty(DocumentExtraProperty documentExtraType){
 		try {
-			this.documentExtraProperyDao.add(documentExtraType);
+			this.documentExtraPropertyDao.add(documentExtraType);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +79,7 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 	
 	public void delDocumentExtraProperty(DocumentExtraProperty documentExtraType){
 		try {
-			this.documentExtraProperyDao.remove(documentExtraType);
+			this.documentExtraPropertyDao.remove(documentExtraType);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
