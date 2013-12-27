@@ -8,20 +8,20 @@
     <package name="meeconf" extends="default">
 		<action name="getmeeconf" method="getmeeconf" class="meeconfAction">
             <result name="login">/login.jsp</result>
-            <result name="success" type="freemarker">/pages/adminmeeerence.vtl</result>
+            <result name="success" type="freemarker">/pages/adminmeeting.vtl</result>
         </action>
         
-        <action name="addMeeting" method="addMeeting" class="meeconfAction">
+        <action name="addMeetingName" method="addMeetingName" class="meeconfAction">
         	<result name="login">/login.jsp</result>
         	<result name="success" type="redirect">meeconf/getmeeconf</result>
         </action>
         
-        <action name="delMeeting" method="delMeeting" class="meeconfAction">
+        <action name="delMeetingName" method="delMeetingName" class="meeconfAction">
         	<result name="login">/login.jsp</result>
         	<result name="success" type="redirect">meeconf/getmeeconf</result>
         </action>
         
-        <action name="modMeeting" method="modMeeting" class="meeconfAction">
+        <action name="modMeetingName" method="modMeetingName" class="meeconfAction">
         	<result name="login">/login.jsp</result>
         	<result name="success" type="redirect">meeconf/getmeeconf</result>
         </action>
