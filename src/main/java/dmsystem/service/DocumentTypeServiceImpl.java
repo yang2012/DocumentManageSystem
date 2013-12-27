@@ -87,7 +87,6 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 	}
 
-    @Override
     public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId) {
         Set<DocumentExtraProperty> extraProperties = null;
         try {

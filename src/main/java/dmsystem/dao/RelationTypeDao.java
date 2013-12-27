@@ -24,7 +24,7 @@ public class RelationTypeDao {
     }
 	
 	public void add(RelationType transientInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
+		Session session = getHibernateUtil().getSessionFactory().openSession();
 		Transaction ts = null;
 		try {
 			ts = session.beginTransaction();
@@ -36,7 +36,7 @@ public class RelationTypeDao {
 	}
 
 	public void remove(RelationType persistentInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
+		Session session = getHibernateUtil().getSessionFactory().openSession();
 		Transaction ts = null;
 		try {
 			ts = session.beginTransaction();
@@ -48,7 +48,7 @@ public class RelationTypeDao {
 	}
 
 	public void update(RelationType detachedInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
+		Session session = getHibernateUtil().getSessionFactory().openSession();
 		Transaction ts = null;
 		try {
 			ts = session.beginTransaction();
@@ -60,16 +60,21 @@ public class RelationTypeDao {
 	}
 
 	public RelationType findById(int id) throws Exception {
-		return (RelationType) hibernateUtil.findById(RelationType.class, id);
+		return (RelationType) getHibernateUtil().findById(RelationType.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<RelationType> getAll(){
 		try {
-			return hibernateUtil.getAll(RelationType.class, "id", false);
+			return getHibernateUtil().getAll(RelationType.class, "id", false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public HibernateUtil getHibernateUtil() {
+		return hibernateUtil;
 	}
 }
