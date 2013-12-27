@@ -8,7 +8,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.EvaluationExtraProperty;
 import dmsystem.entity.User;
 import dmsystem.service.CommentConfService;
-import dmsystem.service.UserService;
 import dmsystem.util.Constants;
 
 public class ComconfAction extends ActionSupport{

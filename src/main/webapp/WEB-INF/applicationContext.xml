@@ -85,6 +85,10 @@
 		<property name="commentConfService" ref="commentConfService"></property>
 	</bean>
 	
+	<bean id="refconfAction" class="dmsystem.action.RefconfAction" scope="prototype">
+		<property name="referenceConfService" ref="referenceConfService"></property>
+	</bean>
+	
     <!-- Account Services -->
     <bean id="userService" class="dmsystem.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
@@ -108,6 +112,10 @@
     
     <bean id="commentConfService" class="dmsystem.service.CommentConfServiceImpl">
     	<property name="evaluationExtrapropertyDao" ref="evaluationExtrapropertyDao"></property>
+    </bean>
+    
+    <bean id="referenceConfService" class="dmsystem.service.ReferenceConfServiceImpl">
+    	<property name="relationTypeDao" ref="relationTypeDao"></property>
     </bean>
 
     <!-- DAO -->
@@ -136,5 +144,9 @@
     
     <bean id="evaluationExtrapropertyDao" class="dmsystem.dao.EvaluationExtrapropertyDao">
     	<property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+    
+    <bean id="relationTypeDao" class="dmsystem.dao.RelationTypeDao">
+    	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
 </beans>

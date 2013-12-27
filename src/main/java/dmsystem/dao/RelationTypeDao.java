@@ -2,9 +2,16 @@ package dmsystem.dao;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
+import java.util.List;
+
+import javax.management.relation.Relation;
+
 import dmsystem.entity.RelationType;
 import dmsystem.util.HibernateUtil;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  * Utility object for domain model class RelationType.
@@ -20,20 +27,52 @@ public class RelationTypeDao {
     }
 	
 	public void add(RelationType transientInstance) throws Exception {
-		hibernateUtil.persist(transientInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.save(transientInstance);
+			ts.commit();
+		} finally {
+			session.close();
+		}
 	}
 
 	public void remove(RelationType persistentInstance) throws Exception {
-		hibernateUtil.remove(persistentInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.delete(persistentInstance);
+			ts.commit();
+		} finally {
+			session.close();
+		}
 	}
 
 	public void update(RelationType detachedInstance) throws Exception {
-		if (detachedInstance != null) {
-			hibernateUtil.update(detachedInstance);
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.update(detachedInstance);
+			ts.commit();
+		} finally {
+			session.close();
 		}
 	}
 
 	public RelationType findById(int id) throws Exception {
 		return (RelationType) hibernateUtil.findById(RelationType.class, id);
+	}
+	
+	public List<RelationType> getAll(){
+		try {
+			return hibernateUtil.getAll(RelationType.class, "id", false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

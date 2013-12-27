@@ -40,4 +40,7 @@
     <include file="docconf.xml" />
     <include file="advanceddocsearch.xml" />
     <include file="simpledocsearch.xml" />
-    <include file="comconf.xml" /></struts>
+    <include file="comconf.xml" />
+    <include file="refconf.xml" />
+    <include file="meeconf.xml" />
+    </struts>

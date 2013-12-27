@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <package name="refconf" extends="default">
+		<action name="getrefconf" method="getrefconf" class="refconfAction">
+            <result name="login">/login.jsp</result>
+            <result name="success" type="freemarker">/pages/adminreference.vtl</result>
+        </action>
+        
+        <action name="addRelation" method="addRelation" class="refconfAction">
+        	<result name="login">/login.jsp</result>
+        	<result name="success" type="redirect">refconf/getrefconf</result>
+        </action>
+        
+        <action name="delRelation" method="delRelation" class="refconfAction">
+        	<result name="login">/login.jsp</result>
+        	<result name="success" type="redirect">refconf/getrefconf</result>
+        </action>
+        
+        <action name="modRelation" method="modRelation" class="refconfAction">
+        	<result name="login">/login.jsp</result>
+        	<result name="success" type="redirect">refconf/getrefconf</result>
+        </action>
+    </package>
+</struts>
