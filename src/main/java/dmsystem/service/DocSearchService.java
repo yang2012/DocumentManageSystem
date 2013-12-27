@@ -12,5 +12,5 @@ import dmsystem.entity.Document;
 public interface DocSearchService {
 	public List<Document> getDocList(String keywords);
 
-	public List<Document> getDocList(String content, String[] words);
+	public List<Document> getDocList(String docType, String[] params);
 }
