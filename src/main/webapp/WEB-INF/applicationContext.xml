@@ -112,9 +112,11 @@
         <property name="userDao" ref="userDao" />
     </bean>
 
-    <!-- Book Services -->
     <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao" />
+        <property name="documentTypeDao" ref="documentTypeDao" />
+        <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
+        <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
     </bean>
 
     <bean id="documentTypeService" class="dmsystem.service.DocumentTypeServiceImpl">
@@ -127,7 +129,7 @@
     </bean>
     
     <bean id="commentConfService" class="dmsystem.service.CommentConfServiceImpl">
-    	<property name="evaluationExtrapropertyDao" ref="evaluationExtrapropertyDao"></property>
+    	<property name="evaluationExtraPropertyDao" ref="evaluationExtraPropertyDao"></property>
     </bean>
     
     <bean id="referenceConfService" class="dmsystem.service.ReferenceConfServiceImpl">
@@ -139,6 +141,10 @@
         <property name="evaluationDao" ref="evaluationDao" />
         <property name="evaluationExtraPropertyDao" ref="evaluationExtraPropertyDao" />
         <property name="evaluationWithExtraPropertyDao" ref="evaluationWithExtraPropertyDao" />
+    </bean>
+
+    <bean id="docSearchService" class="dmsystem.service.DocSearchServiceImpl" >
+        <property name="documentDao" ref="documentDao" />
     </bean>
 
     <!-- DAO -->
