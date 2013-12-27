@@ -2,6 +2,8 @@ package dmsystem.dao;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
+import java.util.List;
+
 import dmsystem.entity.Tag;
 import dmsystem.util.HibernateUtil;
 
@@ -34,5 +36,16 @@ public class TagDao {
 
 	public Tag findById(int id) throws Exception {
 		return (Tag) hibernateUtil.findById(Tag.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Tag> getAll(){
+		try {
+			return hibernateUtil.getAll(Tag.class, "id", false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

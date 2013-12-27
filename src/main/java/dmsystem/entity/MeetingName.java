@@ -18,7 +18,7 @@ public class MeetingName implements java.io.Serializable {
 	private String fullName;
 	private String shortName;
 	
-	private MeetingName(){}
+	public MeetingName(){}
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)

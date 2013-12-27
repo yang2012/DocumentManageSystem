@@ -41,5 +41,6 @@
     <include file="comconf.xml" />
     <include file="refconf.xml" />
     <include file="meeconf.xml" />
+    <include file="tagconf.xml" />
     <include file="evaluation.xml" />
 </struts>

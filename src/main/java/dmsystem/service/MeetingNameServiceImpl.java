@@ -17,5 +17,22 @@ public class MeetingNameServiceImpl implements MeetingNameService {
 		// TODO Auto-generated method stub
 		return this.meetingNameDao.getAll();
 	}
+	public void addMeetingName(MeetingName meetingName) {
+		// TODO Auto-generated method stub
+		try {
+			this.meetingNameDao.add(meetingName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void delMeetingName(MeetingName meetingName){
+		try {
+			this.meetingNameDao.remove(meetingName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
