@@ -41,5 +41,5 @@
     <include file="comconf.xml" />
     <include file="refconf.xml" />
     <include file="meeconf.xml" />
-    </struts>
+    <include file="evaluation.xml" />
 </struts>

@@ -103,6 +103,11 @@
 	</bean>
 	
     <!-- Account Services -->
+    <bean id="evaluationAction" class="dmsystem.action.EvaluationAction">
+        <property name="evaluationService" ref="evaluationService" />
+    </bean>
+
+    <!-- Services -->
     <bean id="userService" class="dmsystem.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
     </bean>
@@ -129,6 +134,13 @@
     	<property name="relationTypeDao" ref="relationTypeDao"></property>
     </bean>
 
+    <bean id="evaluationService" class="dmsystem.service.EvaluationServiceImpl">
+        <property name="documentDao" ref="documentDao" />
+        <property name="evaluationDao" ref="evaluationDao" />
+        <property name="evaluationExtraPropertyDao" ref="evaluationExtraPropertyDao" />
+        <property name="evaluationWithExtraPropertyDao" ref="evaluationWithExtraPropertyDao" />
+    </bean>
+
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
@@ -152,9 +164,17 @@
     <bean id="documentWithExtraPropertyDao" class="dmsystem.dao.DocumentWithExtraPropertyDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
-    
-    <bean id="evaluationExtrapropertyDao" class="dmsystem.dao.EvaluationExtrapropertyDao">
-    	<property name="hibernateUtil" ref="hibernateUtil" />
+
+    <bean id="evaluationDao" class="dmsystem.dao.EvaluationDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+
+    <bean id="evaluationExtraPropertyDao" class="dmsystem.dao.EvaluationExtraPropertyDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+
+    <bean id="evaluationWithExtraPropertyDao" class="dmsystem.dao.EvaluationWithExtraPropertyDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
     
     <bean id="relationTypeDao" class="dmsystem.dao.RelationTypeDao">

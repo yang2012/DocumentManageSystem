@@ -134,4 +134,30 @@ public class Evaluation implements java.io.Serializable {
 		this.extraProperties = extraProperties;
 	}
 
+    public void updateBaseInfo(Evaluation evaluation) {
+        if (evaluation == null) {
+            return;
+        }
+
+        String content = evaluation.getContent();
+        if (content != null && !content.equals(this.content)) {
+            this.content = content;
+        }
+
+        Integer point = evaluation.getPoint();
+        if (point != this.point) {
+            this.point = point;
+        }
+
+        Boolean published = evaluation.getPublished();
+        if (published != this.published) {
+            this.published = published;
+        }
+
+        Integer type = evaluation.getType();
+        if (type != this.type) {
+            this.type = type;
+        }
+    }
+
 }

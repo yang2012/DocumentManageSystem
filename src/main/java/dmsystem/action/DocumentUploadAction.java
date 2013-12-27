@@ -122,9 +122,7 @@ public class DocumentUploadAction extends ActionSupport {
 
     public String getExtraproperties() {
         Set<DocumentExtraProperty> extraProperties = this.documentTypeService.getExtraProperties(this.documentTypeId);
-
         this.documentExtraPropertyWrappers = this._convert(extraProperties);
-
         return SUCCESS;
     }
 

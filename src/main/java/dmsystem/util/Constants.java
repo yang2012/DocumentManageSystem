@@ -68,4 +68,8 @@ public class Constants {
 	public static final String kSearchKeywordsField = "keywords";
 	public static final String kSearchPublisherField = "publisher";
 	public static final String kSearchYearField = "publishYear";
+
+    // Using for evaluation type
+    public static final Integer kSimpleEvaluation = 0;
+    public static final Integer kDetailEvaluation = 1;
 }

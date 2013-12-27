@@ -68,6 +68,7 @@ public class HibernateUtil {
 	        session.getTransaction().commit();
 			log.debug("remove successful");
 		} catch (RuntimeException re) {
+            session.getTransaction().rollback();
 			log.error("remove failed", re);
 			throw re;
 		}
@@ -82,6 +83,7 @@ public class HibernateUtil {
 	        session.getTransaction().commit();
 			log.debug("merge successful");
 		} catch (RuntimeException re) {
+            session.getTransaction().rollback();
 			log.error("merge failed", re);
 			throw re;
 		}
@@ -92,7 +94,6 @@ public class HibernateUtil {
 		log.debug("getting instance with id: " + id);
 		Session session = sessionFactory.getCurrentSession();
 		try {
-	        session.beginTransaction();
 			Object instance = session.get(objectClass, id);
 			log.debug("get successful");
 			return instance;
@@ -108,7 +109,6 @@ public class HibernateUtil {
 		log.debug("getting all instance");
 		Session session = sessionFactory.getCurrentSession();
 		try {
-	        session.beginTransaction();
             Criteria criteria = session.createCriteria(objectClass);
             Order order = null;
             if (asc) {

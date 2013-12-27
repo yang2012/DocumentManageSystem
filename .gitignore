@@ -7,3 +7,5 @@ out/
 *.project
 *.settings
 *.classpath
+.settings/
+src/main/webapp/WEB-INF/classes/
