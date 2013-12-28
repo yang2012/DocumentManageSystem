@@ -6,6 +6,9 @@ import dmsystem.util.HibernateUtil;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 /**
  * Created by justinyang on 13-12-26.
  */
@@ -21,20 +24,35 @@ public class EvaluationExtraPropertyDao {
     }
 
     public void remove(EvaluationExtraProperty persistentInstance) throws Exception {
-        hibernateUtil.remove(persistentInstance);
+    	Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.delete(persistentInstance);
+			ts.commit();
+		} finally {
+			session.close();
+		}
     }
 
     public void update(EvaluationExtraProperty detachedInstance) throws Exception {
-        if (detachedInstance != null) {
-            hibernateUtil.update(detachedInstance);
-        }
+    	Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.update(detachedInstance);
+			ts.commit();
+		} finally {
+			session.close();
+		}
     }
 
     public EvaluationExtraProperty findById(int id) throws Exception {
         return (EvaluationExtraProperty) hibernateUtil.findById(EvaluationExtraProperty.class, id);
     }
 
-    public List<EvaluationExtraProperty> getAll() throws Exception {
+    @SuppressWarnings("unchecked")
+	public List<EvaluationExtraProperty> getAll() throws Exception {
         return hibernateUtil.getAll(EvaluationExtraProperty.class, "propertyName", true);
     }
 }
