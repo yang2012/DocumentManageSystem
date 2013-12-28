@@ -25,16 +25,27 @@ public class DocumentSearchDao {
 		return hibernateUtil.getAll(Document.class, "createTime", false);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Document> getDocsByType(String docType) {
-		List<Document> list;
+	public List<Document> getDocsByType(String docType) throws Exception {
+		List<Document> docList = null;
 		Session session = this.hibernateUtil.getSessionFactory().openSession();
-
+		session.beginTransaction();
 		Query query = session
 				.createQuery("from Document doc where doc.documentType=?");
 		query.setString(0, docType);
-		list = query.list();
+		docList = query.list();
 
-		return list;
+		return docList;
+	}
+
+	public static void main(String[] args) {
+		DocumentSearchDao doc = new DocumentSearchDao();
+		List list = null;
+		try {
+			list = doc.getAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.print(list.size());
 	}
 }
