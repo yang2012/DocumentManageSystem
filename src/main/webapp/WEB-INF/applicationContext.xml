@@ -104,8 +104,8 @@
 	<bean id="meeconfAction" class="dmsystem.action.MeeconfAction" scope="prototype">
 		<property name="meetingNameService" ref="meetingNameService"></property>
 	</bean>
-	<bean id="tagAction" class="dmsystem.action.TagAction" scope="prototype">
-		<property name="tagService" ref="tagService"></property>
+	<bean id="tagDefinedAction" class="dmsystem.action.TagDefinedAction" scope="prototype">
+		<property name="tagDefinedService" ref="tagDefinedService"></property>
 	</bean>
     <!-- Account Services -->
     <bean id="evaluationAction" class="dmsystem.action.EvaluationAction">
@@ -156,8 +156,8 @@
     	<property name="meetingNameDao" ref="meetingNameDao"></property>
     </bean>
     
-    <bean id="tagService" class="dmsystem.service.TagServiceImpl">
-    	<property name="tagDao" ref="tagDao"></property>
+    <bean id="tagDefinedService" class="dmsystem.service.TagDefinedServiceImpl">
+    	<property name="tagDefinedDao" ref="tagDefinedDao"></property>
     </bean>
     
     <!-- DAO -->
@@ -205,6 +205,9 @@
     </bean>
     
     <bean id="tagDao" class="dmsystem.dao.TagDao">
+    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    </bean>
+    <bean id="tagDefinedDao" class="dmsystem.dao.TagDefinedDao">
     	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
 </beans>

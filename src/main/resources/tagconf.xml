@@ -7,8 +7,8 @@
 
     <package name="tagconf" extends="default">
 
-        <action name="gettagconf" method="gettagconf" class="tagAction">
-            <result name="success" type="redirect">/pages/admintag.vtl</result>
+        <action name="gettagconf" method="gettagconf" class="tagDefinedAction">
+            <result name="success" type="freemarker">/pages/admintag.vtl</result>
         </action>
 
     </package>
