@@ -148,7 +148,7 @@
         <property name="evaluationWithExtraPropertyDao" ref="evaluationWithExtraPropertyDao" />
     </bean>
 
-    <bean id="documentSearchService" class="dmsystem.service.DocumentSearchServiceImpl" >
+    <bean id="documentSearchService" class="dmsystem.service.DocumentSearchServiceImpl">
         <property name="documentSearchDao" ref="documentSearchDao" />
     </bean>
     

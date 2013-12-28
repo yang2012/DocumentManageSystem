@@ -16,12 +16,17 @@ import dmsystem.service.DocumentSearchService;
  */
 public class SimpleDocSearchAction extends ActionSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String keywords;
 	private User user;
 	private DocumentSearchService documentSearchService;
 	private List<Document> documents;
 
-	public String getDocList() {
+	public String getdoclist() {
+		System.out.println("asd");
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {
@@ -44,11 +49,12 @@ public class SimpleDocSearchAction extends ActionSupport {
 		this.keywords = keywords;
 	}
 
-	public DocumentSearchService getDocSearchService() {
+
+	public DocumentSearchService getDocumentSearchService() {
 		return documentSearchService;
 	}
 
-	public void setDocSearchService(DocumentSearchService documentSearchService) {
+	public void setDocumentSearchService(DocumentSearchService documentSearchService) {
 		this.documentSearchService = documentSearchService;
 	}
 

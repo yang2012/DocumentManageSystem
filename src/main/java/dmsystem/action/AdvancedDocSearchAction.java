@@ -45,7 +45,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 	private DocumentSearchService documentSearchService;
 	private List<Document> documents;
 
-	public String getDocList() {
+	public String getdoclist() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {

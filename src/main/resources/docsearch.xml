@@ -6,16 +6,16 @@
 <struts>
 
     <package name="simpledocsearch" extends="default">
-        <action name="getdoclist" method="getDocList" class="simpleDocSearchAction">
+        <action name="getdoclist" method="getdoclist" class="simpleDocSearchAction">
             <result name="success" type="freemarker">/pages/searchresult.vtl</result>
         </action>
 
     </package>
     
-    <package name="advanceddocsearch" extends="default">
-        <action name="getdoclist" method="getDocList" class="advancedDocSearchAction">
+   <!-- <package name="advanceddocsearch" extends="default">
+        <action name="getdoclist" method="getdoclist" class="advancedDocSearchAction">
             <result name="success" type="freemarker">/pages/searchresult.vtl</result>
         </action>
 
-    </package>
+    </package>  -->
 </struts>
