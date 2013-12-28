@@ -130,12 +130,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/user/normal/index"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统</a>
+          <a class="navbar-brand" href="../account/getAllDocuments"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/user/normal/index"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
-            <li class="active"><a href="/doc/normal/addDoc"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
+            <li><a href="../account/getAllDocuments"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
+            <li class="active"><a href="../document/showupload"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
             <li><a href=""><span class="glyphicon glyphicon-stats"></span>&nbsp;工作记录统计</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -143,10 +143,10 @@
               <a><span class="glyphicon glyphicon-user"></span>&nbsp;${user.name}</a>
             </li>
             <li>
-              <a href="/"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
+              <a href="../account/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
             </li>
             <li>
-              <a href="/user/normal/updateInfo/${user.id}"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
+              <a href="../account/showPassword"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
             </li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -162,7 +162,7 @@
               <img class="pull-left" src="../source/image/logo.jpg" /></div>
             <div class="col-xs-8">
 
-            <form class="well form-search"><br/>
+            <form class="well form-search" action="../simpledocsearch/getdoclist"><br/>
               <div class="input-group"><input type="text" class="form-control" name="keywords">
                 <span class="input-group-btn">
                   <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;<strong>搜索文章</strong></button>
@@ -183,7 +183,7 @@
                         </div>
                         
                         <div class="modal-body">
-                            <form class="form-horizontal" role="form" method="POST" action="/doc/normal/addAttachment/${document.id}">
+                            <form class="form-horizontal" role="form" method="POST" action="../document/commitupload">
                                 <div class="form-group">
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">
@@ -261,7 +261,7 @@
               
           <div class="col-xs-10" style="background-color:#CCEEFF;"><h2 style="background-color:#58D3F7;text-align:center;"><hr/>
             文献录入&nbsp;&nbsp;<small>其中带*为必填</small><hr/></h2>
-            <form class="form-horizontal" role="form" method="POST" action="/document/commitupload">
+            <form class="form-horizontal" role="form" method="POST" action="../document/commitupload">
               
               <div class="form-group discription">
                 <label for="title" class="col-sm-2 control-label">标题 *</label>
@@ -340,7 +340,7 @@
               <div class="row">
                 <div class="col-xs-5"></div>
                 <div class=" col-xs-7">
-                  <button type="button" class="btn btn-default">取消录入文献</button>
+                  <button type="reset" class="btn btn-default">取消录入文献</button>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <button type="submit" class="btn btn-primary">录入文献</button>
                 </div>
