@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import dmsystem.dao.DocumentDao;
+import dmsystem.dao.DocumentSearchDao;
 import dmsystem.entity.Document;
 import dmsystem.util.StringUtil;
 
@@ -18,21 +18,21 @@ import dmsystem.util.StringUtil;
  * @author bryant zhang
  * 
  */
-public class DocSearchServiceImpl implements DocSearchService {
-	private DocumentDao documentDao;
+public class DocumentSearchServiceImpl implements DocumentSearchService {
+	private DocumentSearchDao documentSearchDao;
 
-	public DocumentDao getDocumentDao() {
-		return documentDao;
+	public DocumentSearchDao getDocumentSearchDao() {
+		return documentSearchDao;
 	}
 
-	public void setDocumentDao(DocumentDao documentDao) {
-		this.documentDao = documentDao;
+	public void setDocumentSearchDao(DocumentSearchDao documentSearchDao) {
+		this.documentSearchDao = documentSearchDao;
 	}
 
 	public List<Document> getDocList(String keywords) {
 		List<Document> documents = null;
 		try {
-			documents = this.documentDao.getAll();
+			documents = this.documentSearchDao.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,19 +49,17 @@ public class DocSearchServiceImpl implements DocSearchService {
 	public List<Document> getDocList(String docType, String[] params) {
 		List<Document> documents = null;
 		try {
-			documents = this.documentDao.getAll();
+			documents = this.documentSearchDao.getDocsByType(docType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		List<Document> docList = this.filterDocsByType(documents, docType);
 		Map<String, String> paramsMap = this.filterParams(params);
 
 		List<Document> resultList = new ArrayList<Document>();
-		for (int i = 0; i < docList.size(); i++) {
-			Document doc = docList.get(i);
-			if (matchDoc(doc, paramsMap)) {
-				resultList.add(doc);
+		for (int i = 0; i < documents.size(); i++) {
+			if (matchDoc(documents.get(i), paramsMap)) {
+				resultList.add(documents.get(i));
 			}
 		}
 
@@ -112,16 +110,16 @@ public class DocSearchServiceImpl implements DocSearchService {
 		return resultMap;
 	}
 
-	private List<Document> filterDocsByType(List<Document> list, String docType) {
-		List<Document> resultList = new ArrayList<Document>();
-		for (int i = 0; i < list.size(); i++) {
-			if (StringUtil.equals(docType, list.get(i).getDocumentType()
-					.getName())) {
-				resultList.add(list.get(i));
-			}
-		}
-		return resultList;
-	}
+//	private List<Document> filterDocsByType(List<Document> list, String docType) {
+//		List<Document> resultList = new ArrayList<Document>();
+//		for (int i = 0; i < list.size(); i++) {
+//			if (StringUtil.equals(docType, list.get(i).getDocumentType()
+//					.getName())) {
+//				resultList.add(list.get(i));
+//			}
+//		}
+//		return resultList;
+//	}
 
 	private boolean matchWords(String str1, String str2) {
 		String[] strArr1 = str1.split(" ");
@@ -140,7 +138,7 @@ public class DocSearchServiceImpl implements DocSearchService {
 
 	public static void main(String args[]) {
 
-		DocSearchServiceImpl obj = new DocSearchServiceImpl();
+		DocumentSearchServiceImpl obj = new DocumentSearchServiceImpl();
 		String str1 = "role bases access control";
 		String str2 = "network access control strategy";
 		Set<String> tags = new HashSet<String>();

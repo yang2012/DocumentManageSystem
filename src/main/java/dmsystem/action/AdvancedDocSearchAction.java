@@ -2,17 +2,38 @@ package dmsystem.action;
 
 import java.util.List;
 
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
 import dmsystem.entity.Document;
-import dmsystem.service.DocSearchService;
+import dmsystem.entity.User;
+import dmsystem.service.DocumentSearchService;
 
 /**
  * 
  * @author bryant zhang
  * 
  */
-public class AdvancedDocSearchAction {
+public class AdvancedDocSearchAction extends ActionSupport {
 
 	private String documentType;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+
 	private String title;
 	private String author;
 	private String tag;
@@ -20,11 +41,24 @@ public class AdvancedDocSearchAction {
 	private String publisher;
 	private String publishYear;
 
-	private DocSearchService docSearchService;
+	private User user;
+	private DocumentSearchService documentSearchService;
+	private List<Document> documents;
 
-	public List<Document> getDocList() {
-		return this.docSearchService
-				.getDocList(documentType, this.initParams());
+	public String getDocList() {
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+
+		this.documents = this.documentSearchService.getDocList(documentType,
+				this.initParams());
+		if (this.documents == null) {
+			return ERROR;
+		} else {
+			return SUCCESS;
+		}
 	}
 
 	public String[] initParams() {
@@ -88,12 +122,12 @@ public class AdvancedDocSearchAction {
 		this.publishYear = publishYear;
 	}
 
-	public DocSearchService getDocSearchService() {
-		return docSearchService;
+	public DocumentSearchService getDocumentSearchService() {
+		return documentSearchService;
 	}
 
-	public void setDocSearchService(DocSearchService docSearchService) {
-		this.docSearchService = docSearchService;
+	public void setDocumentSearchService(DocumentSearchService docSearchService) {
+		this.documentSearchService = docSearchService;
 	}
 
 	public static void main(String[] args) {

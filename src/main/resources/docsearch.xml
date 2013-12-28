@@ -6,8 +6,14 @@
 <struts>
 
     <package name="simpledocsearch" extends="default">
-        <action name="getdoclist" method="getdocList" class="simpleDocSearchAction">
-            <result name="login">/login.jsp</result>
+        <action name="getdoclist" method="getDocList" class="simpleDocSearchAction">
+            <result name="success" type="freemarker">/pages/searchresult.vtl</result>
+        </action>
+
+    </package>
+    
+    <package name="advanceddocsearch" extends="default">
+        <action name="getdoclist" method="getDocList" class="advancedDocSearchAction">
             <result name="success" type="freemarker">/pages/searchresult.vtl</result>
         </action>
 

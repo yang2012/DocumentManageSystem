@@ -28,7 +28,7 @@
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'statistic_graph',
-                type: 'spline',
+                
                 zoomType: 'xy',
                 marginLeft: 80,
                 marginRight: 80
@@ -37,10 +37,7 @@
                 text: '工作记录统计'
             },
             xAxis: {
-              title: {
-                text: '操作类型'
-              },
-              categories: ['文献录入','上传附件','发表简单评论','发表详细评论']
+              categories: ['Jue','Jul','Aug','Sept','Oct','Nov','Dec']
             },
             yAxis: {
                 labels: {
@@ -59,10 +56,16 @@
                 }
             },
             tooltip: {
-                enabled: false,
                 formatter: function() {
-                    return ''+
-                        this.x +': '+ this.y;
+                    var s;
+                    if (this.point.name) { // the pie chart
+                        s = ''+
+                            this.point.name +': '+ this.y;
+                    } else {
+                        s = ''+
+                            this.x  +': '+ this.y;
+                    }
+                    return s;
                 }
             },
             plotOptions: {
@@ -74,20 +77,33 @@
                 }
             },
             series: [{
-                name: '文献录入',
-                data: [12,14,24,5]
-            },
-            {
-                name: '上传附件',
-                data: [10,6,18,8]
-            },
-			{
-                name: '发表简单评论',
-                data: [2,4,34,15]
-            },
-            {
-                name: '发表详细评论',
-                data: [13,10,8,18]
+                type: 'column',
+                name: 'Joe',
+                data: [6, 7, 4, 3, 3, 9, 10]
+            }, {
+                type: 'spline',
+                name: 'Average',
+                data: [3, 4.5, 8,  2.67, 3, 6.33, 3.33],
+                marker: {
+                  lineWidth: 2,
+                  lineColor: Highcharts.getOptions().colors[3],
+                  fillColor: 'white'
+                }
+            }, {
+                type: 'pie',
+                name: 'Total consumption',
+                data: [
+                  ['Firefox',34],
+                  ['Chrome', 45],
+                  ['IE', 12],
+                  ['Opera', 13]
+                ],
+                center: [60, 40],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
             }]
         });
     }
@@ -248,6 +264,13 @@
                                             <option value="2">上传附件</option>
                                             <option value="3">发表简单评论</option>
                                             <option value="4">发表详细评论</option>
+                    </select>
+                    <br/>
+          <select class="form-control" name="documentType">
+                                            <option value="1">平均</option>
+                                            <option value="2">王子宁</option>
+                                            <option value="3">杨宜杰</option>
+                                            <option value="4">张仁涛</option>
                     </select>
 				</div>
 				<div class="col-xs-9">

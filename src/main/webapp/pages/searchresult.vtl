@@ -159,9 +159,9 @@
             文献列表<hr/></h2>
 
           <#list documents as document>
-          
+          <div>${documents.size}</div>
             <div class="well">
-              <h4><a href="/doc/normal/getDoc/${document.id}"><span class="label label-info">${document.title}</span></a>
+              <h4><a href="/document/showdoc?docId=${document.id}"><span class="label label-info">${document.title}</span></a>
                 <button class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;
               论文下载
               </button>

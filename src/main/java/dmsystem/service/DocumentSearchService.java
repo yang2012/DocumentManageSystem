@@ -9,7 +9,7 @@ import dmsystem.entity.Document;
  * @author bryant zhang
  * 
  */
-public interface DocSearchService {
+public interface DocumentSearchService {
 	public List<Document> getDocList(String keywords);
 
 	public List<Document> getDocList(String docType, String[] params);

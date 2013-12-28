@@ -18,7 +18,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8" />
         <property name="username" value="root" />
-        <property name="password" value="" />
+        <property name="password" value="665134xlnju" />
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -73,7 +73,7 @@
 
 	<bean id="advancedDocSearchAction" class="dmsystem.action.AdvancedDocSearchAction"
 		scope="prototype">
-		<property name="docSearchService" ref="docSearchService" />
+		<property name="documentSearchService" ref="documentSearchService" />
 	</bean>
 
     <bean id="attachmentAction" class="dmsystem.action.AttachmentAction">
@@ -91,7 +91,7 @@
 
 	<bean id="simpleDocSearchAction" class="dmsystem.action.SimpleDocSearchAction"
 		scope="prototype">
-		<property name="docSearchService" ref="docSearchService" />
+		<property name="documentSearchService" ref="documentSearchService" />
 	</bean>
 	
 	<bean id="comconfAction" class="dmsystem.action.ComconfAction" scope="prototype">
@@ -148,8 +148,8 @@
         <property name="evaluationWithExtraPropertyDao" ref="evaluationWithExtraPropertyDao" />
     </bean>
 
-    <bean id="docSearchService" class="dmsystem.service.DocSearchServiceImpl" >
-        <property name="documentDao" ref="documentDao" />
+    <bean id="documentSearchService" class="dmsystem.service.DocumentSearchServiceImpl" >
+        <property name="documentSearchDao" ref="documentSearchDao" />
     </bean>
     
     <bean id="meetingNameService" class="dmsystem.service.MeetingNameServiceImpl">
@@ -162,6 +162,10 @@
     
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+    
+    <bean id="documentSearchDao" class="dmsystem.dao.DocumentSearchDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
 
