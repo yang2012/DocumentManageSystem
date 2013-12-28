@@ -2,6 +2,9 @@ package dmsystem.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import dmsystem.entity.TagDefined;
 import dmsystem.util.HibernateUtil;
 
@@ -24,5 +27,17 @@ public class TagDefinedDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void add(TagDefined tagDefined){
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.save(tagDefined);
+			ts.commit();
+		} finally {
+			session.close();
+		}
 	}
 }

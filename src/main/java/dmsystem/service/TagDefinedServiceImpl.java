@@ -17,4 +17,7 @@ public class TagDefinedServiceImpl implements TagDefinedService{
 	public List<TagDefined> getAll() {
 		return this.tagDefinedDao.getAll();
 	}
+	public void add(TagDefined tagDefined) {
+		this.tagDefinedDao.add(tagDefined);
+	}
 }

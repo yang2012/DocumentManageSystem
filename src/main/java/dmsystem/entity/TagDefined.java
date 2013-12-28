@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class TagDefined {
 	private int id;
 	private String name;
-	private TagDefined(){
+	public TagDefined(){
 		
 	}
 	public TagDefined(int id) {
