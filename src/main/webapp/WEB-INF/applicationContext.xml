@@ -206,7 +206,7 @@
     <bean id="relationTypeDao" class="dmsystem.dao.RelationTypeDao">
     	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
-    
+
     <bean id="meetingNameDao" class="dmsystem.dao.MeetingNameDao">
     	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
@@ -214,7 +214,11 @@
     <bean id="tagDao" class="dmsystem.dao.TagDao">
     	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
+    
     <bean id="tagDefinedDao" class="dmsystem.dao.TagDefinedDao">
     	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    </bean>
+
+    <bean id="attachmentDao" class="dmsystem.dao.AttachmentDao">
     </bean>
 </beans>
