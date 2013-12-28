@@ -32,8 +32,9 @@ public class DocumentExtraProperty implements java.io.Serializable {
 	private int id;
 	private String propertyName;
 	private DocumentType documentType;
-	
-	private Set<DocumentWithExtraProperty> extraProperties = new HashSet<DocumentWithExtraProperty>(0);
+
+	private Set<DocumentWithExtraProperty> extraProperties = new HashSet<DocumentWithExtraProperty>(
+			0);
 
 	public DocumentExtraProperty() {
 	}
@@ -43,7 +44,8 @@ public class DocumentExtraProperty implements java.io.Serializable {
 		this.setDocumentType(documentType);
 	}
 
-	public DocumentExtraProperty(int id, String propertyName, DocumentType documentType) {
+	public DocumentExtraProperty(int id, String propertyName,
+			DocumentType documentType) {
 		this.id = id;
 		this.propertyName = propertyName;
 		this.setDocumentType(documentType);
@@ -79,12 +81,13 @@ public class DocumentExtraProperty implements java.io.Serializable {
 		this.documentType = documentType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.documentExtraProperty")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.documentExtraProperty", cascade = { CascadeType.REMOVE })
 	public Set<DocumentWithExtraProperty> getExtraProperties() {
 		return extraProperties;
 	}
 
-	public void setExtraProperties(Set<DocumentWithExtraProperty> extraProperties) {
+	public void setExtraProperties(
+			Set<DocumentWithExtraProperty> extraProperties) {
 		this.extraProperties = extraProperties;
 	}
 

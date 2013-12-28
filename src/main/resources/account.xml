@@ -14,12 +14,16 @@
         </action>
 
         <action name="logout" class="logoutAction">
-            <result type="redirect">/</result>
+            <result name="success" type="redirect">/</result>
         </action>
 
         <action name="index" method="index" class="userAction">
             <result name="admin" type="redirect">/user/getusers</result>
-            <result name="user" type="freemarker">/pages/doclist.vtl</result>
+            <result name="user" type="redirect">/account/getAllDocuments</result>
+        </action>
+        
+        <action name="getAllDocuments" method="getAllDocuments" class="userAction">
+        	<result name="success" type="freemarker">/pages/doclist.vtl</result>
         </action>
     </package>
 </struts>

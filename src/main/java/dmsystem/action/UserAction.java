@@ -15,60 +15,73 @@ import java.util.List;
  */
 public class UserAction extends ActionSupport {
 
-    private User user;
-    private List<Document> documents;
-    private List<User> users;
+	private User user;
+	private List<Document> documents;
+	private List<User> users;
 
-    private DocumentService documentService;
-    private UserService userService;
+	private DocumentService documentService;
+	private UserService userService;
 
-    public String index() {
-        user = (User)ActionContext.getContext().getSession().get(User.SESSION_KEY);
+	public String index() {
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
 
-        if (user == null) {
-            return LOGIN;
-        }
+		if (user == null) {
+			return LOGIN;
+		}
 
-        String result = null;
-        if (user.getAuthority().equals(Constants.kAdminAuthority)) {
-            users = this.userService.getAllUsers();
-            result = "admin";
-        } else {
-            documents = this.documentService.getAll();
-            result = "user";
-        }
-        return result;
-    }
+		String result = null;
+		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+			users = this.userService.getAllUsers();
+			result = "admin";
+		} else {
+			documents = this.documentService.getAll();
+			result = "user";
+		}
+		return result;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public String getAllDocuments() {
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		String result = null;
+		documents= this.documentService.getAll();
+		result = SUCCESS;
+		return result;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public List<Document> getDocuments() {
-        return documents;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
-    }
+	public List<Document> getDocuments() {
+		return documents;
+	}
 
-    public List<User> getUsers() {
-        return users;
-    }
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+	public List<User> getUsers() {
+		return users;
+	}
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+	public void setDocumentService(DocumentService documentService) {
+		this.documentService = documentService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 }

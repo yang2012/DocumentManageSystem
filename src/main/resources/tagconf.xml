@@ -10,6 +10,17 @@
         <action name="gettagconf" method="gettagconf" class="tagDefinedAction">
             <result name="success" type="freemarker">/pages/admintag.vtl</result>
         </action>
-
-    </package>
+		
+		<action name="addDefinedTag" method="addDefinedTag" class="tagDefinedAction" >
+			<result name="success" type="redirect">/tagconf/gettagconf</result>
+		</action>
+		
+		<action name="delDefinedTag" method="delDefinedTag" class="tagDefinedAction" >
+			<result name="success" type="redirect">/tagconf/gettagconf</result>
+		</action>
+		
+		<action name="modDefinedTag" method="modDefinedTag" class="tagDefinedAction" >
+			<result name="success" type="redirect">/tagconf/gettagconf</result>
+		</action> 
+	</package>
 </struts>

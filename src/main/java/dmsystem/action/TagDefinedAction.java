@@ -18,6 +18,24 @@ public class TagDefinedAction extends ActionSupport{
 	private User user;
 	private List<TagDefined> definedTags;
 	private TagDefinedService tagDefinedService;
+	private String name;
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public User getUser() {
 		return user;
@@ -51,6 +69,58 @@ public class TagDefinedAction extends ActionSupport{
         String result = null;
         if (user.getAuthority().equals(Constants.kAdminAuthority)) {
             definedTags=this.tagDefinedService.getAll();
+            result = SUCCESS;
+        } else {
+            result = LOGIN;
+        }
+        return result;
+	}
+	
+	public String addDefinedTag(){
+		user = (User)ActionContext.getContext().getSession().get(User.SESSION_KEY);
+        if (user == null) {
+            return LOGIN;
+        }
+        String result = null;
+        if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+        	TagDefined tagDefined=new TagDefined();
+        	tagDefined.setName(name);
+            this.tagDefinedService.add(tagDefined);
+            result = SUCCESS;
+        } else {
+            result = LOGIN;
+        }
+        return result;
+	}
+	
+	public String delDefinedTag(){
+		user = (User)ActionContext.getContext().getSession().get(User.SESSION_KEY);
+        if (user == null) {
+            return LOGIN;
+        }
+        String result = null;
+        if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+        	TagDefined tagDefined=new TagDefined();
+        	tagDefined.setId(id);
+            this.tagDefinedService.del(tagDefined);
+            result = SUCCESS;
+        } else {
+            result = LOGIN;
+        }
+        return result;
+	}
+	
+	public String modDefinedTag(){
+		user = (User)ActionContext.getContext().getSession().get(User.SESSION_KEY);
+        if (user == null) {
+            return LOGIN;
+        }
+        String result = null;
+        if (user.getAuthority().equals(Constants.kAdminAuthority)) {
+        	TagDefined tagDefined=new TagDefined();
+        	tagDefined.setId(id);
+        	tagDefined.setName(name);
+            this.tagDefinedService.mod(tagDefined);
             result = SUCCESS;
         } else {
             result = LOGIN;

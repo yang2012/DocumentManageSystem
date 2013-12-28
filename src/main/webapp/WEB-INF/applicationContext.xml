@@ -56,7 +56,10 @@
     <bean id="loginAction" class="dmsystem.action.LoginAction" scope="prototype">
         <property name="userService" ref="userService" />
     </bean>
-
+	
+	<bean id="logoutAction" class="dmsystem.action.LogoutAction" scope="prototype">
+    </bean>
+    
     <bean id="userAction" class="dmsystem.action.UserAction" scope="prototype">
         <property name="documentService" ref="documentService" />
         <property name="userService" ref="userService" />
