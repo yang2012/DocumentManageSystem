@@ -24,8 +24,12 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void save(User user) {
-		userDao.addUser(user);
-	}
+        try {
+            userDao.add(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public User authenticate(String username, String password) {
         User u = getUser(username);

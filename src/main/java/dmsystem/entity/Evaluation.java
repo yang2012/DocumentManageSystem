@@ -2,18 +2,13 @@ package dmsystem.entity;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;;
 
@@ -33,6 +28,7 @@ public class Evaluation implements java.io.Serializable {
 	private Integer type;
 	private Integer point;
 	private Boolean published;
+    private Date createTime;
 	private Document document;
 	private User user;
 
@@ -104,8 +100,18 @@ public class Evaluation implements java.io.Serializable {
 	public void setPublished(Boolean published) {
 		this.published = published;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "createTime")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "docId", nullable = false)
 	public Document getDocument() {
 		return document;
@@ -160,4 +166,10 @@ public class Evaluation implements java.io.Serializable {
         }
     }
 
+    @Transient
+    public String getFormatTime() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return df.format(this.createTime);
+    }
 }
