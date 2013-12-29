@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Document;
 import dmsystem.entity.DocumentExtraProperty;
+import dmsystem.entity.DocumentType;
 import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentService;
@@ -28,9 +29,18 @@ public class DocumentUploadAction extends ActionSupport {
     private Document document;
 
     private Integer documentTypeId;
+    private List<DocumentType> documentTypes;
     private List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers;
 
-    public DocumentService getDocumentService() {
+    public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
+	}
+
+	public DocumentService getDocumentService() {
         return documentService;
     }
 
@@ -88,7 +98,7 @@ public class DocumentUploadAction extends ActionSupport {
 
     public String showUpload() {
         user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-
+        documentTypes=this.documentTypeService.getAll();
         return SUCCESS;
     }
 

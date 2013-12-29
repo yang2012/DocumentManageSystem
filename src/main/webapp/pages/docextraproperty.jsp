@@ -4,6 +4,7 @@
   Date: 13-12-25
   Time: PM7:00
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:forEach items="${documentExtraPropertyWrappers}" varStatus="ws" var="documentExtraPropertyWrapper">
     <div class="form-group">
