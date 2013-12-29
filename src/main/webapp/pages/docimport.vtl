@@ -6,7 +6,7 @@
     <!-- Le styles -->
       <link href="../source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
       <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
-      <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
+      <script src="../source/static/jquery-2.0.3.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
     <style type="text/css">
       body {
@@ -23,101 +23,16 @@
     </style>
     <script type="text/javascript">
         function select(s){
-            if(s==1){
-                addition=newAddition();
-                divEditor=editDiv("editor-8","编辑");
-                divISBN=editDiv("isbn-13","ISBN");
-                addition.appendChild(divEditor);
-                addition.appendChild(divISBN);
+        	 $.ajax({
+                type: "GET",
+                url: "../document/getextraproperties",
+                data: {documentTypeId: s}
+            })
+                    .done(function (msg) {
+                        $("#extraproperty").html(msg);
+                    });
             }
-            if(s==2){
-                addition=newAddition();
-                divBookName=editDiv("bookname","图书名");
-                divEditor=editDiv("editor-18","编辑");
-                divISBN=editDiv("isbn-14","ISBN");
-
-                addition.appendChild(divBookName);
-                addition.appendChild(divEditor);
-                addition.appendChild(divISBN);
-
-            }
-            if(s==3){
-                addition=newAddition();
-                divPublication=editDiv("publication-4","出处");
-                divVolume=editDiv("volume","卷");
-                divIssue=editDiv("issue","期");
-                divDOI=editDiv("doi-11","DOI");
-                addition.appendChild(divPublication);
-                addition.appendChild(divVolume);
-                addition.appendChild(divIssue);
-                addition.appendChild(divDOI);
-            }
-            if(s==4){
-                addition=newAddition();
-                divPublication=editDiv("publication-15","出处");
-                divCity=editDiv("city","城市");
-                divDOI=editDiv("doi-12","DOI");
-                addition.appendChild(divPublication);
-                addition.appendChild(divCity);
-                addition.appendChild(divDOI);
-            }
-            if(s==5){
-                addition=newAddition();
-                divschool=editDiv("school","学校");
-                addition.appendChild(divschool);
-            }
-            if(s==6){
-                addition=newAddition();
-            }
-            if(s==7){
-                addition=newAddition();
-            }
-
-            function editDiv(english,chinese){
-                label=createLabel();
-                input=createInput();
-                div1=createDiv1();
-                div=createDiv();
-                label.setAttribute("for",english);
-                label.innerText = chinese + " *";
-                input.setAttribute("name",english);
-                input.setAttribute("placeholder",chinese);
-                div1.appendChild(input);
-                div.appendChild(label);
-                div.appendChild(div1);
-                return div;
-            }
-            function newAddition(){
-                var addition=document.getElementsByClassName("addition")[0];
-                while(addition.hasChildNodes()){
-                    addition.removeChild(addition.firstChild);
-                }//删除所有原有节点
-                addition.setAttribute("class","discription addition show");//设置可见
-                return addition;
-            }
-            function createDiv(){
-                div=document.createElement("div");
-                div.className="form-group";
-                return div;
-            }
-            function createDiv1(){
-                div1=document.createElement("div");
-                div1.className="col-sm-10";
-                return div1;
-            }
-            function createLabel(){
-                label=document.createElement("label");
-                label.className="col-sm-2 control-label";
-                return label;
-            }
-            function createInput(){
-                input=document.createElement("input");
-                input.setAttribute("type","text");
-                input.setAttribute("class","form-control");
-                return input;
-            }
-        }
-    </script>
+            </script>
 
   </head>
     <body>
@@ -266,63 +181,63 @@
               <div class="form-group discription">
                 <label for="title" class="col-sm-2 control-label">标题 *</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="title" placeholder="标题...">
+                    <input type="text" class="form-control" name="document.title" placeholder="标题...">
                 </div>
               </div>
             
               <div class="form-group discription">
                 <label for="author" class="col-sm-2 control-label">作者 *</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="author" placeholder="作者...">
+                    <input type="text" class="form-control" name="document.author" placeholder="作者...">
                 </div>
               </div>
                   
               <div class="form-group discription">
                 <label for="year" class="col-sm-2 control-label">出版年份 *</label>
                 <div class="col-sm-10">
-                   <input type="text" class="form-control" name="year" placeholder="出版年份...">
+                   <input type="text" class="form-control" name="document.year" placeholder="出版年份...">
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="pages" class="col-sm-2 control-label">页码 *</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" name="pages" placeholder="页码...">
+                  <input type="text" class="form-control" name="document.pages" placeholder="页码...">
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="abstracts" class="col-sm-2 control-label">摘要 *</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" name="abstracts" rows="3" placeholder="摘要..."></textarea>
+                    <textarea class="form-control" name="document.abstracts" rows="3" placeholder="摘要..."></textarea>
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="keywords" class="col-sm-2 control-label">关键字 *</label>
                 <div class="col-sm-10">
-                   <textarea class="form-control" name="keywords" rows="3" placeholder="关键字..."></textarea>
+                   <textarea class="form-control" name="document.keywords" rows="3" placeholder="关键字..."></textarea>
                 </div>
               </div>
      
               <div class="form-group discription">
                  <label for="publisher" class="col-sm-2 control-label">出版社 *</label>
                  <div class="col-sm-10">
-                   <input type="text" class="form-control" name="publisher" placeholder="出版社...">
+                   <input type="text" class="form-control" name="document.publisher" placeholder="出版社...">
                  </div>
               </div>
        
               <div class="form-group discription">
                 <label for="url" class="col-sm-2 control-label">在线的网址 *</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="url" placeholder="在线的网址...">
+                    <input type="text" class="form-control" name="document.url" placeholder="在线的网址...">
                 </div>
               </div>
             
               <div class="form-group discription">
                 <label for="type" class="col-sm-2 control-label">文献类型 *</label>
                 <div class="col-sm-10">
-                  <select name="documentType"class="form-control" onchange="select(this.options[this.options.selectedIndex].value)">
+                  <select name="documentTypeId"class="form-control" onchange="select(this.options[this.options.selectedIndex].value)">
 							      <option>请选择文献类型...</option>
                     <option value="1">图书</option>
                     <option value="2">图书章节</option>
@@ -335,7 +250,7 @@
                 </div>
               </div>
 
-              <div class="discription addition"></div>
+              <div class="discription addition" id="extraproperty"></div>
               
               <div class="row">
                 <div class="col-xs-5"></div>
