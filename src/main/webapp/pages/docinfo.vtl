@@ -9,6 +9,8 @@
     <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
     <script src="../source/static/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../source/static/jRating.jquery.css" media="screen" />
+    <script type="text/javascript" src="../source/static/jRating.jquery.js"></script>
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -17,62 +19,6 @@
 
         .bread-nav {
             font-size: 20px;
-        }
-
-        .rating {
-            float: right;
-        }
-
-        /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
-           follow these rules. Every browser that supports :checked also supports :not(), so
-           it doesn’t make the test unnecessarily selective */
-        .rating:not(:checked) > input {
-            position: absolute;
-            top: 100%;
-            clip: rect(0, 0, 0, 0);
-        }
-
-        .rating:not(:checked) > label {
-            float: right;
-            width: 1em;
-            padding: 0 .1em;
-            overflow: hidden;
-            white-space: nowrap;
-            cursor: pointer;
-            font-size: 200%;
-            line-height: 1.2;
-            color: #ddd;
-            text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0, 0, 0, .5);
-        }
-
-        .rating:not(:checked) > label:before {
-            content: '★ ';
-        }
-
-        .rating > input:checked ~ label {
-            color: #f70;
-            text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0, 0, 0, .5);
-        }
-
-        .rating:not(:checked) > label:hover,
-        .rating:not(:checked) > label:hover ~ label {
-            color: gold;
-            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
-        }
-
-        .rating > input:checked + label:hover,
-        .rating > input:checked + label:hover ~ label,
-        .rating > input:checked ~ label:hover,
-        .rating > input:checked ~ label:hover ~ label,
-        .rating > label:hover ~ input:checked ~ label {
-            color: #ea0;
-            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
-        }
-
-        .rating > label:active {
-            position: relative;
-            top: 2px;
-            left: 2px;
         }
     </style>
 
@@ -313,22 +259,9 @@
             <button class="btn" id="extendEvaluationButton">简要评价</button>
             <form method="POST" id="evaluationForm" role="form">
                 <input name="evalulationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
-                <input name="evaluation.type" value="${(draftEvaluation.type)!''}" hidden="hidden" id="evalType"/>
-                <div class="rating" onclick="window.location='#evalContainer';">
-                    <input type="radio" id="star5" name="evaluation.point" value="5"/><label for="star5" title="Rocks!">5
-                    stars</label>
-                    <input type="radio" id="star4" name="evaluation.point" value="4"/><label for="star4"
-                                                                                             title="Pretty good">4
-                    stars</label>
-                    <input type="radio" id="star3" name="evaluation.point" value="3"/><label for="star3" title="Meh">3
-                    stars</label>
-                    <input type="radio" id="star2" name="evaluation.point" value="2"/><label for="star2"
-                                                                                             title="Kinda bad">2
-                    stars</label>
-                    <input type="radio" id="star1" name="evaluation.point" value="1"/><label for="star1"
-                                                                                             title="Sucks big time">1
-                    star</label>
-                </div>
+                <input name="evaluation.type" value="${(draftEvaluation.type)!0}" hidden="hidden" id="evalType"/>
+                <div class="basic" data-average="0" style="margin-bottom:10px; float:right;"></div>
+                <input name="evaluation.point" hidden="hidden" id="evalPoint" />
                 <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
                 <br/>
                 <div id="detailEvalContainer">
@@ -369,6 +302,7 @@
             var detailEvalContainer = $("#detailEvalContainer");
             var commentContainer = $("#commentContainer");
             var evaluationForm = $("#evaluationForm");
+            var evaluationPointInput = $("#evalPoint");
 
             $("#saveDraftButton").click(function(e) {
                 var postData = getFormData(evaluationForm);
@@ -430,6 +364,22 @@
                             }
                         });
                 e.preventDefault(); //STOP default action
+            });
+
+            $(document).ready(function(){
+                  $(".basic").jRating({
+                     bigStarsPath : "../source/static/icons/stars.png",
+                     canRateAgain : true,
+	                 nbRates : 10,
+	                 length : 5,
+	                 step:true,
+	                 sendRequest : false,
+	                 showRateInfo:false,
+	                 rateMax: 5,
+                     onClick : function(element,rate) {
+                       evaluationPointInput.attr("value", rate);
+                     }
+                   });
             });
 
             function getFormData($form){
