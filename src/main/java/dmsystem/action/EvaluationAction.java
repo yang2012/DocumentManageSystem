@@ -10,9 +10,7 @@ import dmsystem.util.Constants;
 import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by justinyang on 13-12-26.
@@ -33,6 +31,14 @@ public class EvaluationAction extends ActionSupport {
         this.evaluationService = evaluationService;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setDocumentId(Integer documentId) {
         this.documentId = documentId;
     }
@@ -43,6 +49,10 @@ public class EvaluationAction extends ActionSupport {
 
     public void setEvaluation(Evaluation evaluation) {
         this.evaluation = evaluation;
+    }
+
+    public Evaluation getEvaluation() {
+        return evaluation;
     }
 
     public void setEvaluationExtraPropertyWrappers(List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
@@ -60,7 +70,7 @@ public class EvaluationAction extends ActionSupport {
         // Persistent evaluation
         this._saveEvaluation();
 
-        if (evaluation != null) {
+        if (this.evaluation != null) {
             return SUCCESS;
         } else {
             return ERROR;

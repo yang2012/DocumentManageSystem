@@ -1,7 +1,9 @@
 package dmsystem.util;
 
+import java.util.Date;
 import java.util.List;
 
+import dmsystem.entity.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.*;
@@ -37,8 +39,12 @@ public class HibernateUtil {
 	        session.getTransaction().rollback();
 			log.error("persist failed", he);
 			throw he;
-	    }
-	}
+	    } finally {
+            if (session != null) {
+                session.flush();
+            }
+        }
+    }
 	
 	@SuppressWarnings("rawtypes")
 	public void persist(List transientInstances) throws Exception {
@@ -56,7 +62,11 @@ public class HibernateUtil {
 	        session.getTransaction().rollback();
 			log.error("persist failed", he);
 			throw he;
-	    }
+	    } finally {
+            if (session != null) {
+                session.flush();
+            }
+        }
 	}
 
 	public void remove(Object persistentInstance) throws Exception {
@@ -71,7 +81,11 @@ public class HibernateUtil {
             session.getTransaction().rollback();
 			log.error("remove failed", re);
 			throw re;
-		}
+		} finally {
+            if (session != null) {
+                session.flush();
+            }
+        }
 	}
 
 	public void update(Object detachedInstance) throws Exception {
@@ -86,7 +100,11 @@ public class HibernateUtil {
             session.getTransaction().rollback();
 			log.error("merge failed", re);
 			throw re;
-		}
+		} finally {
+            if (session != null) {
+                session.flush();
+            }
+        }
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -109,19 +127,23 @@ public class HibernateUtil {
 		log.debug("getting all instance");
 		Session session = sessionFactory.getCurrentSession();
 		try {
-            Criteria criteria = session.createCriteria(objectClass);
-            Order order = null;
-            if (asc) {
-                criteria.addOrder(Order.asc(orderByProperty));
-            } else {
-                criteria.addOrder(Order.desc(orderByProperty));
+            String sql = "from " + objectClass.getName();
+            if (orderByProperty != null) {
+                sql += " order by " + orderByProperty;
+                if (asc) {
+                    sql += " asc";
+                } else {
+                    sql += " desc";
+                }
             }
-			List instance = criteria.list();
+			List instance = session.createQuery(sql).list();
 			log.debug("get successful");
+
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
 		}
 	}
+
 }

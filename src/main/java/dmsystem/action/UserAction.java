@@ -52,6 +52,15 @@ public class UserAction extends ActionSupport {
 		result = SUCCESS;
 		return result;
 	}
+	
+	public String showPassword(){
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		return SUCCESS;
+	}
 
 	public User getUser() {
 		return user;

@@ -2,9 +2,7 @@ package dmsystem.entity;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -244,7 +243,7 @@ public class Document implements java.io.Serializable {
 		this.refereeRelations = refereeRelations;
 	}
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "document")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     public Set<Evaluation> getEvaluations() {
         return this.evaluations;
     }
@@ -253,6 +252,23 @@ public class Document implements java.io.Serializable {
         this.evaluations = evaluations;
     }
 
+    @Transient
+    public List<Evaluation> getPublishedEvaluations() {
+        List<Evaluation> publishedEvaluations = new ArrayList<Evaluation>();
+        for (Evaluation evaluation : this.evaluations) {
+            if (evaluation.getPublished()) {
+                publishedEvaluations.add(evaluation);
+            }
+        }
+
+        Collections.sort(publishedEvaluations, new Comparator<Evaluation>() {
+            @Override
+            public int compare(Evaluation o1, Evaluation o2) {
+                return o1.getCreateTime().compareTo(o2.getCreateTime());
+            }
+        });
+        return publishedEvaluations;
+    }
 
     public void updateInfo(Document document) {
         String title = document.getTitle();

@@ -6,6 +6,8 @@ import dmsystem.dao.EvaluationExtraPropertyDao;
 import dmsystem.dao.EvaluationWithExtraPropertyDao;
 import dmsystem.entity.*;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +53,7 @@ public class EvaluationServiceImpl implements EvaluationService {
             persistentEvaluation = new Evaluation();
             // Basis information
             persistentEvaluation.updateBaseInfo(transientEvaluation);
+            persistentEvaluation.setCreateTime(new Date());
             // Build up relationship
             persistentEvaluation.setDocument(document);
             persistentEvaluation.setUser(user);
@@ -107,12 +110,20 @@ public class EvaluationServiceImpl implements EvaluationService {
             return;
         }
         for (EvaluationExtraPropertyWrapper evaluationExtraPropertyWrapper : evaluationExtraPropertyWrappers) {
+            String extraPropertyValue = evaluationExtraPropertyWrapper.getExtraPropertyValue();
+            // check whether the value is valid
+            if (extraPropertyValue == null || extraPropertyValue.isEmpty()) {
+                continue;
+            }
+
             EvaluationExtraProperty extraProperty = this.evaluationExtraPropertyDao.findById(evaluationExtraPropertyWrapper.getExtraPropertyId());
             EvaluationWithExtraProperty evaluationWithExtraProperty = new EvaluationWithExtraProperty();
 
             evaluationWithExtraProperty.setEvaluation(evaluation);
             evaluationWithExtraProperty.setEvaluationExtraProperty(extraProperty);
-            evaluationWithExtraProperty.setPropertyValue(evaluationExtraPropertyWrapper.getExtraPropertyValue());
+
+            evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
+
             this.evaluationWithExtraPropertyDao.add(evaluationWithExtraProperty);
         }
     }

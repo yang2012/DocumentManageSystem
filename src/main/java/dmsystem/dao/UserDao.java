@@ -41,16 +41,8 @@ public class UserDao {
 		}
 	}
 
-	public void addUser(User user) {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.save(user);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+	public void add(User user) throws Exception {
+		hibernateUtil.persist(user);
 	}
 
 	public void add(Map<String, String> values) throws Exception {
@@ -60,46 +52,15 @@ public class UserDao {
 	}
 
 	public void remove(User persistentInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(persistentInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+		hibernateUtil.remove(persistentInstance);
 	}
 
 	public void update(User detachedInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.update(detachedInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+		hibernateUtil.update(detachedInstance);
 	}
 
 	public User findById(int id) throws Exception {
 		return (User) hibernateUtil.findById(User.class, id);
-	}
-
-	public User findByUsername(String username) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-
-		session.beginTransaction();
-		Query query = session
-				.createQuery("from User user where user.username=?");
-		Object dbResult = query.setString(0, username).uniqueResult();
-
-		if (dbResult != null) {
-			return (User) dbResult;
-		} else {
-			return null;
-		}
 	}
 
 	@SuppressWarnings("unchecked")

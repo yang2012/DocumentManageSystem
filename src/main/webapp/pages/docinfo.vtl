@@ -1,27 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>文献管理系统</title>
     <!-- Le styles -->
-      <link href="../source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
-      <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
-      <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
-      <script src="../source/static/bootstrap/js/bootstrap.js"></script>
+    <link href="../source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
+    <script src="../source/static/bootstrap/js/bootstrap.js"></script>
+    <script src="../source/static/jquery-2.0.3.min.js"></script>
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .bread-nav{
-        font-size: 20px;
-      }
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+
+        .bread-nav {
+            font-size: 20px;
+        }
+
+        .rating {
+            float: right;
+        }
+
+        /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+           follow these rules. Every browser that supports :checked also supports :not(), so
+           it doesn’t make the test unnecessarily selective */
+        .rating:not(:checked) > input {
+            position: absolute;
+            top: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        .rating:not(:checked) > label {
+            float: right;
+            width: 1em;
+            padding: 0 .1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 200%;
+            line-height: 1.2;
+            color: #ddd;
+            text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0, 0, 0, .5);
+        }
+
+        .rating:not(:checked) > label:before {
+            content: '★ ';
+        }
+
+        .rating > input:checked ~ label {
+            color: #f70;
+            text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0, 0, 0, .5);
+        }
+
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: gold;
+            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
+        }
+
+        .rating > input:checked + label:hover,
+        .rating > input:checked + label:hover ~ label,
+        .rating > input:checked ~ label:hover,
+        .rating > input:checked ~ label:hover ~ label,
+        .rating > label:hover ~ input:checked ~ label {
+            color: #ea0;
+            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
+        }
+
+        .rating > label:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
+        }
     </style>
 
-  </head>
-    <body>
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -29,12 +87,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/user/normal/index"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统</a>
+          <a class="navbar-brand" href="../account/getAllDocuments"><span class="glyphicon glyphicon-home"></span>&nbsp;文献管理系统</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/user/normal/index"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
-            <li><a href="/doc/normal/addDoc"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
+            <li><a href="../account/getAllDocuments"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
+            <li><a href="../document/showupload"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
             <li><a href=""><span class="glyphicon glyphicon-stats"></span>&nbsp;工作记录统计</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -42,17 +100,15 @@
               <a><span class="glyphicon glyphicon-user"></span>&nbsp;${user.name}</a>
             </li>
             <li>
-              <a href="/"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
+              <a href="../account/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
             </li>
             <li>
-              <a href="/user/normal/updateInfo/${user.id}"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
+              <a href="../account/showPassword"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
             </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
       </div>
-
-
       <div class="container">
         <div class="row">
           <br/>
@@ -61,13 +117,11 @@
               <img class="pull-left" src="../source/image/logo.jpg" /></div>
             <div class="col-xs-8">
 
-            <form class="well form-search"><br/>
+            <form class="well form-search" action="../simpledocsearch/getdoclist"><br/>
               <div class="input-group"><input type="text" class="form-control" name="keywords">
                 <span class="input-group-btn">
-                 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;<strong>搜索文章</strong></button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <!-- Button trigger modal -->
-                  <button class="btn btn-info" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;<strong>展开高级搜索</strong></button>
+                  <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;<strong>搜索文章</strong>
+                  </button>
                 </span>
                 </div><!-- /input-group --> 
             </form>
@@ -82,7 +136,7 @@
                         </div>
                         
                         <div class="modal-body">
-                            <form class="form-horizontal" role="form" method="POST" action="/doc/normal/addAttachment/${document.id}">
+                            <form class="form-horizontal" role="form" method="POST">
                                 <div class="form-group">
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">
@@ -152,7 +206,10 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             </div>
-        </div>
+            <!-- /input-group -->
+        </form>
+    </div>
+</div>
 
         <div class="row">
 		      <div class="col-xs-1"></div>
@@ -160,17 +217,17 @@
             <br/>
             <div class="bread-nav">
               <ol class="breadcrumb">
-                <li><a href="/user/normal/index"><b>文献列表</b></a></li>
+                <li><a href="../account/getAllDocuments"><b>文献列表</b></a></li>
                 <li class="active">当前文章</li>
-              </ol>
-            </div>
+            </ol>
+        </div>
 
             <h4>
               <div class="col-xs-7">
               <span class="label label-info">标题：</span><br/><br/>
               <i>${document.title}</i></div>
               <div class="col-xs-5 pull-right">
-              <a href="/document/showmodification?docId=${document.id}" class="btn btn-primary active"><span class="glyphicon glyphicon-edit"></span>&nbsp;
+              <a href="../document/showmodification?docId=${document.id}" class="btn btn-primary active"><span class="glyphicon glyphicon-edit"></span>&nbsp;
               编辑
               </a>
               &nbsp;&nbsp;
@@ -182,235 +239,247 @@
               上传附件
               </button>
             </div>
-            </h4>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary"><span class="glyphicon glyphicon-tag">&nbsp;标签</span></span></h4>
-                <div class="well">
-                  
-                  <#list document.tags as tag>
+        </h4>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary"><span class="glyphicon glyphicon-tag">&nbsp;标签</span></span></h4>
+
+            <div class="well">
+
+                <#list document.tags as tag>
                     <span class="label label-success">${tag.name}</span>
-                  </#list>
+                </#list>
 
-              </div>
             </div>
+        </div>
 
-            <div class="col-xs-12 well">
+        <div class="col-xs-12 well">
             <h4><span class="label label-primary">作者</span></h4>
-              <P class="col-xs-12 well"><strong>${document.author}</strong></P>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">文献类型</span></h4>
-              <p class="col-xs-12 well">${document.documentType.name}</p>
-            </div>
-              
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">摘要</span></h4>
-              <p class="col-xs-12 well">${document.abstracts}</P>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">关键字</span></h4>
-              <p class="col-xs-12 well">${document.keywords}</p>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">页码</span></h4>
-              <P class="col-xs-12 well">${document.pages}</p>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">出版社</span></h4>
-              <p class="col-xs-12 well">${document.publisher}</p>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">在线的网址</span></h4>
-              <p class="col-xs-12 well"><a href=${document.url}>${document.url}</a></p>
-            </div>
-            <div class="col-xs-12 well">
-              <h4><span class="label label-primary">文献引用</span></h4>
-              <p class="col-xs-12 well">引用</p>
-            </div>
+
+            <P class="col-xs-12 well"><strong>${document.author}</strong></P>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">文献类型</span></h4>
+
+            <p class="col-xs-12 well">${document.documentType.name}</p>
+        </div>
+
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">摘要</span></h4>
+
+            <p class="col-xs-12 well">${document.abstracts}</P>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">关键字</span></h4>
+
+            <p class="col-xs-12 well">${document.keywords}</p>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">页码</span></h4>
+
+            <P class="col-xs-12 well">${document.pages}</p>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">出版社</span></h4>
+
+            <p class="col-xs-12 well">${document.publisher}</p>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">在线的网址</span></h4>
+
+            <p class="col-xs-12 well"><a href=${document.url}>${document.url}</a></p>
+        </div>
+        <div class="col-xs-12 well">
+            <h4><span class="label label-primary">文献引用</span></h4>
+
+            <p class="col-xs-12 well">引用</p>
+        </div>
 
         <div class="row">
-          <div class="col-xs-12">
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading" style="background:#0174DF;">
-                  <h4 class="panel-title">
-                  <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseComment">
-                      评论&nbsp;&nbsp;<span class="badge">2</span>
-                    </a>
-                  </h4>
+            <div class="col-xs-12">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background:#0174DF;">
+                            <h3 class="panel-title">评论</h3>
+                        </div>
+                    </div>
                 </div>
-              
-                <div id="collapseComment" class="panel-collapse collapse out">
-                  <div class="panel-body">
+            </div>
+        </div>
+        <div class="col-xs-12 well" id="evalContainer">
+            <button class="btn" id="extendEvaluationButton">简要评价</button>
+            <form method="POST" action="/evaluation/commiteval" id="evaluationForm" role="form">
+                <input name="evaluation.type" value="0" hidden="hidden" id="evalType"/>
+                <div class="rating" onclick="window.location='#evalContainer';">
+                    <input type="radio" id="star5" name="evaluation.point" value="5"/><label for="star5" title="Rocks!">5
+                    stars</label>
+                    <input type="radio" id="star4" name="evaluation.point" value="4"/><label for="star4"
+                                                                                             title="Pretty good">4
+                    stars</label>
+                    <input type="radio" id="star3" name="evaluation.point" value="3"/><label for="star3" title="Meh">3
+                    stars</label>
+                    <input type="radio" id="star2" name="evaluation.point" value="2"/><label for="star2"
+                                                                                             title="Kinda bad">2
+                    stars</label>
+                    <input type="radio" id="star1" name="evaluation.point" value="1"/><label for="star1"
+                                                                                             title="Sucks big time">1
+                    star</label>
+                </div>
+                <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容..."></textarea>
+                <br/>
+                <div id="detailEvalContainer" hidden="hidden">
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-default">保存为草稿</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary">发布评论</button>
+                </div>
+            </form>
+            <br/>
+        </div>
+        <div>
+            <div class="panel-body" id="commentContainer">
 
-                   <#list document.evaluations as evaluation>
-                    
-                    <#if evaluation.published>
+                <#list document.publishedEvaluations as evaluation>
 
                     <div class="well">
-                      <p>2013-12-18-14:23</p>
-                      <strong>${evaluation.user.name}&nbsp;</strong>说：
-                      <p>${evaluation.content}</P>
+                        <p>2013-12-18-14:23</p>
+                        <strong>${evaluation.user.name}&nbsp;</strong>说：
+                        <p>${evaluation.content}</P>
                     </div>
-                    </#if>
 
-                  </#list>
-                    
-                  </div>
-                </div>
-              </div>
+                </#list>
+
             </div>
-          </div>
         </div>
+        <script>
+            var evalTypeElement = $("#evalType");
+            var detailEvalContainer = $("#detailEvalContainer");
+            var commentContainer = $("#commentContainer");
 
-        <div class="col-xs-11">
-          <br/>
-          <textarea class="form-control" name="briefComment" rows="3" placeholder="请输入评论内容..."></textarea>
-          <br/>
-          <div class="pull-right">
-            <button type="submit" class="btn btn-default">保存为草稿</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn btn-primary">发布评论</button>
-          </div>
-        </div>
+            $("#extendEvaluationButton").click(function () {
+                var type = evalTypeElement.attr("value") == 0 ? 1 : 0;
+                $("#detailEvalContainer").slideToggle("normal", function () {
+                    evalTypeElement.attr("value", type);
+                });
 
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading" style="background:#0174DF;">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseDetail">
-                      对文章进行详细评论...
-                    </a>
-                  </h4>
-                </div>
-              
-                <div id="collapseDetail" class="panel-collapse collapse out">
-                  <div class="panel-body">
-                    <form class="form-horizontal" role="form">
-                      <div class="form-group">
-                      <label for="title" class="col-sm-2 control-label">解决的问题</label>
-                      <div class="col-sm-9">
-                      <textarea class="form-control" name="problem" rows="3" placeholder="文章解决的问题..."></textarea>
-                      </div>
-                  </div>
-            
-                  <div class="form-group">
-                    <label for="author" class="col-sm-2 control-label">主要思路</label>
-                    <div class="col-sm-9">
-                    <textarea class="form-control" name="idea" rows="3" placeholder="主要的思路..."></textarea>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="publishyear" class="col-sm-2 control-label">实验结果</label>
-                    <div class="col-sm-9">
-                    <textarea class="form-control" name="experiment" rows="3" placeholder="实验取得的结果..."></textarea>
-                    </div>
-                  </div>
-              
-                  <div class="form-group">
-                    <label for="page" class="col-sm-2 control-label">贡献</label>
-                    <div class="col-sm-9">
-                    <textarea class="form-control" name="contribution" rows="3" placeholder="作出的贡献..."></textarea>
-                    </div>
-                  </div>
-              
-                  <div class="form-group">
-                    <label for="abstract" class="col-sm-2 control-label">改进</label>
-                    <div class="col-sm-9">
-                    <textarea class="form-control" name="improvement" rows="3" placeholder="可以进一步改进的地方..."></textarea>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-8"></div>
-                  <div class=" col-xs-4 pull-right">
-                    <button type="button" class="btn btn-default">保存为草稿</button>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-primary">发布评论</button>
-                  </div>
-                </div>
-                </form>
-                  
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                var text = $(this).text();
+                $(this).text(text == "详细评价" ? "简要评价" : "详细评价");
+            });
 
-      </div>
+            $.ajax({
+                type: "GET",
+                url: "/evaluation/getdetailevalform",
+                data: {documentId: ${document.id}}
+            })
+                    .done(function (msg) {
+                        $("#detailEvalContainer").html(msg);
+                    });
+
+            $("#evaluationForm").submit(function (e) {
+                var postData = getFormData($(this));
+                var formURL = $(this).attr("action");
+                $.ajax(
+                        {
+                            url: formURL,
+                            type: "POST",
+                            data: postData,
+                            success: function (data, textStatus, jqXHR) {
+                                $(data).prependTo(commentContainer).show("normal");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert("Fail");
+                            }
+                        });
+                e.preventDefault(); //STOP default action
+            });
+
+            function getFormData($form){
+                var unindexed_array = $form.serializeArray();
+                var indexed_array = {};
+
+                $.map(unindexed_array, function(n, i){
+                    indexed_array[n['name']] = n['value'];
+                });
+
+                return indexed_array;
+            }
+        </script>
     </div>
-        <footer>
-          <a class="pull-right" href="#"><span class="glyphicon glyphicon-arrow-up"></span>返回顶部</a>
-        </footer>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
+</div>
+<footer>
+    <a class="pull-right" href="#"><span class="glyphicon glyphicon-arrow-up"></span>返回顶部</a>
+</footer>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">选择附件上传</h4>
-              </div>
-              
-              <div class="modal-body">
+            </div>
 
-                <form class="form-horizontal" role="form" method="POST" action="/doc/normal/addAttachment/${document.id}" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="document" class="col-sm-2 control-label">论文*</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="document">
-                    </div>
-                  </div>
-  
-                  <div class="form-group">
-                    <label for="ppt" class="col-sm-2 control-label">幻灯片</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="ppt">
-                    </div>
-                  </div>
+            <div class="modal-body">
 
-                  <div class="form-group">
-                    <label for="poster" class="col-sm-2 control-label">海报</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="poster">
-                    </div>
-                  </div>
+                <form class="form-horizontal" role="form" method="POST"
+                      action="/doc/normal/addAttachment/${document.id}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="document" class="col-sm-2 control-label">论文*</label>
 
-                  <div class="form-group">
-                    <label for="presentation" class="col-sm-2 control-label">演示</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="presentation">
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="document">
+                        </div>
                     </div>
-                  </div>
-  
-                  <div class="form-group">
-                    <label for="other" class="col-sm-2 control-label">补充</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="other">
-                    </div>
-                  </div>
-  
-                  <div class="form-group">
-                    <label for="code" class="col-sm-2 control-label">代码</label>
-                    <div class="col-sm-8">
-                      <input type="file" class="form-control" name="code">
-                    </div>
-                  </div>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" class="btn btn-primary">上传</button>
-              </div>
+                    <div class="form-group">
+                        <label for="ppt" class="col-sm-2 control-label">幻灯片</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="ppt">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="poster" class="col-sm-2 control-label">海报</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="poster">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="presentation" class="col-sm-2 control-label">演示</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="presentation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="other" class="col-sm-2 control-label">补充</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="other">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code" class="col-sm-2 control-label">代码</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="code">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">上传</button>
+                    </div>
 
                 </form>
 
-              </div>
             </div>
-          </div>
-        
-        
-
-  </body>
+        </div>
+    </div>
+</body>
 </html>

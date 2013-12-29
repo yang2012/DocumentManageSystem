@@ -25,5 +25,9 @@
         <action name="getAllDocuments" method="getAllDocuments" class="userAction">
         	<result name="success" type="freemarker">/pages/doclist.vtl</result>
         </action>
+        
+        <action name="showPassword" method="showPassword" class="userAction">
+        	<result name="success" type="freemarker">/pages/modifypwd.vtl</result>
+        </action>
     </package>
 </struts>

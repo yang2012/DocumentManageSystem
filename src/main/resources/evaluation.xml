@@ -7,7 +7,7 @@
     <package name="evaluation" extends="default">
 
         <action name="commiteval" class="evaluationAction" method="commitEvaluation">
-            <result name="success" />
+            <result name="success">/pages/commentTemplate.jsp</result>
         </action>
 
         <action name="savedraft" class="evaluationAction" method="saveEvaluationDraft">
