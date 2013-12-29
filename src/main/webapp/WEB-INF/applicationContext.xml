@@ -136,7 +136,8 @@
     </bean>
 
     <bean id="attachmentService" class="dmsystem.service.AttachmentServiceImpl">
-
+        <property name="attachmentDao" ref="attachmentDao" />
+        <property name="documentDao" ref="documentDao" />
     </bean>
     
     <bean id="commentConfService" class="dmsystem.service.CommentConfServiceImpl">
@@ -223,5 +224,6 @@
     </bean>
 
     <bean id="attachmentDao" class="dmsystem.dao.AttachmentDao">
+        <property name="hibernateUtil" ref="hibernateUtil" />
     </bean>
 </beans>

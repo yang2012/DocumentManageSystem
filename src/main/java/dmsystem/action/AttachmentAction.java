@@ -1,6 +1,7 @@
 package dmsystem.action;
 
 import com.opensymphony.xwork2.ActionSupport;
+import dmsystem.entity.Attachment;
 import dmsystem.service.AttachmentService;
 import dmsystem.util.FileUtility;
 
@@ -15,20 +16,23 @@ public class AttachmentAction extends ActionSupport {
 
     private static final int BUFFER_SIZE = 16 * 1024;
 
-    private String title;
-
+    // Form input
+    private Integer documentId;
     private File upload;
+    private String attachmentType;
 
+
+    // Auto fill
     private String uploadFileName;
-
     private String uploadContentType;
 
-    public String getTitle() {
-        return title;
+    // Setter and Getter
+    public Integer getDocumentId() {
+        return documentId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDocumentId(Integer documentId) {
+        this.documentId = documentId;
     }
 
     public File getUpload() {
@@ -37,6 +41,14 @@ public class AttachmentAction extends ActionSupport {
 
     public void setUpload(File upload) {
         this.upload = upload;
+    }
+
+    public String getAttachmentType() {
+        return attachmentType;
+    }
+
+    public void setAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType;
     }
 
     public String getUploadFileName() {
@@ -59,12 +71,20 @@ public class AttachmentAction extends ActionSupport {
         this.attachmentService = attachmentService;
     }
 
-    private static void _copy(File src, File dst) {
+    private void _saveFile() throws Exception {
+        String directory = FileUtility.getFileDirectory();
+        String filePath = directory + File.separator + this.uploadFileName;
+        File dstFile = new File(filePath);
+        File parentFile = dstFile.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
+
         InputStream in = null;
         OutputStream out = null;
         try {
-            in = new BufferedInputStream(new FileInputStream(src), BUFFER_SIZE);
-            out = new BufferedOutputStream(new FileOutputStream(dst),
+            in = new BufferedInputStream(new FileInputStream(this.upload), BUFFER_SIZE);
+            out = new BufferedOutputStream(new FileOutputStream(dstFile),
                     BUFFER_SIZE);
             byte[] buffer = new byte[BUFFER_SIZE];
             int len = 0;
@@ -73,6 +93,8 @@ public class AttachmentAction extends ActionSupport {
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            throw e;
         } finally {
             if (null != in) {
                 try {
@@ -96,16 +118,20 @@ public class AttachmentAction extends ActionSupport {
     }
 
     public String upload() {
-        String directory = FileUtility.getFileDirectory();
-        String filePath = directory + File.separator + this.uploadFileName;
-        File dstFile = new File(filePath);
-        File parentFile = dstFile.getParentFile();
-        if (!parentFile.exists()) {
-            parentFile.mkdirs();
-        }
+        try {
+            this._saveFile();
 
-        this._copy(this.upload, dstFile);
-        return SUCCESS;
+            Attachment newAttachment = new Attachment();
+            newAttachment.setName(this.uploadFileName);
+            newAttachment.setAttachmentType(this.attachmentType);
+            newAttachment.setUrl(FileUtility.getFileUrl(this.uploadFileName));
+
+            this.attachmentService.upload(this.documentId, newAttachment);
+            return SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
     }
 
     public String delete() {

@@ -27,6 +27,7 @@ public class Attachment implements java.io.Serializable {
 	private int id;
 	private String name;
 	private String url;
+    private String attachmentType;
 	private Document document;
 
 	public Attachment() {
@@ -72,8 +73,17 @@ public class Attachment implements java.io.Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+    @Column(name = "attachmentType", length = 50)
+    public String getAttachmentType() {
+        return attachmentType;
+    }
+
+    public void setAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "docId", nullable = false)
 	public Document getDocument() {
 		return document;
@@ -83,4 +93,24 @@ public class Attachment implements java.io.Serializable {
 		this.document = document;
 	}
 
+    public void updateBasicInfo(Attachment attachment) {
+        if (attachment == null) {
+            return;
+        }
+
+        String name = attachment.getName();
+        if (name != null && !name.equals(this.name)) {
+            this.name = name;
+        }
+
+        String url = attachment.getUrl();
+        if (url != null && !url.equals(this.url)) {
+            this.url = url;
+        }
+
+        String attachmentType = attachment.getAttachmentType();
+        if (attachmentType != null && !attachmentType.equals(this.attachmentType)) {
+            this.attachmentType = attachmentType;
+        }
+    }
 }
