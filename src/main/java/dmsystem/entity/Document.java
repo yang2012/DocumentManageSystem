@@ -188,7 +188,7 @@ public class Document implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId", nullable = false)
+	@JoinColumn(name = "userId", nullable = false,updatable=false)
 	public User getUser() {
 		return user;
 	}
@@ -262,7 +262,6 @@ public class Document implements java.io.Serializable {
         }
 
         Collections.sort(publishedEvaluations, new Comparator<Evaluation>() {
-            @Override
             public int compare(Evaluation o1, Evaluation o2) {
                 return o1.getCreateTime().compareTo(o2.getCreateTime());
             }
@@ -271,6 +270,10 @@ public class Document implements java.io.Serializable {
     }
 
     public void updateInfo(Document document) {
+    	Integer id=document.getId();
+    	if(id!=null&&!id.equals(this.id)){
+    		this.id=id;
+    	}
         String title = document.getTitle();
         if (title != null && !title.equals(this.title)) {
             this.title = title;

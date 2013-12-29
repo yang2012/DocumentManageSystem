@@ -89,20 +89,19 @@ public class DocumentServiceImpl implements DocumentService {
     public Document update(Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
-        if (documentTypeId == 0 || transientDocument == null) {
+        if (documentTypeId == null || transientDocument == null) {
             return persistentDocument;
         }
 
         try {
             DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
-
-            persistentDocument = new Document();
-            persistentDocument.updateInfo(transientDocument);
-
-            this.documentDao.update(persistentDocument);
+//            Document document=this.documentDao.findById(transientDocument.getId());
+            transientDocument.setDocumentType(documentType);
+//            transientDocument.setUser(document.getUser());
+            this.documentDao.update(transientDocument);
 
             // update extra properties
-            this._refreshExtraProperties(persistentDocument, documentExtraPropertyWrappers);
+            this._refreshExtraProperties(transientDocument, documentExtraPropertyWrappers);
 
         } catch (Exception e) {
             e.printStackTrace();

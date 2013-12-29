@@ -41,7 +41,7 @@
         	
         }
         window.onload=function init(){
-        	$("select[name=documentType]").val("${document.documentType.id}");
+        	$("select[name=documentTypeId]").val("${document.documentType.id}");
         	choose(${document.documentType.id});
         }
     </script>
@@ -200,7 +200,7 @@
             <form class="form-horizontal well" role="form" method="POST" action="../document/commitmodification">
 
               <div class="form-group discription">
-                <label for="author" class="col-sm-2 control-label">标签 *</label>
+                <label for=" author" class="col-sm-2 control-label">标签 *</label>
                 <div class="col-sm-9">
                     <div class="well">
                       
@@ -222,35 +222,37 @@
               <div class="form-group discription">
                 <label for="author" class="col-sm-2 control-label">作者 *</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="author" value=${document.author}></input>
+                	<input type="hidden" name="document.id" value=${document.id}></input>
+                	<input type="hidden" name="document.title" value=${document.title}></input>
+                    <input type="text" class="form-control" name="document.author" value=${document.author}></input>
                 </div>
               </div>
                   
               <div class="form-group discription">
                 <label for="year" class="col-sm-2 control-label">出版年份 *</label>
                 <div class="col-sm-9">
-                   <input type="text" class="form-control" name="year" value=${document.year}>
+                   <input type="text" class="form-control" name="document.year" value=${document.year}>
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="pages" class="col-sm-2 control-label">页码 *</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" name="pages" value=${document.pages}>
+                  <input type="text" class="form-control" name="document.pages" value=${document.pages}>
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="abstracts" class="col-sm-2 control-label">摘要 *</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control" name="abstracts" rows="5">${document.abstracts}</textarea>
+                    <textarea class="form-control" name="document.abstracts" rows="5">${document.abstracts}</textarea>
                 </div>
               </div>
               
               <div class="form-group discription">
                 <label for="keyword" class="col-sm-2 control-label">关键字 *</label>
                 <div class="col-sm-9">
-                   <textarea class="form-control" name="keywords" rows="3">${document.keywords}
+                   <textarea class="form-control" name="document.keywords" rows="3">${document.keywords}
                    </textarea>
                 </div>
               </div>
@@ -258,21 +260,21 @@
               <div class="form-group discription">
                  <label for="publisher" class="col-sm-2 control-label">出版社 *</label>
                  <div class="col-sm-9">
-                   <input type="text" class="form-control" name="publisher" value=${document.publisher}>
+                   <input type="text" class="form-control" name="document.publisher" value=${document.publisher}>
                  </div>
               </div>
        
               <div class="form-group discription">
                 <label for="url" class="col-sm-2 control-label">在线的网址 *</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="url" value=${document.url}>
+                    <input type="text" class="form-control" name="document.url" value=${document.url}>
                 </div>
               </div>
             
               <div class="form-group discription">
                 <label for="type" class="col-sm-2 control-label">文献类型 *</label>
                 <div class="col-sm-9">
-                  <select class="form-control" name="documentType" onchange="choose(this.options[this.options.selectedIndex].value)">
+                  <select class="form-control" name="documentTypeId" onchange="choose(this.options[this.options.selectedIndex].value)">
                     <#list documentTypes as documentType>		      
                     <option value=${documentType.id}>${documentType.name}</option>
                     </#list>
