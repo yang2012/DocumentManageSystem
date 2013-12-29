@@ -90,9 +90,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public Evaluation update(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    public Evaluation update(Integer evaluationId, Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         try {
-            Evaluation persistentEvaluation = this.evaluationDao.findById(evaluation.getId());
+            Evaluation persistentEvaluation = this.evaluationDao.findById(evaluationId);
 
             // Update basic info
             persistentEvaluation.updateBasicInfo(evaluation);
@@ -118,6 +118,38 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         return evaluationExtraProperties;
+    }
+
+    @Override
+    public Evaluation getSavedDraft(User user, Document document) {
+        if (user == null || document == null) {
+            return null;
+        }
+        return this.evaluationDao.getDraft(user, document);
+    }
+
+    @Override
+    public List<EvaluationExtraProperty> getAllExtraProperties() {
+        try {
+            return this.evaluationExtraPropertyDao.getAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return new ArrayList<EvaluationExtraProperty>(0);
+        }
+    }
+
+    @Override
+    public EvaluationWithExtraProperty getEvaluationWithExtraProperty(Evaluation evaluation, EvaluationExtraProperty evaluationExtraProperty) {
+        if (evaluation == null || evaluationExtraProperty == null) {
+            return null;
+        }
+        try {
+            return this.evaluationWithExtraPropertyDao.find(evaluation, evaluationExtraProperty);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void _setExtraProperties(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) throws Exception {

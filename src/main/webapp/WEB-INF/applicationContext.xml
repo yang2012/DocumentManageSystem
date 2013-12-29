@@ -86,8 +86,9 @@
         <property name="attachmentService" ref="attachmentService" />
     </bean>
 
-    <bean id="documentAction" class="dmsystem.action.DocumentAction">
+    <bean id="documentAction" class="dmsystem.action.DocumentAction" scope="prototype">
         <property name="documentService" ref="documentService" />
+        <property name="evaluationService" ref="evaluationService" />
     </bean>
 
     <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction" scope="prototype">

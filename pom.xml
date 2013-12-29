@@ -77,6 +77,13 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Json -->
+        <dependency>
+           <groupId>org.apache.struts</groupId>
+           <artifactId>struts2-json-plugin</artifactId>
+           <version>${struts2.version}</version>
+       </dependency>
         
         <!-- Apache Commons Upload --> 
         <dependency>

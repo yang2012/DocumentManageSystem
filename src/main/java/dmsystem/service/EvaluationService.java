@@ -1,8 +1,6 @@
 package dmsystem.service;
 
-import dmsystem.entity.Evaluation;
-import dmsystem.entity.EvaluationExtraProperty;
-import dmsystem.entity.User;
+import dmsystem.entity.*;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
 
 import java.util.List;
@@ -19,8 +17,13 @@ public interface EvaluationService {
     public Evaluation add(User user, Integer documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
 
     // Update evaluation
-    public Evaluation update(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
+    public Evaluation update(Integer evaluationId, Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
 
     public List<EvaluationExtraProperty> getExtraProperties();
 
+    public Evaluation getSavedDraft(User user, Document document);
+
+    public List<EvaluationExtraProperty> getAllExtraProperties();
+
+    public EvaluationWithExtraProperty getEvaluationWithExtraProperty(Evaluation evaluation, EvaluationExtraProperty evaluationExtraProperty);
 }

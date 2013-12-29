@@ -4,22 +4,24 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+    <package name="json" extends="json-default">
+        <action name="savedraft" class="evaluationAction" method="saveEvaluationDraft">
+            <result type="json">
+                <param name="root">
+                    evaluation.id
+                </param>
+            </result>
+        </action>
+    </package>
+
     <package name="evaluation" extends="default">
 
         <action name="commiteval" class="evaluationAction" method="commitEvaluation">
             <result name="success">/pages/commentTemplate.jsp</result>
         </action>
 
-        <action name="savedraft" class="evaluationAction" method="saveEvaluationDraft">
-            <result name="success" />
-        </action>
-
         <action name="deleteeval" class="evaluationAction" method="deleteEvaluation">
             <result name="success" />
-        </action>
-
-        <action name="getdetailevalform" class="evaluationAction" method="getDetailEvaluationForm">
-            <result name="success">/pages/detailEvaluation.jsp</result>
         </action>
     </package>
 </struts>

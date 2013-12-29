@@ -311,8 +311,9 @@
         </div>
         <div class="col-xs-12 well" id="evalContainer">
             <button class="btn" id="extendEvaluationButton">简要评价</button>
-            <form method="POST" action="../evaluation/commiteval" id="evaluationForm" role="form">
-                <input name="evaluation.type" value="0" hidden="hidden" id="evalType"/>
+            <form method="POST" id="evaluationForm" role="form">
+                <input name="evalulationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
+                <input name="evaluation.type" value="${(draftEvaluation.type)!''}" hidden="hidden" id="evalType"/>
                 <div class="rating" onclick="window.location='#evalContainer';">
                     <input type="radio" id="star5" name="evaluation.point" value="5"/><label for="star5" title="Rocks!">5
                     stars</label>
@@ -328,14 +329,22 @@
                                                                                              title="Sucks big time">1
                     star</label>
                 </div>
-                <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容..."></textarea>
+                <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
                 <br/>
-                <div id="detailEvalContainer" hidden="hidden">
+                <div id="detailEvalContainer">
+	                <#list evaluationExtraPropertyWrappers as evaluationExtraPropertyWrapper>
+					    <div class="form-group">
+					        <div>
+					            <input name="evaluationExtraPropertyWrappers[${evaluationExtraPropertyWrapper_index}].extraPropertyId" value="${evaluationExtraPropertyWrapper.extraPropertyId}" hidden="hidden"/>
+					            <textarea class="form-control" rows="3" placeholder="${evaluationExtraPropertyWrapper.extraPropertyName}" name="evaluationExtraPropertyWrappers[${evaluationExtraPropertyWrapper_index}].extraPropertyValue">${evaluationExtraPropertyWrapper.extraPropertyValue!''}</textarea>
+					        </div>
+					    </div>
+					</#list>
                 </div>
                 <div class="pull-right">
-                    <button type="submit" class="btn btn-default">保存为草稿</button>
+                    <button type="submit" class="btn btn-default" id="saveDraftButton">保存为草稿</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-primary">发布评论</button>
+                    <button type="submit" class="btn btn-primary" id="commitEvaluationButton">发布评论</button>
                 </div>
             </form>
             <br/>
@@ -359,6 +368,41 @@
             var evalTypeElement = $("#evalType");
             var detailEvalContainer = $("#detailEvalContainer");
             var commentContainer = $("#commentContainer");
+            var evaluationForm = $("#evaluationForm");
+
+            $("#saveDraftButton").click(function(e) {
+                var postData = getFormData(evaluationForm);
+                $.ajax(
+                        {
+                            url: "../json/savedraft",
+                            type: "POST",
+                            data: postData,
+                            success: function (data, textStatus, jqXHR) {
+                                $("#evalId").attr("value", data);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert("Fail");
+                            }
+                        });
+                e.preventDefault(); //STOP default action
+            });
+
+            $("#commitEvaluationButton").click(function(e) {
+                var postData = getFormData(evaluationForm);
+                $.ajax(
+                        {
+                            url: "../evaluation/commiteval",
+                            type: "POST",
+                            data: postData,
+                            success: function (data, textStatus, jqXHR) {
+                                $(data).prependTo(commentContainer).show("normal");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert("Fail");
+                            }
+                        });
+                e.preventDefault(); //STOP default action
+            });
 
             $("#extendEvaluationButton").click(function () {
                 var type = evalTypeElement.attr("value") == 0 ? 1 : 0;
@@ -370,16 +414,7 @@
                 $(this).text(text == "详细评价" ? "简要评价" : "详细评价");
             });
 
-            $.ajax({
-                type: "GET",
-                url: "../evaluation/getdetailevalform",
-                data: {documentId: ${document.id}}
-            })
-                    .done(function (msg) {
-                        $("#detailEvalContainer").html(msg);
-                    });
-
-            $("#evaluationForm").submit(function (e) {
+            evaluationForm.submit(function (e) {
                 var postData = getFormData($(this));
                 var formURL = $(this).attr("action");
                 $.ajax(

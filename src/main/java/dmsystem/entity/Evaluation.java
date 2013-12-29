@@ -168,6 +168,9 @@ public class Evaluation implements java.io.Serializable {
 
     @Transient
     public String getFormatTime() {
+        if (this.createTime == null) {
+            return "";
+        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         return df.format(this.createTime);
