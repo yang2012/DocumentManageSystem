@@ -79,10 +79,14 @@ public class EvaluationAction extends ActionSupport {
 
     public String saveEvaluationDraft() {
         this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-        this.evaluation.setPublished(false);
+        if (this.evaluation.getId() == 0) {
+            this.evaluation.setPublished(false);
 
-        // Persistent evaluation
-        this._saveEvaluation();
+            // Persistent evaluation
+            this._saveEvaluation();
+        } else {
+            this.evaluationService.update(this.evaluation, this.evaluationExtraPropertyWrappers);
+        }
 
         if (evaluation != null) {
             return SUCCESS;

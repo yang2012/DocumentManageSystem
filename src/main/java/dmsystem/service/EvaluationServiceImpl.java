@@ -6,13 +6,10 @@ import dmsystem.dao.EvaluationExtraPropertyDao;
 import dmsystem.dao.EvaluationWithExtraPropertyDao;
 import dmsystem.entity.*;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
-import org.springframework.dao.DataAccessException;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by justinyang on 13-12-26.
@@ -52,7 +49,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 
             persistentEvaluation = new Evaluation();
             // Basis information
-            persistentEvaluation.updateBaseInfo(transientEvaluation);
+            persistentEvaluation.updateBasicInfo(transientEvaluation);
             persistentEvaluation.setCreateTime(new Date());
             // Build up relationship
             persistentEvaluation.setDocument(document);
@@ -92,6 +89,24 @@ public class EvaluationServiceImpl implements EvaluationService {
         return persistentEvaluation;
     }
 
+    @Override
+    public Evaluation update(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+        try {
+            Evaluation persistentEvaluation = this.evaluationDao.findById(evaluation.getId());
+
+            // Update basic info
+            persistentEvaluation.updateBasicInfo(evaluation);
+            this.evaluationDao.update(persistentEvaluation);
+
+            // Update extra properties
+            this._updateExtraProperties(persistentEvaluation, evaluationExtraPropertyWrappers);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public List<EvaluationExtraProperty> getExtraProperties() {
         List<EvaluationExtraProperty> evaluationExtraProperties = null;
         try {
@@ -117,14 +132,44 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
 
             EvaluationExtraProperty extraProperty = this.evaluationExtraPropertyDao.findById(evaluationExtraPropertyWrapper.getExtraPropertyId());
-            EvaluationWithExtraProperty evaluationWithExtraProperty = new EvaluationWithExtraProperty();
-
-            evaluationWithExtraProperty.setEvaluation(evaluation);
-            evaluationWithExtraProperty.setEvaluationExtraProperty(extraProperty);
-
-            evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
-
-            this.evaluationWithExtraPropertyDao.add(evaluationWithExtraProperty);
+            this._addNextExtraProperties(evaluation, extraProperty, extraPropertyValue);
         }
+    }
+
+    private void _updateExtraProperties(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) throws Exception {
+        if (evaluationExtraPropertyWrappers == null) {
+            return;
+        }
+
+        for (EvaluationExtraPropertyWrapper evaluationExtraPropertyWrapper : evaluationExtraPropertyWrappers) {
+            String extraPropertyValue = evaluationExtraPropertyWrapper.getExtraPropertyValue();
+            // check whether the value is valid
+            if (extraPropertyValue == null || extraPropertyValue.isEmpty()) {
+                continue;
+            }
+
+            EvaluationExtraProperty extraProperty = this.evaluationExtraPropertyDao.findById(evaluationExtraPropertyWrapper.getExtraPropertyId());
+            EvaluationWithExtraProperty evaluationWithExtraProperty = this.evaluationWithExtraPropertyDao.find(evaluation, extraProperty);
+
+            if (evaluationWithExtraProperty == null) {
+                this._addNextExtraProperties(evaluation, extraProperty, extraPropertyValue);
+            } else {
+                evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
+
+                this.evaluationWithExtraPropertyDao.update(evaluationWithExtraProperty);
+
+            }
+        }
+    }
+
+    private void _addNextExtraProperties(Evaluation evaluation, EvaluationExtraProperty evaluationExtraProperty, String value) throws Exception {
+        EvaluationWithExtraProperty evaluationWithExtraProperty = new EvaluationWithExtraProperty();
+
+        evaluationWithExtraProperty.setEvaluation(evaluation);
+        evaluationWithExtraProperty.setEvaluationExtraProperty(evaluationExtraProperty);
+
+        evaluationWithExtraProperty.setPropertyValue(value);
+
+        this.evaluationWithExtraPropertyDao.add(evaluationWithExtraProperty);
     }
 }

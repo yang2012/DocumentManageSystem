@@ -59,7 +59,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Document upload(User user, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
-        if (user == null || documentTypeId == 0 || transientDocument == null) {
+        if (user == null || documentTypeId == null || transientDocument == null) {
             return persistentDocument;
         }
 
