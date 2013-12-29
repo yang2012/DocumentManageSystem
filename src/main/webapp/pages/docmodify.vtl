@@ -30,7 +30,7 @@
         	 $.ajax({
                 type: "GET",
                 url: "../document/getextraproperties",
-                data: {documentTypeId: s}
+                data: {documentTypeId: s,docId:${document.id}}
             })
                     .done(function (msg) {
                         $("#extraproperty").html(msg);

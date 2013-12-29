@@ -20,6 +20,10 @@ import java.util.Set;
  */
 public class DocumentUploadAction extends ActionSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5051870815157756643L;
 	private DocumentService documentService;
 	private DocumentTypeService documentTypeService;
 
@@ -155,7 +159,9 @@ public class DocumentUploadAction extends ActionSupport {
 			DocumentExtraPropertyWrapper documentExtraPropertyWrapper = new DocumentExtraPropertyWrapper();
 			documentExtraPropertyWrapper.setExtraPropertyName(extraProperty
 					.getPropertyName());
-			if (this.document != null) {
+			if (this.docId != null) {
+				this.document=new Document();
+				document.setId(docId);
 				DocumentWithExtraProperty documentWithExtraProperty = this.documentService
 						.getDocumentExtraProperty(this.document, extraProperty);
 				if (documentWithExtraProperty != null) {
