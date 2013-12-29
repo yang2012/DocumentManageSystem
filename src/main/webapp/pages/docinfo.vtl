@@ -309,7 +309,7 @@
         </div>
         <div class="col-xs-12 well" id="evalContainer">
             <button class="btn" id="extendEvaluationButton">简要评价</button>
-            <form method="POST" action="/evaluation/commiteval" id="evaluationForm" role="form">
+            <form method="POST" action="../evaluation/commiteval" id="evaluationForm" role="form">
                 <input name="evaluation.type" value="0" hidden="hidden" id="evalType"/>
                 <div class="rating" onclick="window.location='#evalContainer';">
                     <input type="radio" id="star5" name="evaluation.point" value="5"/><label for="star5" title="Rocks!">5
@@ -370,7 +370,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/evaluation/getdetailevalform",
+                url: "../evaluation/getdetailevalform",
                 data: {documentId: ${document.id}}
             })
                     .done(function (msg) {

@@ -239,13 +239,9 @@
                 <div class="col-sm-10">
                   <select name="documentTypeId"class="form-control" onchange="select(this.options[this.options.selectedIndex].value)">
 							      <option>请选择文献类型...</option>
-                    <option value="1">图书</option>
-                    <option value="2">图书章节</option>
-                    <option value="3">期刊</option>
-                    <option value="4">会议</option>
-							      <option value="5">学位论文</option>
-							      <option value="6">技术报告</option>
-							      <option value="7">在线资源</option>
+					<#list documentTypes as documentType>		      
+                    <option value=${documentType.id}>${documentType.name}</option>
+                    </#list>
                   </select>
                 </div>
               </div>
