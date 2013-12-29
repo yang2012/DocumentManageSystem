@@ -27,114 +27,22 @@
     </style>
     <script type="text/javascript">
         function choose(s){
-            if(s==1){
-                addition=newAddition();
-                divEditor=editDiv("editor","编辑");
-                divISBN=editDiv("isbn","ISBN");
-                addition.appendChild(divEditor);
-                addition.appendChild(divISBN);
+        	 $.ajax({
+                type: "GET",
+                url: "../document/getextraproperties",
+                data: {documentTypeId: s}
+            })
+                    .done(function (msg) {
+                        $("#extraproperty").html(msg);
+                    });
             }
-            if(s==2){
-                addition=newAddition();
-                divBookName=editDiv("bookname","图书名");
-                divEditor=editDiv("editor","编辑");
-                divISBN=editDiv("isbn","ISBN");
-
-                addition.appendChild(divBookName);
-                addition.appendChild(divEditor);
-                addition.appendChild(divISBN);
-
-            }
-            if(s==3){
-                addition=newAddition();
-                divPublication=editDiv("publication","出处");
-                divVolume=editDiv("volume","卷");
-                divIssue=editDiv("issue","期");
-                divDOI=editDiv("doi","DOI");
-                addition.appendChild(divPublication);
-                addition.appendChild(divVolume);
-                addition.appendChild(divIssue);
-                addition.appendChild(divDOI);
-            }
-            if(s==4){
-                addition=newAddition();
-                divPublication=editDiv("publication","出处");
-                divCity=editDiv("city","城市");
-                divDOI=editDiv("doi","DOI");
-                addition.appendChild(divPublication);
-                addition.appendChild(divCity);
-                addition.appendChild(divDOI);
-            }
-            if(s==5){
-                addition=newAddition();
-                divschool=editDiv("school","学校");
-                addition.appendChild(divschool);
-            }
-            if(s==6){
-                addition=newAddition();
-            }
-            if(s==7){
-                addition=newAddition();
-            }
-
-            function editDiv(english,chinese){
-                label=createLabel();
-                input=createInput();
-                div1=createDiv1();
-                div=createDiv();
-                label.setAttribute("for",english);
-                label.innerText=chinese+" *";
-                input.setAttribute("name",english);
-                input.setAttribute("placeholder",chinese);
-                div1.appendChild(input);
-                div.appendChild(label);
-                div.appendChild(div1);
-                return div;
-            }
-            function newAddition(){
-                var addition=document.getElementsByClassName("addition")[0];
-                while(addition.hasChildNodes()){
-                    addition.removeChild(addition.firstChild);
-                }//删除所有原有节点
-                addition.setAttribute("class","discription addition show");//设置可见
-                return addition;
-            }
-            function createDiv(){
-                div=document.createElement("div");
-                div.className="form-group";
-                return div;
-            }
-            function createDiv1(){
-                div1=document.createElement("div");
-                div1.className="col-sm-9";
-                return div1;
-            }
-            function createLabel(){
-                label=document.createElement("label");
-                label.className="col-sm-2 control-label";
-                return label;
-            }
-            function createInput(){
-                input=document.createElement("input");
-                input.setAttribute("type","text");
-                input.setAttribute("class","form-control");
-                return input;
-            }
+        function fill(){
+        	var div=document.getElementById("extraproperty");
+        	
         }
         window.onload=function init(){
-               var select=document.getElementsByName("documentType")[0];
-               var option=select.firstChild;
-               while(option!=null){
-                    if(option.innerHTML=="${document.documentType.name}"){
-                        option.selected = 'selected';
-                        break;
-                    }else{
-                        option=option.nextSibling;
-                        }
-                }
-                if(option!=null){
-                	choose(option.value);
-                	}
+        	$("select[name=documentType]").val("${document.documentType.id}");
+        	choose(${document.documentType.id});
         }
     </script>
     </style>
@@ -365,18 +273,14 @@
                 <label for="type" class="col-sm-2 control-label">文献类型 *</label>
                 <div class="col-sm-9">
                   <select class="form-control" name="documentType" onchange="choose(this.options[this.options.selectedIndex].value)">
-                    <option value="1">图书</option>
-                    <option value="2">图书章节</option>
-                    <option value="3">期刊</option>
-                    <option value="4">会议</option>
-                    <option value="5">学位论文</option>
-                    <option value="6">技术报告</option>
-                    <option value="7">在线资源</option>
+                    <#list documentTypes as documentType>		      
+                    <option value=${documentType.id}>${documentType.name}</option>
+                    </#list>
                   </select>
                 </div>
               </div>
 
-              <div class="discription addition"></div>
+              <div class="discription addition" id="extraproperty"></div>
               
               <div class="row">
                 <div class="col-xs-5"></div>

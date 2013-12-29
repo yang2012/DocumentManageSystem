@@ -13,7 +13,7 @@
     </label>
     <div class="col-sm-10">
         <input name="documentExtraPropertyWrappers[${ws.index}].extraPropertyId" value="${documentExtraPropertyWrapper.extraPropertyId}" hidden="hidden"/>
-        <input class="form-control" placeholder="${documentExtraPropertyWrapper.extraPropertyName}" name="documentExtraPropertyWrappers[${ws.index}].extraPropertyValue" />
+        <input class="form-control" placeholder="${documentExtraPropertyWrapper.extraPropertyName}" value="${documentExtraPropertyWrapper.extraPropertyValue}" name="documentExtraPropertyWrappers[${ws.index}].extraPropertyValue" />
     </div>
     </div>
 </c:forEach>

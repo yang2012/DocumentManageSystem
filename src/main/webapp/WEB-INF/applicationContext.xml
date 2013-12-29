@@ -90,7 +90,7 @@
         <property name="documentService" ref="documentService" />
     </bean>
 
-    <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction">
+    <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction" scope="prototype">
         <property name="documentService" ref="documentService" />
         <property name="documentTypeService" ref="documentTypeService" />
     </bean>

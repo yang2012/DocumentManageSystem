@@ -150,4 +150,15 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
     }
+
+	public DocumentWithExtraProperty getDocumentExtraProperty(
+			Document document, DocumentExtraProperty documentExtraProperty) {
+		try {
+			return this.documentWithExtraPropertyDao.find(document, documentExtraProperty);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

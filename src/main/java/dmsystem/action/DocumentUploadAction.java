@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Document;
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.entity.DocumentType;
+import dmsystem.entity.DocumentWithExtraProperty;
 import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentService;
@@ -19,20 +20,20 @@ import java.util.Set;
  */
 public class DocumentUploadAction extends ActionSupport {
 
-    private DocumentService documentService;
-    private DocumentTypeService documentTypeService;
+	private DocumentService documentService;
+	private DocumentTypeService documentTypeService;
 
-    private Integer docId;
+	private Integer docId;
 
-    private User user;
+	private User user;
 
-    private Document document;
+	private Document document;
 
-    private Integer documentTypeId;
-    private List<DocumentType> documentTypes;
-    private List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers;
+	private Integer documentTypeId;
+	private List<DocumentType> documentTypes;
+	private List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers;
 
-    public List<DocumentType> getDocumentTypes() {
+	public List<DocumentType> getDocumentTypes() {
 		return documentTypes;
 	}
 
@@ -41,110 +42,134 @@ public class DocumentUploadAction extends ActionSupport {
 	}
 
 	public DocumentService getDocumentService() {
-        return documentService;
-    }
+		return documentService;
+	}
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
+	public void setDocumentService(DocumentService documentService) {
+		this.documentService = documentService;
+	}
 
-    public DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
-    }
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
 
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
 
-    public Integer getDocId() {
-        return docId;
-    }
+	public Integer getDocId() {
+		return docId;
+	}
 
-    public void setDocId(Integer docId) {
-        this.docId = docId;
-    }
+	public void setDocId(Integer docId) {
+		this.docId = docId;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Integer getDocumentTypeId() {
-        return documentTypeId;
-    }
+	public Integer getDocumentTypeId() {
+		return documentTypeId;
+	}
 
-    public void setDocumentTypeId(Integer documentTypeId) {
-        this.documentTypeId = documentTypeId;
-    }
+	public void setDocumentTypeId(Integer documentTypeId) {
+		this.documentTypeId = documentTypeId;
+	}
 
-    public Document getDocument() {
-        return document;
-    }
+	public Document getDocument() {
+		return document;
+	}
 
-    public void setDocument(Document document) {
-        this.document = document;
-    }
+	public void setDocument(Document document) {
+		this.document = document;
+	}
 
-    public List<DocumentExtraPropertyWrapper> getDocumentExtraPropertyWrappers() {
-        return documentExtraPropertyWrappers;
-    }
+	public List<DocumentExtraPropertyWrapper> getDocumentExtraPropertyWrappers() {
+		return documentExtraPropertyWrappers;
+	}
 
-    public void setDocumentExtraPropertyWrappers(List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
-        this.documentExtraPropertyWrappers = documentExtraPropertyWrappers;
-    }
+	public void setDocumentExtraPropertyWrappers(
+			List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
+		this.documentExtraPropertyWrappers = documentExtraPropertyWrappers;
+	}
 
-    public String showUpload() {
-        user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-        documentTypes=this.documentTypeService.getAll();
-        return SUCCESS;
-    }
+	public String showUpload() {
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+		return SUCCESS;
+	}
 
-    public String commitUpload() {
-        this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-        Document persistentDocument = this.documentService.upload(this.user, documentTypeId, this.document, this.documentExtraPropertyWrappers);
+	public String commitUpload() {
+		this.user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		Document persistentDocument = this.documentService.upload(this.user,
+				documentTypeId, this.document,
+				this.documentExtraPropertyWrappers);
 
-        if (persistentDocument != null) {
-            return SUCCESS;
-        } else {
-            return ERROR;
-        }
-    }
+		if (persistentDocument != null) {
+			return SUCCESS;
+		} else {
+			return ERROR;
+		}
+	}
 
-    public String showModification() {
-        this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
+	public String showModification() {
+		this.user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+		this.document = this.documentService.get(this.docId);
 
-        this.document = this.documentService.get(this.docId);
+		if (this.document == null) {
+			return ERROR;
+		} else {
+			return SUCCESS;
+		}
+	}
 
-        if (this.document == null) {
-            return ERROR;
-        } else {
-            return SUCCESS;
-        }
-    }
+	public String commitModification() {
+		Document persistentDocument = this.documentService.update(
+				this.documentTypeId, this.document,
+				this.documentExtraPropertyWrappers);
+		return SUCCESS;
+	}
 
-    public String commitModification() {
-        Document persistentDocument = this.documentService.update(this.documentTypeId, this.document, this.documentExtraPropertyWrappers);
-        return SUCCESS;
-    }
+	public String getExtraproperties() {
+		Set<DocumentExtraProperty> extraProperties = this.documentTypeService
+				.getExtraProperties(this.documentTypeId);
+		this.documentExtraPropertyWrappers = this._convert(extraProperties);
+		return SUCCESS;
+	}
 
-    public String getExtraproperties() {
-        Set<DocumentExtraProperty> extraProperties = this.documentTypeService.getExtraProperties(this.documentTypeId);
-        this.documentExtraPropertyWrappers = this._convert(extraProperties);
-        return SUCCESS;
-    }
+	private List<DocumentExtraPropertyWrapper> _convert(
+			Set<DocumentExtraProperty> extraProperties) {
+		List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers = new ArrayList<DocumentExtraPropertyWrapper>(
+				0);
+		for (DocumentExtraProperty extraProperty : extraProperties) {
 
-    private List<DocumentExtraPropertyWrapper> _convert(Set<DocumentExtraProperty> extraProperties) {
-        List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers = new ArrayList<DocumentExtraPropertyWrapper>(0);
-        for (DocumentExtraProperty extraProperty : extraProperties) {
-            DocumentExtraPropertyWrapper documentExtraPropertyWrapper = new DocumentExtraPropertyWrapper();
-            documentExtraPropertyWrapper.setExtraPropertyName(extraProperty.getPropertyName());
-            documentExtraPropertyWrapper.setExtraPropertyId(extraProperty.getId());
+			DocumentExtraPropertyWrapper documentExtraPropertyWrapper = new DocumentExtraPropertyWrapper();
+			documentExtraPropertyWrapper.setExtraPropertyName(extraProperty
+					.getPropertyName());
+			if (this.document != null) {
+				DocumentWithExtraProperty documentWithExtraProperty = this.documentService
+						.getDocumentExtraProperty(this.document, extraProperty);
+				if (documentWithExtraProperty != null) {
+					documentExtraPropertyWrapper
+							.setExtraPropertyValue(documentWithExtraProperty
+									.getPropertyValue());
+				}
+			}
 
-            documentExtraPropertyWrappers.add(documentExtraPropertyWrapper);
-        }
-        return documentExtraPropertyWrappers;
-    }
+			documentExtraPropertyWrapper.setExtraPropertyId(extraProperty
+					.getId());
+
+			documentExtraPropertyWrappers.add(documentExtraPropertyWrapper);
+		}
+		return documentExtraPropertyWrappers;
+	}
 }
