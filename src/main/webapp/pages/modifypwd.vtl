@@ -39,7 +39,7 @@
           <ul class="nav navbar-nav">
             <li><a href="../account/getAllDocuments"><span class="glyphicon glyphicon-list"></span>&nbsp;文献列表</a></li>
             <li><a href="../document/showupload"><span class="glyphicon glyphicon-import"></span>&nbsp;文献录入</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-stats"></span>&nbsp;工作记录统计</a></li>
+            <li><a href="../statistic/getstatistic"><span class="glyphicon glyphicon-stats"></span>&nbsp;工作记录统计</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -65,7 +65,7 @@
               <img class="pull-left" src="../source/image/logo.jpg" /></div>
             <div class="col-xs-8">
 
-            <form class="well form-search" action="../simpledocsearch/getdoclist"><br/>
+            <form class="well form-search" method="POST" action="../simpledocsearch/getdoclist"><br/>
               <div class="input-group"><input type="text" class="form-control" name="keywords">
                 <span class="input-group-btn">
                   <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;<strong>搜索文章</strong></button>
@@ -86,7 +86,7 @@
                         </div>
                         
                         <div class="modal-body">
-                            <form class="form-horizontal" role="form" method="POST">
+                            <form class="form-horizontal" role="form" method="POST" action="../advanceddocsearch/getdoclist">
                                 <div class="form-group">
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">

@@ -36,10 +36,12 @@
     <include file="document.xml" />
     <include file="user.xml" />
     <include file="docconf.xml" />
-    <include file="docsearch.xml" />
+    <include file="simpledocsearch.xml" />
+    <include file="advanceddocsearch.xml" />
     <include file="comconf.xml" />
     <include file="refconf.xml" />
     <include file="meeconf.xml" />
     <include file="tagconf.xml" />
     <include file="evaluation.xml" />
+    <include file="statistic.xml" />
 </struts>

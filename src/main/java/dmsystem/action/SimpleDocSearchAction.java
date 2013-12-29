@@ -26,7 +26,6 @@ public class SimpleDocSearchAction extends ActionSupport {
 	private List<Document> documents;
 
 	public String getdoclist() {
-		System.out.println("asd");
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {

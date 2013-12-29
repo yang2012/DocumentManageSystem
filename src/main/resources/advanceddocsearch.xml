@@ -4,18 +4,11 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-
-    <package name="simpledocsearch" extends="default">
-        <action name="getdoclist" method="getdoclist" class="simpleDocSearchAction">
-            <result name="success" type="freemarker">/pages/searchresult.vtl</result>
-        </action>
-
-    </package>
     
-   <!-- <package name="advanceddocsearch" extends="default">
+   <package name="advanceddocsearch" extends="default">
         <action name="getdoclist" method="getdoclist" class="advancedDocSearchAction">
             <result name="success" type="freemarker">/pages/searchresult.vtl</result>
         </action>
 
-    </package>  -->
+    </package>
 </struts>

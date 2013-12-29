@@ -16,24 +16,12 @@ import dmsystem.service.DocumentSearchService;
  */
 public class AdvancedDocSearchAction extends ActionSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String documentType;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public List<Document> getDocuments() {
-		return documents;
-	}
-
-	public void setDocuments(List<Document> documents) {
-		this.documents = documents;
-	}
-
 	private String title;
 	private String author;
 	private String tag;
@@ -64,6 +52,22 @@ public class AdvancedDocSearchAction extends ActionSupport {
 	public String[] initParams() {
 		return new String[] { title, author, tag, keywords, publisher,
 				publishYear };
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
 	}
 
 	public String getDocumentType() {
