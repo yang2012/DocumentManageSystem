@@ -122,18 +122,22 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 //	}
 
 	private boolean matchWords(String str1, String str2) {
-		String[] strArr1 = str1.split(" ");
-		String[] strArr2 = str2.split(" ");
-		int length1 = strArr1.length;
-		int length2 = strArr2.length;
-		for (int i = 0; i < length1; i++) {
-			for (int j = 0; j < length2; j++) {
-				if (StringUtil.equalsIgnoreCase(strArr1[i], strArr2[j])) {
-					return true;
+		if(StringUtil.isNullOrEmpty(str1) || StringUtil.isNullOrEmpty(str2)){
+			return true;
+		}else{
+			String[] strArr1 = str1.split(" ");
+			String[] strArr2 = str2.split(" ");
+			int length1 = strArr1.length;
+			int length2 = strArr2.length;
+			for (int i = 0; i < length1; i++) {
+				for (int j = 0; j < length2; j++) {
+					if (StringUtil.equalsIgnoreCase(strArr1[i], strArr2[j])) {
+						return true;
+					}
 				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	public static void main(String args[]) {
