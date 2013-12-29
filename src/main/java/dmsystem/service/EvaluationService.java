@@ -18,6 +18,9 @@ public interface EvaluationService {
     // Add detail evaluation
     public Evaluation add(User user, Integer documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
 
+    // Update evaluation
+    public Evaluation update(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
+
     public List<EvaluationExtraProperty> getExtraProperties();
 
 }

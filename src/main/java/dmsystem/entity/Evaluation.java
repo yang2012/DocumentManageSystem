@@ -140,7 +140,7 @@ public class Evaluation implements java.io.Serializable {
 		this.extraProperties = extraProperties;
 	}
 
-    public void updateBaseInfo(Evaluation evaluation) {
+    public void updateBasicInfo(Evaluation evaluation) {
         if (evaluation == null) {
             return;
         }

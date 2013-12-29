@@ -5,7 +5,6 @@
   Time: PM7:00
 --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<form action="/document/commitupload" method="post">
 <c:forEach items="${documentExtraPropertyWrappers}" varStatus="ws" var="documentExtraPropertyWrapper">
     <div class="form-group">
     <label for="documentExtraPropertyWrappers[${ws.index}].extraPropertyId" class="col-sm-2 control-label">
@@ -17,4 +16,3 @@
     </div>
     </div>
 </c:forEach>
-</form>
