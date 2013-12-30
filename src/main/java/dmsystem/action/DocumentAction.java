@@ -24,8 +24,17 @@ public class DocumentAction extends ActionSupport {
     private Document document;
     private Evaluation draftEvaluation;
     private List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers;
+    private List<Attachment> attachments;
 
-    public void setDocumentService(DocumentService documentService) {
+    public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
@@ -108,5 +117,14 @@ public class DocumentAction extends ActionSupport {
             extraPropertyWrappers.add(evaluationExtraPropertyWrapper);
         }
         return extraPropertyWrappers;
+    }
+    
+    public String findAttachments(){
+    	List<Attachment> result=new ArrayList<Attachment>();
+    	for(Attachment attachment:this.documentService.get(docId).getAttachments()){
+    		result.add(attachment);
+    	}
+    	attachments=result;
+    	return SUCCESS;
     }
 }

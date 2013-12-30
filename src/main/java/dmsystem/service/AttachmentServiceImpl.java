@@ -23,7 +23,6 @@ public class AttachmentServiceImpl implements AttachmentService {
         this.documentDao = documentDao;
     }
 
-    @Override
     public Attachment upload(Integer documentId, Attachment attachment) {
         Attachment persistentAttachment = attachment;
         try {
@@ -39,7 +38,6 @@ public class AttachmentServiceImpl implements AttachmentService {
         return persistentAttachment;
     }
 
-    @Override
     public Boolean delete(Attachment attachment) {
         Boolean result = false;
         if (attachment == null) {

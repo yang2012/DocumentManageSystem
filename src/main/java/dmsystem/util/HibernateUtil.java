@@ -118,11 +118,7 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally {
-            if (session != null) {
-                session.flush();
-            }
-        }
+		}
 	}
 
 	
@@ -147,11 +143,7 @@ public class HibernateUtil {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally {
-            if (session != null) {
-                session.flush();
-            }
-        }
+		}
 	}
 
 }

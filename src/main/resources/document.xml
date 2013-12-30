@@ -6,7 +6,11 @@
 <struts>
     <package name="document" extends="default">
         <action name="upload" class="attachmentAction" method="upload">
-            <result name="success" type="redirect">/index</result>
+            <result name="success" type="redirect">/document/findAttachments?docId=${documentId}</result>
+        </action>
+        
+        <action name="findAttachments" class="documentAction" method="findAttachments">
+        	<result name="success">/pages/attachment.jsp</result>
         </action>
 
         <action name="showdoc" class="documentAction" method="showInfo">
