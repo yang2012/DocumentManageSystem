@@ -49,7 +49,10 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 	public List<Document> getDocList(String docType, String[] params) {
 		List<Document> documents = null;
 		try {
-			documents = this.documentSearchDao.getDocsByType(docType);
+			if (StringUtil.equals(docType, "0"))
+				documents = this.documentSearchDao.getAll();
+			else
+				documents = this.documentSearchDao.getDocsByType(docType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,9 +125,9 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 //	}
 
 	private boolean matchWords(String str1, String str2) {
-		if(StringUtil.isNullOrEmpty(str1) || StringUtil.isNullOrEmpty(str2)){
+		if (StringUtil.isNullOrEmpty(str1) || StringUtil.isNullOrEmpty(str2)) {
 			return true;
-		}else{
+		} else {
 			String[] strArr1 = str1.split(" ");
 			String[] strArr2 = str2.split(" ");
 			int length1 = strArr1.length;

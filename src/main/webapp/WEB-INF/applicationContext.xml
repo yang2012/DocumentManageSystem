@@ -82,7 +82,7 @@
 		<property name="documentSearchService" ref="documentSearchService" />
 	</bean>
 
-    <bean id="attachmentAction" class="dmsystem.action.AttachmentAction">
+    <bean id="attachmentAction" class="dmsystem.action.AttachmentAction" scope="prototype">
         <property name="attachmentService" ref="attachmentService" />
     </bean>
 
@@ -115,12 +115,12 @@
 		<property name="tagDefinedService" ref="tagDefinedService"></property>
 	</bean>
     <!-- Account Services -->
-    <bean id="evaluationAction" class="dmsystem.action.EvaluationAction">
+    <bean id="evaluationAction" class="dmsystem.action.EvaluationAction" scope="prototype">
         <property name="evaluationService" ref="evaluationService" />
     </bean>
 
     <!-- Services -->
-    <bean id="userService" class="dmsystem.service.UserServiceImpl">
+    <bean id="userService" class="dmsystem.service.UserServiceImpl" scope="prototype">
         <property name="userDao" ref="userDao" />
     </bean>
 
