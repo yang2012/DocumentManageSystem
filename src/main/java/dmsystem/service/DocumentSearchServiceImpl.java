@@ -39,7 +39,7 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 
 		List<Document> resultList = new ArrayList<Document>();
 		for (int i = 0; i < documents.size(); i++) {
-			if (matchWords(keywords, documents.get(i).getTitle())) {
+			if (matchDocForSimpleSearch(documents.get(i), keywords)) {
 				resultList.add(documents.get(i));
 			}
 		}
@@ -61,7 +61,7 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 
 		List<Document> resultList = new ArrayList<Document>();
 		for (int i = 0; i < documents.size(); i++) {
-			if (matchDoc(documents.get(i), paramsMap)) {
+			if (matchDocForAdvancedSearch(documents.get(i), paramsMap)) {
 				resultList.add(documents.get(i));
 			}
 		}
@@ -69,7 +69,21 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		return resultList;
 	}
 
-	private boolean matchDoc(Document doc, Map<String, String> paramsMap) {
+	private boolean matchDocForSimpleSearch(Document doc, String keywords) {
+		if (matchWords(doc.getTitle(), keywords)) {
+			return true;
+		}
+		if (matchWords(doc.getAuthor(), keywords)) {
+			return true;
+		}
+		if (matchWords(doc.getKeywords(), keywords)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean matchDocForAdvancedSearch(Document doc,
+			Map<String, String> paramsMap) {
 		if (!matchWords(doc.getTitle(), paramsMap.get("title"))) {
 			return false;
 		}
