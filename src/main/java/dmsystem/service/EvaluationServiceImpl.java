@@ -66,7 +66,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                 persistentEvaluation = this.evaluationDao.findById(evaluationId);
             }
             if (persistentEvaluation == null) {
-                this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers);
+                persistentEvaluation = this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers);
             } else {
                 this._updateEvaluation(persistentEvaluation, transientEvaluation, evaluationExtraPropertyWrappers);
             }

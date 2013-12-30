@@ -1,11 +1,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <div class="well">
-      <div class="ratePoint" data-average="${(evaluation.point)!0}"></div>
-      <p>在${evaluation.formatTime}, <strong>${evaluation.user.name}&nbsp;</strong>说：</p>
-      <p>内容 : ${evaluation.content}</P>
-      <#if (evaluation.extraProperties)??>
-            <#list evaluation.extraProperties as extraProperty >
-            <p>${extraProperty.evaluationExtraProperty.propertyName} : ${extraProperty.propertyValue}</p>
-            </#list>
-      </#if>
+    <div class="star" data-score="${(evaluation.point)!0}" data-readOnly="true"></div>
+    <p>在${evaluation.formatTime}, <strong>${evaluation.user.name}&nbsp;</strong>说：</p>
+    <p>内容 : ${evaluation.content}</P>
+    <#if (evaluation.extraProperties)??>
+    <#list evaluation.extraProperties as extraProperty >
+    <p>${extraProperty.evaluationExtraProperty.propertyName} : ${extraProperty.propertyValue}</p>
+    </#list>
+    </#if>
 </div>

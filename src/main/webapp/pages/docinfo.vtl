@@ -6,20 +6,15 @@
     <!-- Le styles -->
     <link href="../source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
-    <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
     <script src="../source/static/jquery-2.0.3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../source/static/jRating.jquery.css" media="screen" />
-    <script type="text/javascript" src="../source/static/jRating.jquery.js"></script>
+    <script type="text/javascript" src="../source/static/jquery.raty.min.js"></script>
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
 
-        .bread-nav {
-            font-size: 20px;
-        }
     </style>
 
 </head>
@@ -71,7 +66,7 @@
                   <!-- Button trigger modal -->
                   <button class="btn btn-info" data-toggle="modal" data-target="#docsearchModal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;<strong>展开高级搜索</strong></button>
                 </span>
-                </div><!-- /input-group --> 
+                </div><!-- /input-group -->
             </form>
 
             <!-- Modal -->
@@ -82,7 +77,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title" id="myModalLabel">文章高级搜索</h4>
                         </div>
-                        
+
                         <div class="modal-body">
                             <form class="form-horizontal" role="form" method="POST" action="../docsearch/advanceddocsearch">
                                 <div class="form-group">
@@ -107,7 +102,7 @@
                                         <input type="text" class="form-control" name="title">
                                     </div>
                                 </div>
-  
+
                                 <div class="form-group">
                                     <label for="other" class="col-sm-4 control-label">文章的作者</label>
                                     <div class="col-sm-6">
@@ -121,7 +116,7 @@
                                   <input type="text" class="form-control" name="tag">
                                 </div>
                               </div>
-  
+
                               <div class="form-group">
                                 <label for="ppt" class="col-sm-4 control-label">搜索的关键字</label>
                                 <div class="col-sm-6">
@@ -135,7 +130,7 @@
                                   <input type="text" class="form-control" name="publisher">
                                 </div>
                               </div>
-              
+
                               <div class="form-group">
                                 <label for="code" class="col-sm-4 control-label">文章发表的时间</label>
                                 <div class="col-sm-6">
@@ -150,8 +145,8 @@
 
                             </form>
                         </div>
-                        
-                        
+
+
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
@@ -259,8 +254,7 @@
                 <input name="documentId" value="${document.id}" hidden="hidden" />
                 <input class="volatile" type="text" name="evaluationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
                 <input name="evaluation.type" value="${(draftEvaluation.type)!0}" hidden="hidden" id="evalType"/>
-                <div class="basic" data-average="${(draftEvaluation.point)!0}" style="margin-bottom:10px; float:right;"></div>
-                <input class="volatile" type="text" name="evaluation.point" hidden="hidden" id="evalPoint" value="${(draftEvaluation.point)!0}" />
+                <div class="star" style="float:right" data-score="${(draftEvaluation.point)!0}" data-readOnly="false"></div>
                 <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
                 <br/>
                 <div id="detailEvalContainer">
@@ -287,7 +281,7 @@
                 <#list document.publishedEvaluations as evaluation>
 
                     <div class="well">
-                        <div class="ratePoint" data-average="${(evaluation.point)!0}"></div>
+                        <div class="star" data-score="${(evaluation.point)!0}" data-readOnly="true"></div>
                         <p>在${evaluation.formatTime}, <strong>${evaluation.user.name}&nbsp;</strong>说：</p>
                         <p>内容 : ${evaluation.content}</P>
                         <#if (evaluation.extraProperties)??>
@@ -306,7 +300,6 @@
             var detailEvalContainer = $("#detailEvalContainer");
             var commentContainer = $("#commentContainer");
             var evaluationForm = $("#evaluationForm");
-            var evaluationPointInput = $("#evalPoint");
             var extendEvaluationButton = $("#extendEvaluationButton");
 
             $("#saveDraftButton").click(function(e) {
@@ -337,6 +330,7 @@
                                 $(data).prependTo(commentContainer).show("normal");
                                 evaluationForm.find("textarea").val("");
                                 evaluationForm.find(".volatile").attr("value", "0");
+                                initStartPoint();
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 alert("Fail");
@@ -356,31 +350,13 @@
             });
 
             $(document).ready(function(){
-                  $(".basic").jRating({
-                     bigStarsPath : "../source/static/icons/stars.png",
-                     canRateAgain : true,
-                   nbRates : 10,
-                   length : 5,
-                   step:true,
-                   sendRequest : false,
-                   showRateInfo:false,
-                   rateMax: 5,
-                     onClick : function(element,rate) {
-                       evaluationPointInput.attr("value", rate);
-                     }
-                   });
-
-                   $(".ratePoint").jRating({
-                     bigStarsPath : "../source/static/icons/stars.png",
-                   nbRates : 10,
-                   length : 5,
-                   isDisabled : true,
-                   sendRequest : false,
-                   showRateInfo:false,
-                   rateMax: 5,
-                   });
+                   initStartPoint();
                    initEvaluationContainer();
             });
+
+            function initStartPoint() {
+                   $('.star').raty({ score: function() { return $(this).attr("data-score");}, readOnly: function() { return $(this).attr("data-readOnly") == "true";}, scoreName: 'evaluation.point', starOn: "../source/image/star-on.png", starOff: "../source/image/star-off.png"});
+            }
 
             function initEvaluationContainer() {
                    var type = $("#evalType").attr("value");
