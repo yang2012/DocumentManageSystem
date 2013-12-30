@@ -162,20 +162,20 @@
 </div>
 
         <div class="row">
-		      <div class="col-xs-1"></div>
-          <div class="col-xs-10" style="background-color:#CCEEFF;">
+		  <div class="col-xs-2"></div>
+          <div class="col-xs-8" style="background-color:#CCEEFF;">
             <br/>
             <div class="bread-nav">
               <ol class="breadcrumb">
                 <li><a href="../account/getAllDocuments"><b>文献列表</b></a></li>
                 <li class="active">当前文章</li>
             </ol>
-        </div>
+            </div>
 
             <h4>
               <div class="col-xs-7">
-              <span class="label label-info">标题：</span><br/><br/>
-              <i>${document.title}</i></div>
+              <h4><span class="label label-success ">标题：</span><br/></h4>
+              <strong>${document.title}</strong></div>
               <div class="col-xs-5 pull-right">
               <a href="../document/showmodification?docId=${document.id}" class="btn btn-primary active"><span class="glyphicon glyphicon-edit"></span>&nbsp;
               编辑
@@ -186,11 +186,13 @@
               </button>
               &nbsp;&nbsp;
               <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-open"></span>&nbsp;
-              上传附件
+              所有附件
               </button>
             </div>
         </h4>
+
         <div class="col-xs-12 well">
+
             <h4><span class="label label-primary"><span class="glyphicon glyphicon-tag">&nbsp;标签</span></span></h4>
 
             <div class="well">
@@ -394,7 +396,7 @@
             }
         </script>
     </div>
-
+<div class="col-xs-2"></div>
 </div>
 <footer>
     <a class="pull-right" href="#"><span class="glyphicon glyphicon-arrow-up"></span>返回顶部</a>
@@ -412,21 +414,34 @@
              	<iframe width="99.6%" name="myiframe" id="myiframe" frameborder=0 src="../document/findAttachments?docId=${document.id}"></iframe>
                 <form class="form-inline" role="form" method="POST"
                       action="../document/upload" enctype="multipart/form-data" target="myiframe">
-                    <div class="form-group">
-                    	<select class="form-control"  name="attachmentType">
-                    		<option selected>论文</option>
-                    		<option>代码</option>
-                    		<option>演示</option>
-                    		<option>视频</option>
-                    	</select>
-                        <input type="hidden" name="documentId" value=${document.id}>
+                      <div class="row">
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-2">
+                            <div class="form-group">
+                                <select class="form-control"  name="attachmentType">
+                                    <option selected>论文</option>
+                                    <option>代码</option>
+                                    <option>演示</option>
+                                    <option>视频</option>
+                                </select>
+                                <input type="hidden" name="documentId" value=${document.id}>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <input type="file" class="form-control"  name="upload">
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">上传文件</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="file" class="form-control"  name="upload">
-                    </div>
-                    <div class="form-group">
-						<button type="submit" class="btn btn-primary">上传</button>
-                    </div>
+                  
                 </form>
             </div>
             
