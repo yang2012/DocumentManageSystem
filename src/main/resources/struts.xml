@@ -36,8 +36,7 @@
     <include file="document.xml" />
     <include file="user.xml" />
     <include file="docconf.xml" />
-    <include file="simpledocsearch.xml" />
-    <include file="advanceddocsearch.xml" />
+    <include file="docsearch.xml" />
     <include file="comconf.xml" />
     <include file="refconf.xml" />
     <include file="meeconf.xml" />
