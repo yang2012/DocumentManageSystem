@@ -6,7 +6,7 @@
 <struts>
     <package name="json" extends="json-default">
         <action name="savedraft" class="evaluationAction" method="saveEvaluationDraft">
-            <result name="success" type="json">
+            <result type="json">
                 <param name="root">
                     evaluation.id
                 </param>

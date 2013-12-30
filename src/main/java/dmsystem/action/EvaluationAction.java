@@ -3,7 +3,6 @@ package dmsystem.action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Evaluation;
-import dmsystem.entity.EvaluationExtraProperty;
 import dmsystem.entity.User;
 import dmsystem.service.EvaluationService;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
@@ -15,7 +14,12 @@ import java.util.*;
  */
 public class EvaluationAction extends ActionSupport {
 
-    private EvaluationService evaluationService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6462402298793799592L;
+
+	private EvaluationService evaluationService;
 
     private User user;
 
