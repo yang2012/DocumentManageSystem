@@ -75,7 +75,7 @@ public class EvaluationWithExtraProperty implements java.io.Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		DocumentWithExtraProperty that = (DocumentWithExtraProperty) o;
+		EvaluationWithExtraProperty that = (EvaluationWithExtraProperty) o;
 
 		if (getPk() != null ? !getPk().equals(that.getPk())
 				: that.getPk() != null)
