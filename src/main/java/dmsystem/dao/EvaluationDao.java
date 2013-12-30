@@ -46,7 +46,7 @@ public class EvaluationDao {
         Evaluation draft = null;
         Session session = this.hibernateUtil.getSessionFactory().getCurrentSession();
 
-        Query query = session.createQuery("from Evaluation e where e.user=:user and e.document=:document and e.published=true");
+        Query query = session.createQuery("from Evaluation e where e.user=:user and e.document=:document and e.published=false");
         query.setEntity("user", user);
         query.setEntity("document", document);
         List result = query.list();

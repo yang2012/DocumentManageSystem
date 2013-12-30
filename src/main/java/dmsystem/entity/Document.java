@@ -263,7 +263,7 @@ public class Document implements java.io.Serializable {
 
         Collections.sort(publishedEvaluations, new Comparator<Evaluation>() {
             public int compare(Evaluation o1, Evaluation o2) {
-                return o1.getCreateTime().compareTo(o2.getCreateTime());
+                return o2.getCreateTime().compareTo(o1.getCreateTime());
             }
         });
         return publishedEvaluations;

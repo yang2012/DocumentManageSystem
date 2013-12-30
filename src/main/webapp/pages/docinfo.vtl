@@ -260,10 +260,11 @@
         <div class="col-xs-12 well" id="evalContainer">
             <button class="btn" id="extendEvaluationButton">简要评价</button>
             <form method="POST" id="evaluationForm" role="form">
-                <input name="evalulationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
+                <input name="documentId" value="${document.id}" hidden="hidden" />
+                <input class="volatile" type="text" name="evaluationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
                 <input name="evaluation.type" value="${(draftEvaluation.type)!0}" hidden="hidden" id="evalType"/>
-                <div class="basic" data-average="0" style="margin-bottom:10px; float:right;"></div>
-                <input name="evaluation.point" hidden="hidden" id="evalPoint" />
+                <div class="basic" data-average="${(draftEvaluation.point)!0}" style="margin-bottom:10px; float:right;"></div>
+                <input class="volatile" type="text" name="evaluation.point" hidden="hidden" id="evalPoint" value="${(draftEvaluation.point)!0}" />
                 <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
                 <br/>
                 <div id="detailEvalContainer">
@@ -290,9 +291,14 @@
                 <#list document.publishedEvaluations as evaluation>
 
                     <div class="well">
-                        <p>2013-12-18-14:23</p>
-                        <strong>${evaluation.user.name}&nbsp;</strong>说：
-                        <p>${evaluation.content}</P>
+                        <div class="ratePoint" data-average="${(evaluation.point)!0}"></div>
+                        <p>在${evaluation.formatTime}, <strong>${evaluation.user.name}&nbsp;</strong>说：</p>
+                        <p>内容 : ${evaluation.content}</P>
+                        <#if (evaluation.extraProperties)??>
+                        <#list evaluation.extraProperties as extraProperty >
+                        <p>${extraProperty.evaluationExtraProperty.propertyName} : ${extraProperty.propertyValue}</p>
+                        </#list>
+                        </#if>
                     </div>
 
                 </#list>
@@ -305,6 +311,7 @@
             var commentContainer = $("#commentContainer");
             var evaluationForm = $("#evaluationForm");
             var evaluationPointInput = $("#evalPoint");
+            var extendEvaluationButton = $("#extendEvaluationButton");
 
             $("#saveDraftButton").click(function(e) {
                 var postData = getFormData(evaluationForm);
@@ -332,6 +339,8 @@
                             data: postData,
                             success: function (data, textStatus, jqXHR) {
                                 $(data).prependTo(commentContainer).show("normal");
+                                evaluationForm.find("textarea").val("");
+                                evaluationForm.find(".volatile").attr("value", "0");
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 alert("Fail");
@@ -340,7 +349,7 @@
                 e.preventDefault(); //STOP default action
             });
 
-            $("#extendEvaluationButton").click(function () {
+            extendEvaluationButton.click(function () {
                 var type = evalTypeElement.attr("value") == 0 ? 1 : 0;
                 $("#detailEvalContainer").slideToggle("normal", function () {
                     evalTypeElement.attr("value", type);
@@ -348,24 +357,6 @@
 
                 var text = $(this).text();
                 $(this).text(text == "详细评价" ? "简要评价" : "详细评价");
-            });
-
-            evaluationForm.submit(function (e) {
-                var postData = getFormData($(this));
-                var formURL = $(this).attr("action");
-                $.ajax(
-                        {
-                            url: formURL,
-                            type: "POST",
-                            data: postData,
-                            success: function (data, textStatus, jqXHR) {
-                                $(data).prependTo(commentContainer).show("normal");
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                alert("Fail");
-                            }
-                        });
-                e.preventDefault(); //STOP default action
             });
 
             $(document).ready(function(){
@@ -382,7 +373,29 @@
                        evaluationPointInput.attr("value", rate);
                      }
                    });
+
+                   $(".ratePoint").jRating({
+                     bigStarsPath : "../source/static/icons/stars.png",
+	                 nbRates : 10,
+	                 length : 5,
+	                 isDisabled : true,
+	                 sendRequest : false,
+	                 showRateInfo:false,
+	                 rateMax: 5,
+                   });
+                   initEvaluationContainer();
             });
+
+            function initEvaluationContainer() {
+                   var type = $("#evalType").attr("value");
+                   if (type == 1) {
+                        detailEvalContainer.show();
+                        extendEvaluationButton.text("详细评价");
+                   } else {
+                        detailEvalContainer.hide();
+                        extendEvaluationButton.text("简要评价");
+                   }
+            }
 
             function getFormData($form){
                 var unindexed_array = $form.serializeArray();

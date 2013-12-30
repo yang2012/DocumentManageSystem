@@ -153,6 +153,7 @@ public class AppTests {
 
         Evaluation evaluation = new Evaluation();
         evaluation.setContent("helloworld");
+        evaluation.setCreateTime(new Date());
         evaluation.setPoint(5);
         evaluation.setPublished(true);
         evaluation.setType(1);
