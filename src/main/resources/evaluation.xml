@@ -17,7 +17,7 @@
     <package name="evaluation" extends="default">
 
         <action name="commiteval" class="evaluationAction" method="commitEvaluation">
-            <result name="success">/pages/commentTemplate.jsp</result>
+            <result name="success" type="freemarker">/pages/commentTemplate.vtl</result>
         </action>
 
         <action name="deleteeval" class="evaluationAction" method="deleteEvaluation">

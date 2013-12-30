@@ -26,6 +26,10 @@ public class EvaluationAction extends ActionSupport {
 
     private List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers;
 
+    public EvaluationService getEvaluationService() {
+        return evaluationService;
+    }
+
     public void setEvaluationService(EvaluationService evaluationService) {
         this.evaluationService = evaluationService;
     }
@@ -38,28 +42,36 @@ public class EvaluationAction extends ActionSupport {
         this.user = user;
     }
 
-    public void setDocumentId(Integer documentId) {
-        this.documentId = documentId;
-    }
-
     public Integer getDocumentId() {
         return documentId;
     }
 
-    public void setEvaluation(Evaluation evaluation) {
-        this.evaluation = evaluation;
+    public void setDocumentId(Integer documentId) {
+        this.documentId = documentId;
+    }
+
+    public Integer getEvaluationId() {
+        return evalulationId;
+    }
+
+    public void setEvaluationId(Integer evaluationId) {
+        this.evalulationId = evaluationId;
     }
 
     public Evaluation getEvaluation() {
         return evaluation;
     }
 
-    public void setEvaluationExtraPropertyWrappers(List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
-        this.evaluationExtraPropertyWrappers = evaluationExtraPropertyWrappers;
+    public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
     }
 
     public List<EvaluationExtraPropertyWrapper> getEvaluationExtraPropertyWrappers() {
         return evaluationExtraPropertyWrappers;
+    }
+
+    public void setEvaluationExtraPropertyWrappers(List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+        this.evaluationExtraPropertyWrappers = evaluationExtraPropertyWrappers;
     }
 
     public String commitEvaluation() {
@@ -67,7 +79,7 @@ public class EvaluationAction extends ActionSupport {
         this.evaluation.setPublished(true);
 
         // Persistent evaluation
-        this._saveEvaluation();
+        this.evaluation = this.evaluationService.saveEvaluation(this.user, this.documentId, this.evalulationId, this.evaluation, this.evaluationExtraPropertyWrappers);
 
         if (this.evaluation != null) {
             return SUCCESS;
@@ -78,14 +90,9 @@ public class EvaluationAction extends ActionSupport {
 
     public String saveEvaluationDraft() {
         this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-        if (this.evalulationId == null || this.evalulationId == 0) {
-            this.evaluation.setPublished(false);
 
-            // Persistent evaluation
-            this._saveEvaluation();
-        } else {
-            this.evaluationService.update(this.evalulationId, this.evaluation, this.evaluationExtraPropertyWrappers);
-        }
+        this.evaluation.setPublished(false);
+        this.evaluation = this.evaluationService.saveDraft(this.user, this.documentId, this.evalulationId, this.evaluation, this.evaluationExtraPropertyWrappers);
 
         if (evaluation != null) {
             return SUCCESS;
@@ -96,13 +103,5 @@ public class EvaluationAction extends ActionSupport {
 
     public String deleteEvaluation() {
         return SUCCESS;
-    }
-
-    public void _saveEvaluation() {
-        if (this.evaluationExtraPropertyWrappers == null || this.evaluationExtraPropertyWrappers.isEmpty()) {
-            this.evaluation = this.evaluationService.add(user, this.documentId, this.evaluation);
-        } else {
-            this.evaluation = this.evaluationService.add(user, this.documentId, this.evaluation, this.evaluationExtraPropertyWrappers);
-        }
     }
 }
