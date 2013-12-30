@@ -65,7 +65,7 @@ public class UserDao {
 
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUser() throws Exception {
-		return hibernateUtil.getAll(User.class, "name", true);
+		return hibernateUtil.getAll(User.class, "id", true);
 	}
 
 	private User _update(User user, Map<String, String> values)

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserServiceImpl implements UserService {
 
 	private UserDao userDao;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 		this.userDao = userDao;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+//	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void save(User user) {
         try {
             userDao.add(user);
