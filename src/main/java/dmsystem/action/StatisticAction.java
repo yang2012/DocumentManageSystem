@@ -5,6 +5,11 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import dmsystem.entity.User;
 
+/**
+ * 
+ * @author bryant zhang
+ * 
+ */
 public class StatisticAction extends ActionSupport {
 	/**
 	 * 
@@ -13,6 +18,10 @@ public class StatisticAction extends ActionSupport {
 
 	private User user;
 
+	private String time;
+	private String operationType;
+	private String username;
+
 	public String retrievestatistic() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
@@ -20,6 +29,30 @@ public class StatisticAction extends ActionSupport {
 			return LOGIN;
 		} else
 			return SUCCESS;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getOperationType() {
+		return operationType;
+	}
+
+	public void setOperationType(String operationType) {
+		this.operationType = operationType;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public User getUser() {

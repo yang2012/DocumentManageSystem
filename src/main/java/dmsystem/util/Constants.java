@@ -72,4 +72,9 @@ public class Constants {
     // Using for evaluation type
     public static final Integer kSimpleEvaluation = 0;
     public static final Integer kDetailEvaluation = 1;
+	
+	// Using for retrieving statistic data
+	public static final String kTimeSelectField = "time";
+	public static final String kOperationTypeSelectField = "operationType";
+	public static final String kUsernameSelectField = "username";
 }
