@@ -7,8 +7,8 @@
 
     <package name="statistic" extends="default">
 
-        <action name="getstatistic" method="getstatistic" class="statisticAction">
-            <result name="success">/pages/statistic.vtl</result>
+        <action name="getstatistic" method="retrievestatistic" class="statisticAction">
+            <result name="success" type="freemarker">/pages/statistic.vtl</result>
         </action>
 
     </package>

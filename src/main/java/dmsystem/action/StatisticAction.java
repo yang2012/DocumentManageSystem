@@ -13,7 +13,7 @@ public class StatisticAction extends ActionSupport {
 
 	private User user;
 
-	public String getstatistic() {
+	public String retrievestatistic() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {
