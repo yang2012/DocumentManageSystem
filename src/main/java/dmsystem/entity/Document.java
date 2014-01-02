@@ -269,6 +269,22 @@ public class Document implements java.io.Serializable {
         return publishedEvaluations;
     }
 
+    @Transient
+    public Integer getAveragePoint() {
+        Integer averagePoint = 0;
+        Set<Evaluation> evaluations = this.evaluations;
+        if (evaluations != null && evaluations.size() != 0) {
+            Integer totalPoint = 0;
+            for (Evaluation evaluation : evaluations) {
+                Integer point = evaluation.getPoint();
+                totalPoint += point == null ? 0 : point;
+            }
+
+            averagePoint = totalPoint / evaluations.size();
+        }
+        return averagePoint;
+    }
+
     public void updateInfo(Document document) {
     	Integer id=document.getId();
     	if(id!=null&&!id.equals(this.id)){
