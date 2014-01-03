@@ -91,14 +91,12 @@
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">
                                         <select class="form-control" name="documentType">
-                                            <option value="0">请选择文献类型...</option>
-                                            <option value="1">图书</option>
-                                            <option value="2">图书章节</option>
-                                            <option value="3">期刊</option>
-                                            <option value="4">会议</option>
-                                            <option value="5">学位论文</option>
-                                            <option value="6">技术报告</option>
-                                            <option value="7">在线资源</option>
+                                            <option>请选择文献类型...</option>
+                    
+                                            <#list documentTypes as documentType>         
+                                                <option value=${documentType.id}>${documentType.name}</option>
+                                            </#list>
+                                            
                                         </select>
                                     </div>
                                 </div>

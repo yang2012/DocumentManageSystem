@@ -116,14 +116,12 @@
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">
                                         <select class="form-control" name="documentType">
-                                            <option value="0">请选择文献类型...</option>
-                                            <option value="1">图书</option>
-                                            <option value="2">图书章节</option>
-                                            <option value="3">期刊</option>
-                                            <option value="4">会议</option>
-                                            <option value="5">学位论文</option>
-                                            <option value="6">技术报告</option>
-                                            <option value="7">在线资源</option>
+                                            <option>请选择文献类型...</option>
+                    
+                                            <#list documentTypes as documentType>         
+                                                <option value=${documentType.id}>${documentType.name}</option>
+                                            </#list>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -194,6 +192,17 @@
             <form class="form-horizontal well" role="form" method="POST" action="../document/commitmodification">
 
               <div class="form-group discription">
+                <label for="type" class="col-sm-2 control-label">文献类型 *</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="documentTypeId" onchange="choose(this.options[this.options.selectedIndex].value)">
+                    <#list documentTypes as documentType>         
+                    <option value=${documentType.id}>${documentType.name}</option>
+                    </#list>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group discription">
                 <label for=" author" class="col-sm-2 control-label">标签 *</label>
                 <div class="col-sm-9">
                     <div class="well">
@@ -262,17 +271,6 @@
                 <label for="url" class="col-sm-2 control-label">在线的网址 *</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="document.url" value=${document.url}>
-                </div>
-              </div>
-            
-              <div class="form-group discription">
-                <label for="type" class="col-sm-2 control-label">文献类型 *</label>
-                <div class="col-sm-9">
-                  <select class="form-control" name="documentTypeId" onchange="choose(this.options[this.options.selectedIndex].value)">
-                    <#list documentTypes as documentType>		      
-                    <option value=${documentType.id}>${documentType.name}</option>
-                    </#list>
-                  </select>
                 </div>
               </div>
 
