@@ -29,10 +29,13 @@ public class ModifyPasswordAction extends ActionSupport {
 	private String newPasswordConfirm;
 
 	private ModifyPasswordService modifyPasswordService;
+	private DocumentTypeService documentTypeService;
+	private List<DocumentType> documentTypes;
 
 	public String modifypassword() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
+		this.documentTypes = this.documentTypeService.getAll();
 
 		if (user == null) {
 			return LOGIN;
@@ -90,4 +93,19 @@ public class ModifyPasswordAction extends ActionSupport {
 		this.modifyPasswordService = modifyPasswordService;
 	}
 
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
+	}
 }

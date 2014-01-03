@@ -8,230 +8,12 @@
     <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <script src="../source/static/bootstrap/js/jquery-1.10.2.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
-	<script src="../source/static/Highcharts-2.3.3/js/highcharts.js"></script>
 	<style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
     </style>
-	
-	<script type="text/javascript">
-
-      $(function () {
-        $(document).ready(function(){
-          loadChartWithoutOthers();
-        });
-      });
-
-      function refreshGraph(){
-        var timeSelect = document.getElementById("time-select");
-        var operationSelect = document.getElementById("operation-select");
-        var userSelect = document.getElementById("user-select");
-        var time = timeSelect.options[timeSelect.selectedIndex].text;
-        var operation = operationSelect.options[operationSelect.selectedIndex].text;
-        var user = userSelect.options[userSelect.selectedIndex].text;
-        
-		if(user=="平均"){
-			loadChartWithoutOthers();
-		}else{
-			loadChartWithOthers();
-		}
-      };
-
-      function loadChartWithoutOthers() {
-		
-        var chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'statistic-graph',   
-                zoomType: 'xy',
-                marginLeft: 80,
-                marginRight: 80
-            },
-            title: {
-                text: '工作记录统计'
-            },
-            xAxis: {
-              categories: ['Seventh','Sixth','Fifth','Forth','Third','Second','First']
-            },
-            yAxis: {
-                labels: {
-                    formatter: function() {
-                        return this.value;
-                    },
-                    style: {
-                        color: '#4572A7'
-                    }
-                },
-                title: {
-                    text: "统计",
-                    style: {
-                        color: '#4572A7'
-                    }
-                }
-            },
-            tooltip: {
-                formatter: function() {
-                    var s;
-                    if (this.point.name) { // the pie chart
-                        s = ''+
-                            this.point.name +': '+ this.y;
-                    } else {
-                        s = ''+
-                            this.x  +': '+ this.y;
-                    }
-                    return s;
-                }
-            },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    },
-                    enableMouseTracking: false
-                }
-            },
-			labels: {
-                items: [{
-                    html: '整体工作情况',
-                    style: {
-                        left: '45px',
-                        top: '-10px',
-                        color: 'black'
-                    }
-                }]
-            },
-            series: [{
-                type: 'column',
-                name: '我的记录',
-                data: [6, 7, 4, 3, 3, 9, 10]
-            }, {
-                type: 'spline',
-                name: '平均值',
-                data: [3, 4.5, 8,  2.67, 3, 6.33, 3.33],
-                marker: {
-                  lineWidth: 2,
-                  lineColor: Highcharts.getOptions().colors[3],
-                  fillColor: 'white'
-                }
-            }, {
-                type: 'pie',
-                name: 'Total consumption',
-                data: [
-                  ['文献录入',34],
-                  ['上传附件', 45],
-                  ['发表简单评论', 12],
-                  ['发表详细评论', 13]
-                ],
-                center: [80, 60],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
-        });
-    }
-
-    function loadChartWithOthers() {
-        var chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'statistic-graph',
-                
-                zoomType: 'xy',
-                marginLeft: 80,
-                marginRight: 80
-            },
-            title: {
-                text: '工作记录统计'
-            },
-            xAxis: {
-              categories: ['Seventh','Sixth','Fifth','Forth','Third','Second','First']
-            },
-            yAxis: {
-                labels: {
-                    formatter: function() {
-                        return this.value;
-                    },
-                    style: {
-                        color: '#4572A7'
-                    }
-                },
-                title: {
-                    text: "统计",
-                    style: {
-                        color: '#4572A7'
-                    }
-                }
-            },
-            tooltip: {
-                formatter: function() {
-                    var s;
-                    if (this.point.name) { // the pie chart
-                        s = ''+
-                            this.point.name +': '+ this.y;
-                    } else {
-                        s = ''+
-                            this.x  +': '+ this.y;
-                    }
-                    return s;
-                }
-            },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    },
-                    enableMouseTracking: false
-                }
-            },
-			labels: {
-                items: [{
-                    html: '整体工作情况',
-                    style: {
-                        left: '45px',
-                        top: '-10px',
-                        color: 'black'
-                    }
-                }]
-            },
-            series: [{
-                type: 'column',
-                name: 'bryant',
-                data: [6, 7, 4, 3, 3, 9, 10]
-            },
-            {
-                type: 'column',
-                name: 'justin',
-                data: [4, 8, 7, 2, 1, 13, 20]
-            }, {
-                type: 'spline',
-                name: 'Average',
-                data: [3, 4.5, 8,  2.67, 3, 6.33, 3.33],
-                marker: {
-                  lineWidth: 2,
-                  lineColor: Highcharts.getOptions().colors[3],
-                  fillColor: 'white'
-                }
-            }, {
-                type: 'pie',
-                name: 'Total consumption',
-                data: [
-                  ['文献录入',34],
-                  ['上传附件', 45],
-                  ['发表简单评论', 12],
-                  ['发表详细评论', 13]
-                ],
-                center: [80, 60],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
-        });
-    }
-    </script>
 
   </head>
     <body>
@@ -377,27 +159,57 @@
 			<div class="row well">
 				<div class="col-xs-3">
 					<select class="form-control selectpicker" name="time" onchange="refreshGraph()" id="time-select">
-                                            <option value="1">每周</option>
-                                            <option value="2">每月</option>
-                                            <option value="3">每年</option>
+                                            <option value="1">最近一周</option>
+                                            <option value="2">最近一月</option>
+                                            <option value="3">最近一年</option>
                     </select>
 					<br/>
-					<select class="form-control selectpicker" name="operationType" onchange="refreshGraph()" id="operation-select">
-                                            <option value="1">文献录入</option>
-                                            <option value="2">上传附件</option>
-                                            <option value="3">发表简单评论</option>
-                                            <option value="4">发表详细评论</option>
-                    </select>
-                    <br/>
-                    <select class="form-control selectpicker" name="username" onchange="refreshGraph()" id="user-select">
-                                            <option value="1">平均</option>
-                                            <option value="2">王子宁</option>
-                                            <option value="3">杨宜杰</option>
-                                            <option value="4">张仁涛</option>
-                    </select>
+                    <form class="form-search" method="POST" action="../docsearch/simpledocsearch">
+                        
+                        <h4>指定时间范围：</h4>
+                        起始时间<input type="text" class="form-control" name="fromDate" placeholder="yyyy-mm-dd">
+                        <br/>
+                        结束时间<input type="text" class="form-control" name="toDate" placeholder="yyyy-mm-dd">
+                        <br/>
+
+                        <button type="button" class="btn btn-primary">确认提交</button>
+                    </form>
 				</div>
+
 				<div class="col-xs-9">
-					<div id="statistic-graph"></div>
+					<table class="table table-hover table-bordered">
+                        
+                        <thead align="center">
+                            <td >
+                                小组成员
+                            </td>
+                            <td>
+                                文献录入
+                            </td>
+                            <td>
+                                上传附件
+                            </td>
+                            <td>
+                                发表简单评论
+                            </td>
+                            <td>
+                                发表详细评论
+                            </td>
+                        </thead>
+
+                        <#list operationlist as operation> 
+                        <tr align="center">
+                            <td>张仁涛</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        </#list>
+
+
+                    </table>
+
 				</div>
 			</div>
           </div>

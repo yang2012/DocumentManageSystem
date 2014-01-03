@@ -62,6 +62,7 @@
     
     <bean id="modifyPasswordAction" class="dmsystem.action.ModifyPasswordAction" scope="prototype">
         <property name="modifyPasswordService" ref="modifyPasswordService" />
+        <property name="documentTypeService" ref="documentTypeService" />
     </bean>
     
     <bean id="statisticAction" class="dmsystem.action.StatisticAction" scope="prototype">
