@@ -23,14 +23,15 @@ public class UserAction extends ActionSupport {
 
 	private DocumentService documentService;
 	private UserService userService;
-	
+
 	private DocumentTypeService documentTypeService;
 	private List<DocumentType> documentTypes;
 
 	public String index() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
-
+		documentTypes = this.documentTypeService.getAll();
+		
 		if (user == null) {
 			return LOGIN;
 		}
@@ -50,19 +51,21 @@ public class UserAction extends ActionSupport {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		documentTypes = this.documentTypeService.getAll();
-		
+
 		if (user == null) {
 			return LOGIN;
 		}
 		String result = null;
-		documents= this.documentService.getAll();
+		documents = this.documentService.getAll();
 		result = SUCCESS;
 		return result;
 	}
-	
-	public String showPassword(){
+
+	public String showPassword() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+
 		if (user == null) {
 			return LOGIN;
 		}
@@ -100,7 +103,7 @@ public class UserAction extends ActionSupport {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	public DocumentTypeService getDocumentTypeService() {
 		return documentTypeService;
 	}
