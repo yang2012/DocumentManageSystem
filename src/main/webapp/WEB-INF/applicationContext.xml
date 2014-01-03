@@ -62,14 +62,17 @@
     
     <bean id="modifyPasswordAction" class="dmsystem.action.ModifyPasswordAction" scope="prototype">
         <property name="modifyPasswordService" ref="modifyPasswordService" />
+        <property name="documentTypeService" ref="documentTypeService" />
     </bean>
     
     <bean id="statisticAction" class="dmsystem.action.StatisticAction" scope="prototype">
+    	<property name="documentTypeService" ref="documentTypeService" />
     </bean>
     
     <bean id="userAction" class="dmsystem.action.UserAction" scope="prototype">
         <property name="documentService" ref="documentService" />
         <property name="userService" ref="userService" />
+        <property name="documentTypeService" ref="documentTypeService" />
     </bean>
     
     <bean id="userManageAction" class="dmsystem.action.UserManageAction" scope="prototype">
@@ -84,6 +87,7 @@
 	<bean id="advancedDocSearchAction" class="dmsystem.action.AdvancedDocSearchAction"
 		scope="prototype">
 		<property name="documentSearchService" ref="documentSearchService" />
+		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 
     <bean id="attachmentAction" class="dmsystem.action.AttachmentAction" scope="prototype">
@@ -93,6 +97,7 @@
     <bean id="documentAction" class="dmsystem.action.DocumentAction" scope="prototype">
         <property name="documentService" ref="documentService" />
         <property name="evaluationService" ref="evaluationService" />
+        <property name="documentTypeService" ref="documentTypeService" />
     </bean>
 
     <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction" scope="prototype">
@@ -103,6 +108,7 @@
 	<bean id="simpleDocSearchAction" class="dmsystem.action.SimpleDocSearchAction"
 		scope="prototype">
 		<property name="documentSearchService" ref="documentSearchService" />
+		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 	
 	<bean id="comconfAction" class="dmsystem.action.ComconfAction" scope="prototype">

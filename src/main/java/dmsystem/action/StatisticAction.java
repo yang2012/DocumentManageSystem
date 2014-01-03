@@ -1,9 +1,13 @@
 package dmsystem.action;
 
+import java.util.List;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import dmsystem.entity.DocumentType;
 import dmsystem.entity.User;
+import dmsystem.service.DocumentTypeService;
 
 /**
  * 
@@ -22,9 +26,14 @@ public class StatisticAction extends ActionSupport {
 	private String operationType;
 	private String username;
 
+	private DocumentTypeService documentTypeService;
+	private List<DocumentType> documentTypes;
+
 	public String retrievestatistic() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+		
 		if (user == null) {
 			return LOGIN;
 		} else
@@ -61,6 +70,22 @@ public class StatisticAction extends ActionSupport {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
 	}
 
 }

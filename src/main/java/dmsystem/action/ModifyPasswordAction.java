@@ -1,9 +1,13 @@
 package dmsystem.action;
 
+import java.util.List;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import dmsystem.entity.DocumentType;
 import dmsystem.entity.User;
+import dmsystem.service.DocumentTypeService;
 import dmsystem.service.ModifyPasswordService;
 import dmsystem.util.StringUtil;
 
@@ -25,10 +29,30 @@ public class ModifyPasswordAction extends ActionSupport {
 	private String newPasswordConfirm;
 
 	private ModifyPasswordService modifyPasswordService;
+	private DocumentTypeService documentTypeService;
+	private List<DocumentType> documentTypes;
+
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
+	}
 
 	public String modifyPassword() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
+		documentTypes = this.documentTypeService.getAll();
+
 		if (user == null) {
 			return LOGIN;
 		}

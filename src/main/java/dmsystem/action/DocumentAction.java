@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.*;
 import dmsystem.service.DocumentService;
+import dmsystem.service.DocumentTypeService;
 import dmsystem.service.EvaluationService;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
 
@@ -25,8 +26,27 @@ public class DocumentAction extends ActionSupport {
     private Evaluation draftEvaluation;
     private List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers;
     private List<Attachment> attachments;
+    
+    private DocumentTypeService documentTypeService;
+    private List<DocumentType> documentTypes;
 
-    public List<Attachment> getAttachments() {
+    public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
+	}
+
+	public List<Attachment> getAttachments() {
 		return attachments;
 	}
 
@@ -84,7 +104,8 @@ public class DocumentAction extends ActionSupport {
 
     public String showInfo() {
         this.user = (User) ActionContext.getContext().getSession().get(User.SESSION_KEY);
-
+        this.documentTypes = this.documentTypeService.getAll();
+        
         this.document = this.documentService.get(this.docId);
 
         this.draftEvaluation = this.evaluationService.getSavedDraft(this.user, this.document);
