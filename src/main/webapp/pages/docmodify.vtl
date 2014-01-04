@@ -44,8 +44,17 @@
         	$("select[name=documentTypeId]").val("${document.documentType.id}");
         	choose(${document.documentType.id});
         }
+
+        function addTag(){
+          var tagDiv = document.getElementById("tag-div");
+          var tagInput = document.getElementById("tag-input");
+          var newTag = "<span class=\"label label-success\">" + tagInput.value + "&nbsp;</span>
+                      <button type=\"button\" class=\"btn btn-danger btn-xs\"><span class=\"glyphicon glyphicon-remove\"></span></button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;";
+          
+          tagDiv.appendChild(newTag);
+        }
     </script>
-    </style>
 
   </head>
     <body>
@@ -205,7 +214,7 @@
               <div class="form-group discription">
                 <label for=" author" class="col-sm-2 control-label">标签 *</label>
                 <div class="col-sm-9">
-                    <div class="well">
+                    <div class="well" id="tag-div">
                       
                     <#list document.tags as tag>
                     
@@ -309,7 +318,7 @@
                     <div class="col-xs-2"></div>
                       <div class="col-sm-8">
                         <input type="hidden" name="documentId" value=${document.id}></input>
-                        <input type="text" class="form-control" name="tagname" placeholder="标签名称...">
+                        <input type="text" class="form-control" name="tagname" id="tag-input" placeholder="标签名称...">
                       </div>
                   </div>
 
@@ -317,7 +326,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消新建</button>
                     <button type="submit" class="btn btn-primary">新建标签</button>
                   </div>
-                  
+
                 </form>
 
               </div>
