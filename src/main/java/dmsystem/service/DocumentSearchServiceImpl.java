@@ -11,6 +11,7 @@ import java.util.Set;
 
 import dmsystem.dao.DocumentSearchDao;
 import dmsystem.entity.Document;
+import dmsystem.entity.Tag;
 import dmsystem.util.StringUtil;
 
 /**
@@ -90,8 +91,7 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		if (!matchWords(doc.getAuthor(), paramsMap.get("author"))) {
 			return false;
 		}
-		if (!matchWords(doc.getTags().toArray().toString(),
-				paramsMap.get("tag"))) {
+		if (!matchWords(this.processTags(doc.getTags()), paramsMap.get("tag"))) {
 			return false;
 		}
 		if (!matchWords(doc.getKeywords(), paramsMap.get("keywords"))) {
@@ -157,6 +157,17 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		}
 	}
 
+	private String processTags(Set<Tag> tags) {
+		ArrayList<String> strList = new ArrayList<String>();
+		Iterator<Tag> iter = tags.iterator();
+		while (iter.hasNext()) {
+			strList.add(iter.next().getName());
+		}
+
+		return strList.toString().substring(1, strList.toString().length() - 1)
+				.replace(",", "");
+	}
+
 	public static void main(String args[]) {
 
 		DocumentSearchServiceImpl obj = new DocumentSearchServiceImpl();
@@ -173,6 +184,17 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		str1 = "role control";
 		str2 = "Network Access strategy";
 		System.out.println(obj.matchWords(str1, str2));
+		Tag tag1 = new Tag();
+		tag1.setName("hello");
+		Tag tag2 = new Tag();
+		tag2.setName("world");
+		Tag tag3 = new Tag();
+		tag3.setName("kobe bryant");
+		Set<Tag> set = new HashSet<Tag>();
+		set.add(tag1);
+		set.add(tag2);
+		set.add(tag3);
+		System.out.print(obj.processTags(set));
 
 	}
 }

@@ -56,6 +56,12 @@
     <bean id="loginAction" class="dmsystem.action.LoginAction" scope="prototype">
         <property name="userService" ref="userService" />
     </bean>
+    
+    <bean id="tagAction" class="dmsystem.action.TagAction" scope="prototype">
+        <property name="documentService" ref="documentService" />
+        <property name="documentTypeService" ref="documentTypeService" />
+        <property name="tagService" ref="tagService" />
+    </bean>
 	
 	<bean id="logoutAction" class="dmsystem.action.LogoutAction" scope="prototype">
     </bean>
@@ -137,6 +143,10 @@
     
     <bean id="modifyPasswordService" class="dmsystem.service.ModifyPasswordServiceImpl" scope="prototype">
         <property name="modifyPasswordDao" ref="modifyPasswordDao" />
+    </bean>
+    
+    <bean id="tagService" class="dmsystem.service.TagServiceImpl" scope="prototype">
+        <property name="tagDao" ref="tagDao" />
     </bean>
     
     <bean id="statisticService" class="dmsystem.service.StatisticServiceImpl" scope="prototype">

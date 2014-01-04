@@ -34,7 +34,7 @@ public class Constants {
 	public static final String kDocumentTypeField = "documentType";
 
 	// Using for creating a tag
-	public static final String kTagField = "tag";
+	public static final String kTagField = "tagname";
 
 	// Using for brief comment form
 	public static final String kBriefCommentField = "briefComment";
