@@ -23,11 +23,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 //	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void save(User user) {
+	public boolean save(User user) {
         try {
             userDao.add(user);
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
     }
 
