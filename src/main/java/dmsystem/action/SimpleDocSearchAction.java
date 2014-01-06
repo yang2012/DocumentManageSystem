@@ -29,14 +29,14 @@ public class SimpleDocSearchAction extends ActionSupport {
 	private DocumentTypeService documentTypeService;
 	private List<DocumentType> documentTypes;
 
-	public String getdoclist() {
+	public String getdoclist() throws Exception {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {
 			return LOGIN;
 		}
 		this.documentTypes = this.documentTypeService.getAll();
-		this.documents = this.documentSearchService.getDocList(keywords);
+		this.documents = this.documentSearchService.simpleSearch(keywords);
 		if (this.documents == null) {
 			return ERROR;
 		} else {

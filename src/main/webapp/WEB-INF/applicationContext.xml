@@ -99,6 +99,7 @@
 
     <bean id="attachmentAction" class="dmsystem.action.AttachmentAction" scope="prototype">
         <property name="attachmentService" ref="attachmentService" />
+        <property name="operationService" ref="operationService" />
     </bean>
 
     <bean id="documentAction" class="dmsystem.action.DocumentAction" scope="prototype">
@@ -110,6 +111,7 @@
     <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction" scope="prototype">
         <property name="documentService" ref="documentService" />
         <property name="documentTypeService" ref="documentTypeService" />
+        <property name="operationService" ref="operationService" />
     </bean>
 
 	<bean id="simpleDocSearchAction" class="dmsystem.action.SimpleDocSearchAction"
@@ -153,6 +155,10 @@
         <property name="statisticDao" ref="statisticDao" />
         <property name="userDao" ref="userDao" />
     </bean>
+    
+    <bean id="referenceConfService" class="dmsystem.service.ReferenceConfServiceImpl">
+    	<property name="relationTypeDao" ref="relationTypeDao"></property>
+    </bean>
 
     <bean id="documentService" class="dmsystem.service.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao" />
@@ -175,8 +181,8 @@
     	<property name="evaluationExtraPropertyDao" ref="evaluationExtraPropertyDao"></property>
     </bean>
     
-    <bean id="referenceConfService" class="dmsystem.service.ReferenceConfServiceImpl">
-    	<property name="relationTypeDao" ref="relationTypeDao"></property>
+    <bean id="operationService" class="dmsystem.service.OperationServiceImpl">
+    	<property name="operationDao" ref="operationDao"></property>
     </bean>
 
     <bean id="evaluationService" class="dmsystem.service.EvaluationServiceImpl">

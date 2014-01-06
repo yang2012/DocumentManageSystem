@@ -69,12 +69,22 @@ public class Constants {
 	public static final String kSearchPublisherField = "publisher";
 	public static final String kSearchYearField = "publishYear";
 
-    // Using for evaluation type
-    public static final Integer kSimpleEvaluation = 0;
-    public static final Integer kDetailEvaluation = 1;
-	
+	// Using for evaluation type
+	public static final Integer kSimpleEvaluation = 0;
+	public static final Integer kDetailEvaluation = 1;
+
 	// Using for retrieving statistic data
 	public static final String kTimeSelectField = "time";
 	public static final String kFromDateField = "fromDate";
 	public static final String kToDateField = "toDate";
+
+	// Using for operation content
+	public static final int importDocType = 1;
+	public static final int uploadAttachmentType = 2;
+	public static final int simpleCommentType = 3;
+	public static final int detailedCommentType = 4;
+	public static final String importDocExpression = "Import a document.";
+	public static final String uploadAttachmentExpression = "Upload an attachment.";
+	public static final String simpleCommentExpression = "Publish a simple comment.";
+	public static final String detailedCommentExpression = "Publish a detailed comment";
 }

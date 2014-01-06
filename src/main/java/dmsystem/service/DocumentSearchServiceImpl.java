@@ -30,84 +30,34 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		this.documentSearchDao = documentSearchDao;
 	}
 
-	public List<Document> getDocList(String keywords) {
-		List<Document> documents = null;
-		try {
-			documents = this.documentSearchDao.getAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public List<Document> simpleSearch(String keywords) throws Exception {
+		return this.documentSearchDao.simpleSearch(keywords);
+	}
 
-		List<Document> resultList = new ArrayList<Document>();
-		for (int i = 0; i < documents.size(); i++) {
-			if (matchDocForSimpleSearch(documents.get(i), keywords)) {
-				resultList.add(documents.get(i));
+	public List<Document> advancedSearch(String docType, String[] params)
+			throws Exception {
+		Map<String, String> paramsMap = this.filterParams(docType, params);
+		List<Document> documents = this.documentSearchDao
+				.advancedSearch(paramsMap);
+		if (StringUtil.isNullOrEmpty(paramsMap.get("tag"))
+				|| StringUtil.equals(paramsMap.get("tag"), "")) {
+			return documents;
+		} else {
+			List<Document> resultList = new ArrayList<Document>();
+			for (Document each : documents) {
+				if (this.matchTags(this.processTags(each.getTags()),
+						paramsMap.get("tag"))) {
+					resultList.add(each);
+				}
 			}
+
+			return resultList;
 		}
-		return resultList;
 	}
 
-	public List<Document> getDocList(String docType, String[] params) {
-		List<Document> documents = null;
-		try {
-			if (StringUtil.equals(docType, "0"))
-				documents = this.documentSearchDao.getAll();
-			else
-				documents = this.documentSearchDao.getDocsByType(docType);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		Map<String, String> paramsMap = this.filterParams(params);
-
-		List<Document> resultList = new ArrayList<Document>();
-		for (int i = 0; i < documents.size(); i++) {
-			if (matchDocForAdvancedSearch(documents.get(i), paramsMap)) {
-				resultList.add(documents.get(i));
-			}
-		}
-
-		return resultList;
-	}
-
-	private boolean matchDocForSimpleSearch(Document doc, String keywords) {
-		if (matchWords(doc.getTitle(), keywords)) {
-			return true;
-		}
-		if (matchWords(doc.getAuthor(), keywords)) {
-			return true;
-		}
-		if (matchWords(doc.getKeywords(), keywords)) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean matchDocForAdvancedSearch(Document doc,
-			Map<String, String> paramsMap) {
-		if (!matchWords(doc.getTitle(), paramsMap.get("title"))) {
-			return false;
-		}
-		if (!matchWords(doc.getAuthor(), paramsMap.get("author"))) {
-			return false;
-		}
-		if (!matchWords(this.processTags(doc.getTags()), paramsMap.get("tag"))) {
-			return false;
-		}
-		if (!matchWords(doc.getKeywords(), paramsMap.get("keywords"))) {
-			return false;
-		}
-		if (!matchWords(doc.getPublisher(), paramsMap.get("publisher"))) {
-			return false;
-		}
-		if (!matchWords(doc.getYear(), paramsMap.get("publishYear"))) {
-			return false;
-		}
-		return true;
-	}
-
-	private Map<String, String> filterParams(String[] params) {
+	private Map<String, String> filterParams(String docType, String[] params) {
 		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("documentType", docType);
 		paramMap.put("title", params[0]);
 		paramMap.put("author", params[1]);
 		paramMap.put("tag", params[2]);
@@ -127,18 +77,7 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		return resultMap;
 	}
 
-//	private List<Document> filterDocsByType(List<Document> list, String docType) {
-//		List<Document> resultList = new ArrayList<Document>();
-//		for (int i = 0; i < list.size(); i++) {
-//			if (StringUtil.equals(docType, list.get(i).getDocumentType()
-//					.getName())) {
-//				resultList.add(list.get(i));
-//			}
-//		}
-//		return resultList;
-//	}
-
-	private boolean matchWords(String str1, String str2) {
+	private boolean matchTags(String str1, String str2) {
 		if (StringUtil.isNullOrEmpty(str1) || StringUtil.isNullOrEmpty(str2)) {
 			return true;
 		} else {
@@ -177,13 +116,6 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		tags.add(str1);
 		tags.add(str2);
 		System.out.println(tags.toArray());
-		System.out.println(obj.matchWords(str1, str2));
-		str1 = "role bases access control";
-		str2 = "Network Access strategy";
-		System.out.println(obj.matchWords(str1, str2));
-		str1 = "role control";
-		str2 = "Network Access strategy";
-		System.out.println(obj.matchWords(str1, str2));
 		Tag tag1 = new Tag();
 		tag1.setName("hello");
 		Tag tag2 = new Tag();
@@ -195,6 +127,8 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 		set.add(tag2);
 		set.add(tag3);
 		System.out.print(obj.processTags(set));
-
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("zhaqi", "zhaqi");
+		System.out.println(map.get("a"));
 	}
 }

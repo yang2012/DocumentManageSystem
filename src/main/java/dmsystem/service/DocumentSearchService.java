@@ -10,7 +10,8 @@ import dmsystem.entity.Document;
  * 
  */
 public interface DocumentSearchService {
-	public List<Document> getDocList(String keywords);
+	public List<Document> simpleSearch(String keywords) throws Exception;
 
-	public List<Document> getDocList(String docType, String[] params);
+	public List<Document> advancedSearch(String docType, String[] params)
+			throws Exception;
 }

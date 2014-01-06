@@ -1,8 +1,14 @@
 package dmsystem.action;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import dmsystem.entity.Attachment;
+import dmsystem.entity.Operation;
+import dmsystem.entity.User;
 import dmsystem.service.AttachmentService;
+import dmsystem.service.OperationService;
+import dmsystem.util.Constants;
+import dmsystem.util.DateUtil;
 import dmsystem.util.FileUtility;
 
 import java.io.*;
@@ -13,8 +19,10 @@ import java.io.*;
 public class AttachmentAction extends ActionSupport {
 
     private AttachmentService attachmentService;
+    private OperationService operationService;
+    private User user;
 
-    private static final int BUFFER_SIZE = 16 * 1024;
+	private static final int BUFFER_SIZE = 16 * 1024;
 
     // Form input
     private Integer documentId;
@@ -70,6 +78,22 @@ public class AttachmentAction extends ActionSupport {
     public void setAttachmentService(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
+    
+    public OperationService getOperationService() {
+		return operationService;
+	}
+
+	public void setOperationService(OperationService operationService) {
+		this.operationService = operationService;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
     private void _saveFile() throws Exception {
         String directory = FileUtility.getFileDirectory();
@@ -118,6 +142,8 @@ public class AttachmentAction extends ActionSupport {
     }
 
     public String upload() {
+    	this.user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
         try {
             this._saveFile();
 
@@ -127,6 +153,14 @@ public class AttachmentAction extends ActionSupport {
             newAttachment.setUrl(FileUtility.getFileUrl(this.uploadFileName));
 
             this.attachmentService.upload(this.documentId, newAttachment);
+           
+            Operation operation = new Operation();
+			operation.setExpression(Constants.uploadAttachmentExpression);
+			operation.setTime(DateUtil.getCurrentDate());
+			operation.setType(Constants.uploadAttachmentType);
+			operation.setUser(user);
+			this.operationService.addOperation(operation);
+            
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

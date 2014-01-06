@@ -6,6 +6,8 @@
     <!-- Le styles -->
     <link rel="stylesheet" href="../source/static/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="../source/static/bootstrap/css/bootstrap-theme.css" />
+    <script src="../source/static/jquery-2.0.3.min.js"></script>
+    <script src="../source/static/bootstrap/js/bootstrap.js"></script>
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -36,6 +38,9 @@
                 <li><a href="../tagconf/gettagconf"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;标签配置</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="" data-toggle="modal" data-target="#backupModal"><span class="glyphicon glyphicon-compressed"></span>&nbsp;备份资料</a>
+                </li>
                 <li>
                     <a href="../account/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
                 </li>
@@ -113,6 +118,29 @@
     </div>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="backupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">备份资料</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;">
+            <h3><a href="">数据库备份资料下载</a></h3>
+        </div>
+        <div style="text-align:center;">
+            <h3><a href="">文献附件备份资料下载</a></h3>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消备份</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </body>
 </html>

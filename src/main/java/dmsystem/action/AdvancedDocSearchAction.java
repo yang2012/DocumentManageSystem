@@ -38,7 +38,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 	private DocumentTypeService documentTypeService;
 	private List<DocumentType> documentTypes;
 
-	public String getdoclist() {
+	public String getdoclist() throws Exception {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		if (user == null) {
@@ -46,7 +46,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 		}
 
 		this.documentTypes = this.documentTypeService.getAll();
-		this.documents = this.documentSearchService.getDocList(documentType,
+		this.documents = this.documentSearchService.advancedSearch(documentType,
 				this.initParams());
 		if (this.documents == null) {
 			return ERROR;
