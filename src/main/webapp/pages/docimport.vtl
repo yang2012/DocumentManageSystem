@@ -32,8 +32,23 @@
                         $("#extraproperty").html(msg);
                     });
             }
-            </script>
-
+    </script>
+    <script type="text/javascript">
+    	$(function(){
+    		$.ajax({
+                type: "GET",
+                url: "../meetingJson/getJson",
+                data: {}
+            })
+                    .done(function (msg) {
+                    	jsontest=stringToJson(msg);
+                    });
+    	});
+    	function stringToJson(stringValue){ 
+			eval("var theJsonValue = "+stringValue); 
+			return theJsonValue; 
+			} 
+    </script>
   </head>
     <body>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

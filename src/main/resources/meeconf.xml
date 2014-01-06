@@ -26,4 +26,14 @@
         	<result name="success" type="redirect">meeconf/getmeeconf</result>
         </action>
     </package>
+    
+    <package name="meetingJson" extends="json-default">                
+        <action name="getJson" method="getJson" class="meeconfAction">
+        	<result type="json">
+        		<param name="root">
+        			jsonResult
+        		</param>
+        	</result>
+        </action>
+    </package>
 </struts>

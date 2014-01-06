@@ -1,5 +1,6 @@
 package dmsystem.action;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -17,6 +18,14 @@ public class MeeconfAction extends ActionSupport{
 	private String fullname;
 	private List<MeetingName> meetingNames;
 	private int id;
+	private HashMap<String,String> jsonMap;
+	private String jsonResult;
+	public String getJsonResult() {
+		return jsonResult;
+	}
+	public void setJsonResult(String jsonResult) {
+		this.jsonResult = jsonResult;
+	}
 	public int getId() {
 		return id;
 	}
@@ -104,6 +113,25 @@ public class MeeconfAction extends ActionSupport{
 		} else {
 			return LOGIN;
 		}
+		return result;
+	}
+	
+	public String getJson(){
+		user = (User) ActionContext.getContext().getSession()
+				.get(User.SESSION_KEY);
+		if (user == null) {
+			return LOGIN;
+		}
+		String result = null;
+		meetingNames=this.meetingNameService.getAll();
+		jsonMap=new HashMap<String, String>();
+		for(int i=0;i<meetingNames.size();i++){
+			jsonMap.put(meetingNames.get(i).getShortName(), meetingNames.get(i).getFullName());
+			}
+		jsonResult=jsonMap.toString();
+		jsonResult=jsonResult.replace('=', ':');
+		System.out.println(jsonResult);
+		result = SUCCESS;
 		return result;
 	}
 }
