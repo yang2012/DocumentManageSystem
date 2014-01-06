@@ -46,7 +46,7 @@ public class DocumentSearchDao {
 		Session session = this.hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session
-				.createQuery("from Document doc where doc.title like ? or doc.author like ? or doc.keywords like ? or doc.abstracts like ?");
+				.createQuery("from Document where title like ? or author like ? or keywords like ? or abstracts like ?");
 		query.setString(0, "%" + keywords + "%");
 		query.setString(1, "%" + keywords + "%");
 		query.setString(2, "%" + keywords + "%");
@@ -64,11 +64,11 @@ public class DocumentSearchDao {
 		session.beginTransaction();
 		String sql = "";
 		if (StringUtil.equals(paramsMap.get("documentType"), "0")) {
-			sql = "from Document doc where doc.title like ? and doc.author like ? and doc.keywords like ? and doc.publisher like ? and doc.publishYear like ?";
+			sql = "from Document where title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		} else {
-			sql = "from Document doc where doc.documentType="
+			sql = "from Document where docTypeId="
 					+ paramsMap.get("documentType")
-					+ " and doc.title like ? and doc.author like ? and doc.keywords like ? and doc.publisher like ? and doc.publishYear like ?";
+					+ " and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		}
 		Query query = session.createQuery(sql);
 		query.setString(0, "%" + paramsMap.get("title") == null ? ""
