@@ -6,10 +6,14 @@ import dmsystem.entity.Document;
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.entity.DocumentType;
 import dmsystem.entity.DocumentWithExtraProperty;
+import dmsystem.entity.Operation;
+import dmsystem.util.Constants;
+import dmsystem.util.DateUtil;
 import dmsystem.util.Wrapper.DocumentExtraPropertyWrapper;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentService;
 import dmsystem.service.DocumentTypeService;
+import dmsystem.service.OperationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ public class DocumentUploadAction extends ActionSupport {
 	private static final long serialVersionUID = 5051870815157756643L;
 	private DocumentService documentService;
 	private DocumentTypeService documentTypeService;
+	private OperationService operationService;
 
 	private Integer docId;
 
@@ -109,18 +114,33 @@ public class DocumentUploadAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public String commitUpload() {
+	public String commitUpload() throws Exception {
 		this.user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
 		Document persistentDocument = this.documentService.upload(this.user,
 				documentTypeId, this.document,
 				this.documentExtraPropertyWrappers);
 
+		Operation operation = new Operation();
+		operation.setExpression(Constants.importDocExpression);
+		operation.setTime(DateUtil.getCurrentDate());
+		operation.setType(Constants.importDocType);
+		operation.setUser(user);
+		this.operationService.addOperation(operation);
+
 		if (persistentDocument != null) {
 			return SUCCESS;
 		} else {
 			return ERROR;
 		}
+	}
+
+	public OperationService getOperationService() {
+		return operationService;
+	}
+
+	public void setOperationService(OperationService operationService) {
+		this.operationService = operationService;
 	}
 
 	public String showModification() {
@@ -160,7 +180,7 @@ public class DocumentUploadAction extends ActionSupport {
 			documentExtraPropertyWrapper.setExtraPropertyName(extraProperty
 					.getPropertyName());
 			if (this.docId != null) {
-				this.document=new Document();
+				this.document = new Document();
 				document.setId(docId);
 				DocumentWithExtraProperty documentWithExtraProperty = this.documentService
 						.getDocumentExtraProperty(this.document, extraProperty);
