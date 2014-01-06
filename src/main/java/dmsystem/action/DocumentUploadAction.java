@@ -157,7 +157,7 @@ public class DocumentUploadAction extends ActionSupport {
 	}
 
 	public String commitModification() {
-		Document persistentDocument = this.documentService.update(
+		Document persistentDocument = this.documentService.update(this.docId,
 				this.documentTypeId, this.document,
 				this.documentExtraPropertyWrappers);
 		return SUCCESS;

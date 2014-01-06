@@ -286,10 +286,6 @@ public class Document implements java.io.Serializable {
     }
 
     public void updateInfo(Document document) {
-    	Integer id=document.getId();
-    	if(id!=null&&!id.equals(this.id)){
-    		this.id=id;
-    	}
         String title = document.getTitle();
         if (title != null && !title.equals(this.title)) {
             this.title = title;

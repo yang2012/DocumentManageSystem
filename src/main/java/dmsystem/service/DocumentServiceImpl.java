@@ -75,7 +75,7 @@ public class DocumentServiceImpl implements DocumentService {
             this.documentDao.add(persistentDocument);
 
             // Set extra properties
-            this._setExtraProperties(persistentDocument, documentExtraPropertyWrappers);
+            this._updateExtraProperties(persistentDocument, documentExtraPropertyWrappers);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    public Document update(Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
+    public Document update(Integer documentId, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
         if (documentTypeId == null || transientDocument == null) {
@@ -94,14 +94,19 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         try {
+            persistentDocument = this.documentDao.findById(documentId);
+
+            // Update document type
             DocumentType documentType = this.documentTypeDao.findById(documentTypeId);
-//            Document document=this.documentDao.findById(transientDocument.getId());
-            transientDocument.setDocumentType(documentType);
-//            transientDocument.setUser(document.getUser());
-            this.documentDao.update(transientDocument);
+            persistentDocument.setDocumentType(documentType);
+
+            // Update document basic info
+            persistentDocument.updateInfo(transientDocument);
+
+            this.documentDao.update(persistentDocument);
 
             // update extra properties
-            this._refreshExtraProperties(transientDocument, documentExtraPropertyWrappers);
+            this._updateExtraProperties(transientDocument, documentExtraPropertyWrappers);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,44 +115,6 @@ public class DocumentServiceImpl implements DocumentService {
             persistentDocument = null;
         }
         return persistentDocument;
-    }
-
-    private void _setExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
-        if (documentExtraPropertyWrappers == null) {
-            return;
-        }
-        for (DocumentExtraPropertyWrapper documentExtraPropertyWrapper : documentExtraPropertyWrappers) {
-            DocumentExtraProperty extraProperty = this.documentExtraPropertyDao.findById(documentExtraPropertyWrapper.getExtraPropertyId());
-            DocumentWithExtraProperty documentWithExtraProperty = new DocumentWithExtraProperty();
-
-            documentWithExtraProperty.setDocument(document);
-            documentWithExtraProperty.setDocumentExtraProperty(extraProperty);
-            documentWithExtraProperty.setPropertyValue(documentExtraPropertyWrapper.getExtraPropertyValue());
-            this.documentWithExtraPropertyDao.add(documentWithExtraProperty);
-        }
-    }
-
-    private void _refreshExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
-        if (documentExtraPropertyWrappers == null) {
-            return;
-        }
-        for (DocumentExtraPropertyWrapper documentExtraPropertyWrapper : documentExtraPropertyWrappers) {
-            Integer id = documentExtraPropertyWrapper.getExtraPropertyId();
-            String value = documentExtraPropertyWrapper.getExtraPropertyValue();
-            DocumentExtraProperty extraProperty = this.documentExtraPropertyDao.findById(id);
-            DocumentWithExtraProperty documentWithExtraProperty = this.documentWithExtraPropertyDao.find(document, extraProperty);
-            if (documentWithExtraProperty == null) {
-                documentWithExtraProperty = new DocumentWithExtraProperty();
-
-                documentWithExtraProperty.setDocument(document);
-                documentWithExtraProperty.setDocumentExtraProperty(extraProperty);
-                documentWithExtraProperty.setPropertyValue(value);
-                this.documentWithExtraPropertyDao.add(documentWithExtraProperty);
-            } else {
-                documentWithExtraProperty.setPropertyValue(value);
-                this.documentWithExtraPropertyDao.update(documentWithExtraProperty);
-            }
-        }
     }
 
 	public DocumentWithExtraProperty getDocumentExtraProperty(
@@ -160,4 +127,52 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		return null;
 	}
+
+    private void _updateExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
+        if (document == null || documentExtraPropertyWrappers == null) {
+            return;
+        }
+
+        // Delete old extra properties
+        this._removeExtraProperties(document);
+
+        // Add new extra properties
+        if (documentExtraPropertyWrappers != null && !documentExtraPropertyWrappers.isEmpty()) {
+            this._addNextExtraProperties(document, documentExtraPropertyWrappers);
+        }
+    }
+
+    private void _removeExtraProperties(Document document) throws Exception {
+        this.documentWithExtraPropertyDao.remove(document.getExtraProperties());
+    }
+
+    private void _addNextExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {
+        for (DocumentExtraPropertyWrapper documentExtraPropertyWrapper : documentExtraPropertyWrappers) {
+            String extraPropertyValue = documentExtraPropertyWrapper.getExtraPropertyValue();
+            // check whether the value is valid
+            if (extraPropertyValue == null || extraPropertyValue.isEmpty()) {
+                continue;
+            }
+
+            DocumentExtraProperty extraProperty = this.documentExtraPropertyDao.findById(documentExtraPropertyWrapper.getExtraPropertyId());
+            DocumentWithExtraProperty documentWithExtraProperty = this.documentWithExtraPropertyDao.find(document, extraProperty);
+
+            if (documentWithExtraProperty == null) {
+                documentWithExtraProperty = new DocumentWithExtraProperty();
+
+                documentWithExtraProperty.setDocument(document);
+                document.getExtraProperties().add(documentWithExtraProperty);
+                documentWithExtraProperty.setDocumentExtraProperty(extraProperty);
+                extraProperty.getExtraProperties().add(documentWithExtraProperty);
+
+                documentWithExtraProperty.setPropertyValue(extraPropertyValue);
+
+                this.documentWithExtraPropertyDao.add(documentWithExtraProperty);
+            } else {
+                documentWithExtraProperty.setPropertyValue(extraPropertyValue);
+
+                this.documentWithExtraPropertyDao.update(documentWithExtraProperty);
+            }
+        }
+    }
 }

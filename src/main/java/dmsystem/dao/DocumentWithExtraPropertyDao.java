@@ -7,6 +7,8 @@ import dmsystem.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import java.util.Set;
+
 /**
  * Created by justinyang on 13-12-18.
  */
@@ -24,6 +26,10 @@ public class DocumentWithExtraPropertyDao {
 
         public void remove(DocumentWithExtraProperty persistentInstance) throws Exception {
             hibernateUtil.remove(persistentInstance);
+        }
+
+        public void remove(Set<DocumentWithExtraProperty> persistenceInstances) throws Exception {
+            hibernateUtil.remove(persistenceInstances);
         }
 
         public void update(DocumentWithExtraProperty detachedInstance) throws Exception {
