@@ -14,10 +14,12 @@
 			class="col-sm-2 control-label">
 			${documentExtraPropertyWrapper.extraPropertyName} </label>
 		<div class="col-sm-10">
-			<input id="${documentExtraPropertyWrapper.extraPropertyName}"
+			<input
 				name="documentExtraPropertyWrappers[${ws.index}].extraPropertyId"
 				value="${documentExtraPropertyWrapper.extraPropertyId}"
-				hidden="hidden" /> <input class="form-control"
+				hidden="hidden" /> <input
+				id="${documentExtraPropertyWrapper.extraPropertyName}"
+				class="form-control"
 				placeholder="${documentExtraPropertyWrapper.extraPropertyName}"
 				value="${documentExtraPropertyWrapper.extraPropertyValue}"
 				name="documentExtraPropertyWrappers[${ws.index}].extraPropertyValue" />

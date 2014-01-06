@@ -1,5 +1,6 @@
 package dmsystem.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +19,14 @@ public class MeeconfAction extends ActionSupport{
 	private String fullname;
 	private List<MeetingName> meetingNames;
 	private int id;
-	private HashMap<String,String> jsonMap;
+	private ArrayList<String> jsonList;
+	public ArrayList<String> getJsonList() {
+		return jsonList;
+	}
+	public void setJsonList(ArrayList<String> jsonList) {
+		this.jsonList = jsonList;
+	}
+
 	private String jsonResult;
 	public String getJsonResult() {
 		return jsonResult;
@@ -124,14 +132,15 @@ public class MeeconfAction extends ActionSupport{
 		}
 		String result = null;
 		meetingNames=this.meetingNameService.getAll();
-		jsonMap=new HashMap<String, String>();
+		jsonList=new ArrayList<String>();
 		for(int i=0;i<meetingNames.size();i++){
-			jsonMap.put(meetingNames.get(i).getShortName(), meetingNames.get(i).getFullName());
+			jsonList.add(meetingNames.get(i).getShortName()+meetingNames.get(i).getFullName());
 			}
-		jsonResult=jsonMap.toString();
-		jsonResult=jsonResult.replace('=', ':');
-		System.out.println(jsonResult);
+//		jsonResult=jsonMap.toString();
+//		jsonResult=jsonResult.replace('=', ':');
+		System.out.println(jsonList);
 		result = SUCCESS;
 		return result;
 	}
+
 }

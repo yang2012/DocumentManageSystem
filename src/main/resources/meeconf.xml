@@ -31,7 +31,7 @@
         <action name="getJson" method="getJson" class="meeconfAction">
         	<result type="json">
         		<param name="root">
-        			jsonResult
+        			jsonList
         		</param>
         	</result>
         </action>

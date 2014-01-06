@@ -8,6 +8,7 @@
       <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
       <script src="../source/static/jquery-2.0.3.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
+    <script src="../source/static/jquery-ui-1.10.3.custom.min.js"></script>
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -22,6 +23,7 @@
       }
     </style>
     <script type="text/javascript">
+    	var result="";
         function select(s){
         	 $.ajax({
                 type: "GET",
@@ -30,24 +32,23 @@
             })
                     .done(function (msg) {
                         $("#extraproperty").html(msg);
+                        $( "#出处" ).autocomplete({
+      						source: result
+    					});
                     });
             }
-    </script>
-    <script type="text/javascript">
-    	$(function(){
-    		$.ajax({
-                type: "GET",
-                url: "../meetingJson/getJson",
-                data: {}
-            })
-                    .done(function (msg) {
-                    	jsontest=stringToJson(msg);
+        $(document).ready(function(){
+        	$.ajax({
+                		type: "GET",
+                		url: "../meetingJson/getJson",
+                		data: {}
+            			})
+                    	.done(function (msg) {
+                    		result=msg;
+                    	return msg;
                     });
-    	});
-    	function stringToJson(stringValue){ 
-			eval("var theJsonValue = "+stringValue); 
-			return theJsonValue; 
-			} 
+        	}
+        );
     </script>
   </head>
     <body>
