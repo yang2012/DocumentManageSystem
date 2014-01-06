@@ -24,7 +24,7 @@
 
         var statisticWeek = "<table class=\"table table-hover table-bordered\"><thead align=\"center\"><td>小组成员</td><td>文献录入</td><td>上传附件</td>\
         <td>发表简单评论</td><td>发表详细评论</td></thead>\
-                        <#list statisticListWeek as statistic> 
+                        <#list statisticListWeek as statistic>\
                           <tr align=\"center\">\
                               <td>${statistic.username}</td>\
                               <td>${statistic.docimport}</td>\
@@ -32,11 +32,11 @@
                               <td>${statistic.simplecomment}</td>\
                               <td>${statistic.detailedcomment}</td>\
                           </tr>\
-                        </#list>
+                        </#list>\
                     </table>";
         var statisticMonth = "<table class=\"table table-hover table-bordered\"><thead align=\"center\"><td>小组成员</td><td>文献录入</td><td>上传附件</td>\
         <td>发表简单评论</td><td>发表详细评论</td></thead>\
-                        <#list statisticListMonth as statistic> 
+                        <#list statisticListMonth as statistic>\
                           <tr align=\"center\">\
                               <td>${statistic.username}</td>\
                               <td>${statistic.docimport}</td>\
@@ -44,11 +44,11 @@
                               <td>${statistic.simplecomment}</td>\
                               <td>${statistic.detailedcomment}</td>\
                           </tr>\
-                        </#list>
+                        </#list>\
                     </table>";
         var statisticYear = "<table class=\"table table-hover table-bordered\"><thead align=\"center\"><td>小组成员</td><td>文献录入</td><td>上传附件</td>\
         <td>发表简单评论</td><td>发表详细评论</td></thead>\
-                        <#list statisticListYear as statistic> 
+                        <#list statisticListYear as statistic>\
                           <tr align=\"center\">\
                               <td>${statistic.username}</td>\
                               <td>${statistic.docimport}</td>\
@@ -56,7 +56,7 @@
                               <td>${statistic.simplecomment}</td>\
                               <td>${statistic.detailedcomment}</td>\
                           </tr>\
-                        </#list>
+                        </#list>\
                     </table>";
         
         if(time==1){
