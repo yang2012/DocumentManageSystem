@@ -78,6 +78,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Tar -->
+        <dependency>
+            <groupId>org.kamranzafar</groupId>
+            <artifactId>jtar</artifactId>
+            <version>2.2</version>
+        </dependency>
+
         <!-- Json -->
         <dependency>
            <groupId>org.apache.struts</groupId>

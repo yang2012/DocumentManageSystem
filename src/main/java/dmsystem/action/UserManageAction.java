@@ -18,6 +18,15 @@ public class UserManageAction extends ActionSupport {
 	private UserService userService;
 	private List<User> users;
 	private int id;
+	private String success;
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
 
 	public int getId() {
 		return id;
@@ -77,7 +86,11 @@ public class UserManageAction extends ActionSupport {
 			newuser.setName(name);
 			newuser.setUsername(username);
 			newuser.setPassword(username);
-			userService.save(newuser);
+			if(userService.save(newuser)){
+				success="true";
+			}else{
+				success="false";
+			}
 			result = SUCCESS;
 		} else {
 			return LOGIN;
@@ -94,6 +107,9 @@ public class UserManageAction extends ActionSupport {
 		String result = null;
 		if (user.getAuthority().equals(Constants.kAdminAuthority)) {
 			users = this.userService.getAllUsers();
+			if(success==null){
+				success="true";
+			}
 			result = SUCCESS;
 		} else {
 			return LOGIN;

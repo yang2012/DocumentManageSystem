@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 	
-	void save(User user);
+	boolean save(User user);
 	
 	void modify(User user);
 	void delete(User user);

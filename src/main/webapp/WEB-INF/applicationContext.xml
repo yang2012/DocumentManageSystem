@@ -133,9 +133,13 @@
 	<bean id="tagDefinedAction" class="dmsystem.action.TagDefinedAction" scope="prototype">
 		<property name="tagDefinedService" ref="tagDefinedService"></property>
 	</bean>
-    <!-- Account Services -->
+
     <bean id="evaluationAction" class="dmsystem.action.EvaluationAction" scope="prototype">
         <property name="evaluationService" ref="evaluationService" />
+    </bean>
+
+    <bean id="backupAction" class="dmsystem.action.BackupAction" scope="prototype">
+        <property name="backupService" ref="backupService" />
     </bean>
 
     <!-- Services -->
@@ -202,6 +206,9 @@
     
     <bean id="tagDefinedService" class="dmsystem.service.TagDefinedServiceImpl">
     	<property name="tagDefinedDao" ref="tagDefinedDao"></property>
+    </bean>
+
+    <bean id="backupService" class="dmsystem.service.BackupServiceImpl">
     </bean>
     
     <!-- DAO -->

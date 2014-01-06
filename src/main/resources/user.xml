@@ -9,7 +9,7 @@
 
         <action name="adduser" method="adduser" class="userManageAction">
             <result name="login">/login.jsp</result>
-            <result name="success" type="redirect">/user/getusers</result>
+            <result name="success" type="redirect">/user/getusers?success=${success}</result>
         </action>
 		
 		<action name="getusers" method="getusers" class="userManageAction">
