@@ -10,7 +10,7 @@
 		<tr>
 			<td>${attachment.attachmentType}</td>
 			<td>${attachment.name}</td>
-			<td class="btn btn-mini"><a href="../upload${attachment.url}" target="_blank">下载</a></td>
+			<td class="btn btn-mini"><a href="..${attachment.url}" target="_blank">下载</a></td>
 		</tr>
 	</c:forEach>
 </table>
