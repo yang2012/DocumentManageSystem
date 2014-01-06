@@ -56,28 +56,24 @@ public class StatisticServiceImpl implements StatisticService {
 		}
 		for (int i = 0; i < operationList.size(); i++) {
 			for (int j = 0; j < statList.size(); j++) {
-				if (statList.get(j).getUserId().intValue() == operationList
-						.get(i).getUser().getId()) {
-					switch (operationList.get(i).getType().intValue()) {
-					case 3:
+				if (statList.get(j).getUserId() == operationList.get(i)
+						.getUser().getId()) {
+					switch (operationList.get(i).getType()) {
+					case 1:
 						statList.get(j).setDocimport(
-								new Integer(statList.get(j).getDocimport()
-										.intValue() + 1));
+								statList.get(j).getDocimport() + 1);
 						break;
 					case 2:
 						statList.get(j).setUploadattachment(
-								new Integer(statList.get(j)
-										.getUploadattachment().intValue() + 1));
+								statList.get(j).getUploadattachment() + 1);
 						break;
-					case 1:
+					case 3:
 						statList.get(j).setSimplecomment(
-								new Integer(statList.get(j).getSimplecomment()
-										.intValue() + 1));
+								statList.get(j).getSimplecomment() + 1);
 						break;
 					case 4:
 						statList.get(j).setDetailedcomment(
-								new Integer(statList.get(j)
-										.getDetailedcomment().intValue() + 1));
+								statList.get(j).getDetailedcomment() + 1);
 						break;
 					}
 				}
