@@ -66,9 +66,9 @@ public class DocumentSearchDao {
 		if (StringUtil.equals(paramsMap.get("documentType"), "0")) {
 			sql = "from Document where title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		} else {
-			sql = "from Document where docTypeId="
+			sql = "from Document where docTypeId='"
 					+ paramsMap.get("documentType")
-					+ " and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
+					+ "' and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		}
 		Query query = session.createQuery(sql);
 		query.setString(0, "%" + paramsMap.get("title") == null ? ""
