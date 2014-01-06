@@ -257,12 +257,16 @@
             </div>
         </div>
         <div class="col-xs-12 well" id="evalContainer">
-            <button class="btn" id="extendEvaluationButton">简要评价</button>
+            <div class="pull-left">
+                <button class="btn" id="collapseEvaluationButton">简要评价</button>
+                <button class="btn" id="extendEvaluationButton">详细评价</button>
+            </div>
+            <br />
             <form method="POST" id="evaluationForm" role="form">
                 <input name="documentId" value="${document.id}" hidden="hidden" />
                 <input class="volatile" type="text" name="evaluationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
                 <input name="evaluation.type" value="${(draftEvaluation.type)!0}" hidden="hidden" id="evalType"/>
-                <div class="star" style="float:right" data-score="${(draftEvaluation.point)!0}" data-readOnly="false"></div>
+                <div class="star" style="float:right; margin-bottom:10px" data-score="${(draftEvaluation.point)!0}" data-readOnly="false"></div>
                 <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
                 <br/>
                 <div id="detailEvalContainer">
@@ -309,6 +313,7 @@
             var commentContainer = $("#commentContainer");
             var evaluationForm = $("#evaluationForm");
             var extendEvaluationButton = $("#extendEvaluationButton");
+            var collapseEvaluationButton = $("#collapseEvaluationButton");
 
             $("#saveDraftButton").click(function(e) {
                 var postData = getFormData(evaluationForm);
@@ -348,13 +353,19 @@
             });
 
             extendEvaluationButton.click(function () {
-                var type = evalTypeElement.attr("value") == 0 ? 1 : 0;
-                $("#detailEvalContainer").slideToggle("normal", function () {
-                    evalTypeElement.attr("value", type);
+                $(this).addClass("btn-primary");
+                collapseEvaluationButton.removeClass("btn-primary");
+                $("#detailEvalContainer").show("normal", function () {
+                    evalTypeElement.attr("value", 1);
                 });
+            });
 
-                var text = $(this).text();
-                $(this).text(text == "详细评价" ? "简要评价" : "详细评价");
+            collapseEvaluationButton.click(function() {
+                $(this).addClass("btn-primary");
+                extendEvaluationButton.removeClass("btn-primary");
+                $("#detailEvalContainer").hide("normal", function () {
+                     evalTypeElement.attr("value", 0);
+                });
             });
 
             $(document).ready(function(){
@@ -370,10 +381,10 @@
                    var type = $("#evalType").attr("value");
                    if (type == 1) {
                         detailEvalContainer.show();
-                        extendEvaluationButton.text("详细评价");
+                        extendEvaluationButton.addClass("btn-primary");
                    } else {
                         detailEvalContainer.hide();
-                        extendEvaluationButton.text("简要评价");
+                        collapseEvaluationButton.addClass("btn-primary");
                    }
             }
 
