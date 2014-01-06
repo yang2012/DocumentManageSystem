@@ -41,26 +41,6 @@ public class AttachmentDao {
 	public Attachment findById(int id) throws Exception {
 		return (Attachment) hibernateUtil.findById(Attachment.class, id);
 	}
-
-	public void addAttachments(Integer documentId, List<File> files) throws Exception {
-		DocumentDao documentDao = new DocumentDao();
-		Document document = documentDao.findById(documentId);
-		if (document == null) {
-			throw new Exception("Cannot find document with id: " + documentId);
-		}
-		
-		List<Attachment> attachments = new ArrayList<Attachment>(0);
-		for (File file : files) {
-			Attachment attachment = new Attachment();
-			attachment.setName(file.getName());
-			attachment.setUrl(FileUtility.getFileUrl(file.getName()));
-			attachment.setDocument(document);
-			
-			attachments.add(attachment);
-		}
-		
-		hibernateUtil.persist(attachments);
-	}
 	
 	public void removeAttachments(List<Integer> attachmentIds) throws Exception {
 		for (Integer attachmentId : attachmentIds) {

@@ -19,7 +19,7 @@ public interface DocumentService {
 
     public Document upload(User user, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
 
-    public Document update(Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
+    public Document update(Integer documentId, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
     
     public DocumentWithExtraProperty getDocumentExtraProperty(Document document, DocumentExtraProperty documentExtraProperty);
 }

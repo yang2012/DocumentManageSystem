@@ -46,7 +46,7 @@ public class DocumentSearchDao {
 		Session session = this.hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session
-				.createQuery("from Document doc where doc.title like ? or doc.author like ? or doc.keywords like ? or doc.abstracts like ?");
+				.createQuery("from Document where title like ? or author like ? or keywords like ? or abstracts like ?");
 		query.setString(0, "%" + keywords + "%");
 		query.setString(1, "%" + keywords + "%");
 		query.setString(2, "%" + keywords + "%");
@@ -59,28 +59,34 @@ public class DocumentSearchDao {
 	@SuppressWarnings("unchecked")
 	public List<Document> advancedSearch(Map<String, String> paramsMap)
 			throws Exception {
+		String title = paramsMap.get("title") == null ? "" : paramsMap
+				.get("title");
+		String author = paramsMap.get("author") == null ? "" : paramsMap
+				.get("author");
+		String keywords = paramsMap.get("keywords") == null ? "" : paramsMap
+				.get("keywords");
+		String publisher = paramsMap.get("publisher") == null ? "" : paramsMap
+				.get("publisher");
+		String publishYear = paramsMap.get("publishYear") == null ? ""
+				: paramsMap.get("publishYear");
+		
 		List<Document> docList = null;
 		Session session = this.hibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		String sql = "";
 		if (StringUtil.equals(paramsMap.get("documentType"), "0")) {
-			sql = "from Document doc where doc.title like ? and doc.author like ? and doc.keywords like ? and doc.publisher like ? and doc.publishYear like ?";
+			sql = "from Document where title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		} else {
-			sql = "from Document doc where doc.documentType="
+			sql = "from Document where docTypeId='"
 					+ paramsMap.get("documentType")
-					+ " and doc.title like ? and doc.author like ? and doc.keywords like ? and doc.publisher like ? and doc.publishYear like ?";
+					+ "' and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
 		}
 		Query query = session.createQuery(sql);
-		query.setString(0, "%" + paramsMap.get("title") == null ? ""
-				: paramsMap.get("title") + "%");
-		query.setString(1, "%" + paramsMap.get("author") == null ? ""
-				: paramsMap.get("author") + "%");
-		query.setString(2, "%" + paramsMap.get("keywords") == null ? ""
-				: paramsMap.get("keywords") + "%");
-		query.setString(3, "%" + paramsMap.get("publisher") == null ? ""
-				: paramsMap.get("publisher") + "%");
-		query.setString(4, "%" + paramsMap.get("publishYear") == null ? ""
-				: paramsMap.get("publishYear") + "%");
+		query.setString(0, "%" + title + "%");
+		query.setString(1, "%" + author + "%");
+		query.setString(2, "%" + keywords + "%");
+		query.setString(3, "%" + publisher + "%");
+		query.setString(4, "%" + publishYear + "%");
 		docList = query.list();
 
 		return docList;

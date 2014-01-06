@@ -5,6 +5,7 @@ import dmsystem.dao.EvaluationDao;
 import dmsystem.dao.EvaluationExtraPropertyDao;
 import dmsystem.dao.EvaluationWithExtraPropertyDao;
 import dmsystem.entity.*;
+import dmsystem.util.Constants;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
 
 import java.util.ArrayList;
@@ -16,10 +17,16 @@ import java.util.List;
  */
 public class EvaluationServiceImpl implements EvaluationService {
 
+    private OperationService operationService;
+
     private DocumentDao documentDao;
     private EvaluationDao evaluationDao;
     private EvaluationExtraPropertyDao evaluationExtraPropertyDao;
     private EvaluationWithExtraPropertyDao evaluationWithExtraPropertyDao;
+
+    public void setOperationService(OperationService operationService) {
+        this.operationService = operationService;
+    }
 
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;
@@ -152,6 +159,12 @@ public class EvaluationServiceImpl implements EvaluationService {
             // Update extra properties
             this._updateExtraProperties(persistentEvaluation, evaluationExtraPropertyWrappers);
 
+            // Record operation
+            if (persistentEvaluation.getType() == Constants.kDetailEvaluation) {
+                this.operationService.addOperation(user, Constants.kSimpleCommentOperationType);
+            } else {
+                this.operationService.addOperation(user, Constants.kDetailedCommentOperationType);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
 
@@ -177,6 +190,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     private void _removeExtraProperties(Evaluation evaluation) throws Exception {
         this.evaluationWithExtraPropertyDao.remove(evaluation.getExtraProperties());
+        evaluation.getExtraProperties().clear();
     }
 
     private void _addNextExtraProperties(Evaluation evaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) throws Exception {

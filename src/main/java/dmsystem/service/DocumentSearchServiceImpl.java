@@ -78,8 +78,8 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 	}
 
 	private boolean matchTags(String str1, String str2) {
-		if (StringUtil.isNullOrEmpty(str1) || StringUtil.isNullOrEmpty(str2)) {
-			return true;
+		if (StringUtil.isNullOrEmpty(str1)) {
+			return false;
 		} else {
 			String[] strArr1 = str1.split(" ");
 			String[] strArr2 = str2.split(" ");

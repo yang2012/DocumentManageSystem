@@ -95,9 +95,8 @@ public class AttachmentAction extends ActionSupport {
 		this.user = user;
 	}
 
-    private void _saveFile() throws Exception {
-        String directory = FileUtility.getFileDirectory();
-        String filePath = directory + File.separator + this.uploadFileName;
+    private void _saveFile(String relativePath) throws Exception {
+        String filePath = FileUtility.getAbsoluteFilePath(relativePath);
         File dstFile = new File(filePath);
         File parentFile = dstFile.getParentFile();
         if (!parentFile.exists()) {
@@ -145,21 +144,17 @@ public class AttachmentAction extends ActionSupport {
     	this.user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
         try {
-            this._saveFile();
+            String relativePath = FileUtility.getFileRelativePath(this.uploadFileName);
+            this._saveFile(relativePath);
 
             Attachment newAttachment = new Attachment();
             newAttachment.setName(this.uploadFileName);
             newAttachment.setAttachmentType(this.attachmentType);
-            newAttachment.setUrl(FileUtility.getFileUrl(this.uploadFileName));
+            newAttachment.setUrl(relativePath);
 
             this.attachmentService.upload(this.documentId, newAttachment);
-           
-            Operation operation = new Operation();
-			operation.setExpression(Constants.uploadAttachmentExpression);
-			operation.setTime(DateUtil.getCurrentDate());
-			operation.setType(Constants.uploadAttachmentType);
-			operation.setUser(user);
-			this.operationService.addOperation(operation);
+
+			this.operationService.addOperation(user, Constants.kUploadAttachmentOperationType);
             
             return SUCCESS;
         } catch (Exception e) {

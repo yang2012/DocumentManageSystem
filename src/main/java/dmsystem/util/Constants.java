@@ -79,12 +79,8 @@ public class Constants {
 	public static final String kToDateField = "toDate";
 
 	// Using for operation content
-	public static final int importDocType = 1;
-	public static final int uploadAttachmentType = 2;
-	public static final int simpleCommentType = 3;
-	public static final int detailedCommentType = 4;
-	public static final String importDocExpression = "Import a document.";
-	public static final String uploadAttachmentExpression = "Upload an attachment.";
-	public static final String simpleCommentExpression = "Publish a simple comment.";
-	public static final String detailedCommentExpression = "Publish a detailed comment";
+	public static final int kImportDocOperationType = 1;
+	public static final int kUploadAttachmentOperationType = 2;
+	public static final int kSimpleCommentOperationType = 3;
+	public static final int kDetailedCommentOperationType = 4;
 }

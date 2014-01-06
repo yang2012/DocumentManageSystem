@@ -84,7 +84,7 @@
                                     <label for="document" class="col-sm-4 control-label">查找的文献类型</label>
                                     <div class="col-sm-6">
                                         <select class="form-control" name="documentType">
-                                            <option>请选择文献类型...</option>
+                                            <option value="0">请选择文献类型...</option>
                     
                                             <#list documentTypes as documentType>         
                                                 <option value=${documentType.id}>${documentType.name}</option>
@@ -169,12 +169,6 @@
             </div>
 
           </#list>
-
-            <ul class="pager">
-              <li><a href="#">&larr;&nbsp;&nbsp;上一页</a></li>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <li><a href="#">下一页&nbsp;&nbsp;&rarr;</a></li>
-            </ul>
 
           </div>
         </div>
