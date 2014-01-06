@@ -121,12 +121,7 @@ public class DocumentUploadAction extends ActionSupport {
 				documentTypeId, this.document,
 				this.documentExtraPropertyWrappers);
 
-		Operation operation = new Operation();
-		operation.setExpression(Constants.importDocExpression);
-		operation.setTime(DateUtil.getCurrentDate());
-		operation.setType(Constants.importDocType);
-		operation.setUser(user);
-		this.operationService.addOperation(operation);
+		this.operationService.addOperation(user, Constants.kImportDocOperationType);
 
 		if (persistentDocument != null) {
 			return SUCCESS;

@@ -190,6 +190,7 @@
     </bean>
 
     <bean id="evaluationService" class="dmsystem.service.EvaluationServiceImpl">
+        <property name="operationService" ref="operationService" />
         <property name="documentDao" ref="documentDao" />
         <property name="evaluationDao" ref="evaluationDao" />
         <property name="evaluationExtraPropertyDao" ref="evaluationExtraPropertyDao" />

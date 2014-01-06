@@ -144,6 +144,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private void _removeExtraProperties(Document document) throws Exception {
         this.documentWithExtraPropertyDao.remove(document.getExtraProperties());
+        document.getExtraProperties().clear();
     }
 
     private void _addNextExtraProperties(Document document, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) throws Exception {

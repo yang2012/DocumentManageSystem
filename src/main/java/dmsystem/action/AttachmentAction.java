@@ -153,13 +153,8 @@ public class AttachmentAction extends ActionSupport {
             newAttachment.setUrl(relativePath);
 
             this.attachmentService.upload(this.documentId, newAttachment);
-           
-            Operation operation = new Operation();
-			operation.setExpression(Constants.uploadAttachmentExpression);
-			operation.setTime(DateUtil.getCurrentDate());
-			operation.setType(Constants.uploadAttachmentType);
-			operation.setUser(user);
-			this.operationService.addOperation(operation);
+
+			this.operationService.addOperation(user, Constants.kUploadAttachmentOperationType);
             
             return SUCCESS;
         } catch (Exception e) {
