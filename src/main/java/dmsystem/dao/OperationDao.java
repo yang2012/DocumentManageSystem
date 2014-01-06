@@ -7,17 +7,18 @@ import dmsystem.util.HibernateUtil;
 
 /**
  * Utility object for domain model class Operation.
+ * 
  * @see dmsystem.entity.Operation
  * @author Justin Yang
  */
 public class OperationDao {
 
-    private HibernateUtil hibernateUtil;
+	private HibernateUtil hibernateUtil;
 
-    public void setHibernateUtil(HibernateUtil hibernateUtil) {
-        this.hibernateUtil = hibernateUtil;
-    }
-	
+	public void setHibernateUtil(HibernateUtil hibernateUtil) {
+		this.hibernateUtil = hibernateUtil;
+	}
+
 	public void add(Operation transientInstance) throws Exception {
 		hibernateUtil.persist(transientInstance);
 	}
@@ -35,4 +36,5 @@ public class OperationDao {
 	public Operation findById(int id) throws Exception {
 		return (Operation) hibernateUtil.findById(Operation.class, id);
 	}
+
 }

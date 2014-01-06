@@ -126,7 +126,7 @@ public class DocumentUploadAction extends ActionSupport {
 	public String showModification() {
 		this.user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
-		documentTypes = this.documentTypeService.getAll();
+		this.documentTypes = this.documentTypeService.getAll();
 		this.document = this.documentService.get(this.docId);
 
 		if (this.document == null) {

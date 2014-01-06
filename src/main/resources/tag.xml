@@ -5,10 +5,10 @@
 
 <struts>
 
-    <package name="password" extends="default">
-        <action name="modify" method="modifypassword" class="modifyPasswordAction">
-            <result name="success" type="freemarker">/pages/modifypwd.vtl</result>
+    <package name="tag" extends="default">
+        <action name="newtag" method="createtag" class="tagAction">
+            <result name="success" type="freemarker">/pages/docmodify.vtl</result>
         </action>
-
+        
     </package>
 </struts>

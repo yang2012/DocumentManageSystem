@@ -6,8 +6,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import dmsystem.entity.Document;
+import dmsystem.entity.DocumentType;
 import dmsystem.entity.User;
 import dmsystem.service.DocumentSearchService;
+import dmsystem.service.DocumentTypeService;
 
 /**
  * 
@@ -20,7 +22,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String documentType;
 	private String title;
 	private String author;
@@ -33,6 +35,9 @@ public class AdvancedDocSearchAction extends ActionSupport {
 	private DocumentSearchService documentSearchService;
 	private List<Document> documents;
 
+	private DocumentTypeService documentTypeService;
+	private List<DocumentType> documentTypes;
+
 	public String getdoclist() {
 		user = (User) ActionContext.getContext().getSession()
 				.get(User.SESSION_KEY);
@@ -40,6 +45,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 			return LOGIN;
 		}
 
+		this.documentTypes = this.documentTypeService.getAll();
 		this.documents = this.documentSearchService.getDocList(documentType,
 				this.initParams());
 		if (this.documents == null) {
@@ -53,7 +59,7 @@ public class AdvancedDocSearchAction extends ActionSupport {
 		return new String[] { title, author, tag, keywords, publisher,
 				publishYear };
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -132,6 +138,22 @@ public class AdvancedDocSearchAction extends ActionSupport {
 
 	public void setDocumentSearchService(DocumentSearchService docSearchService) {
 		this.documentSearchService = docSearchService;
+	}
+
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypes;
+	}
+
+	public void setDocumentTypes(List<DocumentType> documentTypes) {
+		this.documentTypes = documentTypes;
 	}
 
 	public static void main(String[] args) {

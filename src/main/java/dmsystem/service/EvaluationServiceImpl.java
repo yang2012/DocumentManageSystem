@@ -37,7 +37,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         this.evaluationWithExtraPropertyDao = evaluationWithExtraPropertyDao;
     }
 
-    @Override
     public Evaluation saveEvaluation(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
@@ -58,7 +57,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         return persistentEvaluation;
     }
 
-    @Override
     public Evaluation saveDraft(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
@@ -89,7 +87,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationExtraProperties;
     }
 
-    @Override
     public Evaluation getSavedDraft(User user, Document document) {
         if (user == null || document == null) {
             return null;
@@ -97,7 +94,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         return this.evaluationDao.getDraft(user, document);
     }
 
-    @Override
     public List<EvaluationExtraProperty> getAllExtraProperties() {
         try {
             return this.evaluationExtraPropertyDao.getAll();
@@ -108,7 +104,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
     }
 
-    @Override
     public EvaluationWithExtraProperty getEvaluationWithExtraProperty(Evaluation evaluation, EvaluationExtraProperty evaluationExtraProperty) {
         if (evaluation == null || evaluationExtraProperty == null) {
             return null;

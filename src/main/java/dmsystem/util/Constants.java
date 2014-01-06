@@ -34,7 +34,7 @@ public class Constants {
 	public static final String kDocumentTypeField = "documentType";
 
 	// Using for creating a tag
-	public static final String kTagField = "tag";
+	public static final String kTagField = "tagname";
 
 	// Using for brief comment form
 	public static final String kBriefCommentField = "briefComment";
@@ -75,6 +75,6 @@ public class Constants {
 	
 	// Using for retrieving statistic data
 	public static final String kTimeSelectField = "time";
-	public static final String kOperationTypeSelectField = "operationType";
-	public static final String kUsernameSelectField = "username";
+	public static final String kFromDateField = "fromDate";
+	public static final String kToDateField = "toDate";
 }
