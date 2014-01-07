@@ -7,7 +7,6 @@ import dmsystem.entity.User;
  * @author bryant zhang
  * 
  */
-
 public interface ModifyPasswordService {
 	public String retrievePassword(String username);
 

@@ -3,6 +3,11 @@ package dmsystem.service;
 import dmsystem.dao.ModifyPasswordDao;
 import dmsystem.entity.User;
 
+/**
+ * 
+ * @author bryant zhang
+ * 
+ */
 public class ModifyPasswordServiceImpl implements ModifyPasswordService {
 	private ModifyPasswordDao modifyPasswordDao;
 
