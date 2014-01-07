@@ -37,5 +37,10 @@
         <action name="getextraproperties" class="documentUploadAction" method="getExtraproperties">
             <result name="success">/pages/docextraproperty.jsp</result>
         </action>
+        
+        <action name="newtag" method="createtag" class="tagAction">
+            <result name="success" type="redirect">/document/showmodification?docId=${documentId}</result>
+        </action>
+        
     </package>
 </struts>

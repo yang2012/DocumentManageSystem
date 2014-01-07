@@ -43,7 +43,6 @@
     <include file="tagconf.xml" />
     <include file="evaluation.xml" />
     <include file="statistic.xml" />
-    <include file="tag.xml" />
     <include file="modifypassword.xml" />
     <include file="backup.xml" />
 </struts>

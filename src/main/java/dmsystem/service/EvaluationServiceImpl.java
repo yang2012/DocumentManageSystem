@@ -161,9 +161,9 @@ public class EvaluationServiceImpl implements EvaluationService {
 
             // Record operation
             if (persistentEvaluation.getType() == Constants.kDetailEvaluation) {
-                this.operationService.addOperation(user, Constants.kSimpleCommentOperationType);
+            	this.operationService.addOperation(user, Constants.kDetailedCommentOperationType);
             } else {
-                this.operationService.addOperation(user, Constants.kDetailedCommentOperationType);
+            	this.operationService.addOperation(user, Constants.kSimpleCommentOperationType);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
