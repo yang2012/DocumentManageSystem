@@ -77,4 +77,15 @@ public class RelationTypeDao {
 	public HibernateUtil getHibernateUtil() {
 		return hibernateUtil;
 	}
+
+	public RelationType getRelationTypeById(Integer id) {
+		// TODO Auto-generated method stub
+		try {
+			return (RelationType)getHibernateUtil().findById(RelationType.class,id );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

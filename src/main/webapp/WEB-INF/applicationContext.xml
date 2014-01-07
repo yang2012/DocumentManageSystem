@@ -106,6 +106,8 @@
         <property name="documentService" ref="documentService" />
         <property name="evaluationService" ref="evaluationService" />
         <property name="documentTypeService" ref="documentTypeService" />
+        <property name="relationTypeService" ref="referenceConfService" />
+        <property name="documentRelationService" ref="documentRelationService" />
     </bean>
 
     <bean id="documentUploadAction" class="dmsystem.action.DocumentUploadAction" scope="prototype">
@@ -212,6 +214,10 @@
     <bean id="backupService" class="dmsystem.service.BackupServiceImpl">
     </bean>
     
+    <bean id="documentRelationService" class="dmsystem.service.DocumentRelationServiceImpl">
+    	<property name="documentRelationDao" ref="documentRelationDao"></property>
+    </bean>
+    
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
@@ -282,5 +288,9 @@
 
     <bean id="attachmentDao" class="dmsystem.dao.AttachmentDao">
         <property name="hibernateUtil" ref="hibernateUtil" />
+    </bean>
+    
+    <bean id="documentRelationDao" class="dmsystem.dao.DocumentRelationDao">
+    	<property name="hibernateUtil" ref="hibernateUtil"></property>
     </bean>
 </beans>

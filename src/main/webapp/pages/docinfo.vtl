@@ -6,9 +6,11 @@
     <!-- Le styles -->
     <link href="../source/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../source/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../source/static/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
     <script src="../source/static/jquery-2.0.3.min.js"></script>
     <script src="../source/static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="../source/static/jquery.raty.min.js"></script>
+    <script src="../source/static/jquery-ui-1.10.3.custom.min.js"></script>
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -19,6 +21,21 @@
         }
 
     </style>
+    <script type="text/javascript">
+    	var result="";
+    	$(document).ready(function(){
+        	$.ajax({
+            	type: "GET",
+                url: "../documentJson/getDocumentJson",
+                data: {}
+            	}).done(function (msg) {
+                	result=msg;
+                	$("#refdocument").autocomplete({
+      				source: result
+    				});
+                });
+        });
+    </script>
 
 </head>
 <body>
@@ -241,8 +258,48 @@
         </div>
         <div class="col-xs-12">
             <h4><span class="label label-primary">文献引用</span></h4>
-
-            <p class="col-xs-12 well">引用</p>
+            <div class="col-xs-12 well">
+            	<table class="table">
+            		<tr>
+            			<td align="center"><strong>类型</strong></td>
+            			<td align="center"><strong>文章</strong></td>
+            			<td align="center"><strong>操作</strong></td>
+            		</tr>
+            		<#if (document.refererRelations?size>0)>
+            		<#list document.refererRelations as relation>
+            			<tr>
+            				<td align="center">${relation.relationType.name}</strong></td>
+            				<td align="center">${relation.referee.title}</td>
+            				<td align="center">
+            					<form>
+            					<input type="hidden" name=refereeid value="${relation.referee.id}" \>
+            					<input type="hidden" name=refererid value="${relation.referer.id}" \>
+            					<input class="form-control btn btn-primary" type="submit" value="删除" \>
+            					</form>		
+            				</td>
+            			</tr>
+            		</#list>
+            		</#if>
+            			<tr>
+            			<form action="../document/addDocumentRelation" method="POST" >
+								<td align="center">
+									<select name="relationTypeId" class="form-control">
+									<#list relationTypes as relationType>
+										<option value=${relationType.id}>${relationType.name}</option>
+									</#list>
+									</select>
+								</td>
+								<td align="center">
+									<input type="hidden" name="docId" value="${document.id}">
+									<input class="form-control" type="text" name="refdocument" id="refdocument">
+								</td>
+								<td>
+									<button class="form-control btn" type="submit">添加</button>
+								</td>
+						</form>
+						</tr>	
+            	</table>
+            </div>
         </div>
 
         <div class="row">

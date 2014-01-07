@@ -42,5 +42,18 @@
             <result name="success" type="redirect">/document/showmodification?docId=${documentId}</result>
         </action>
         
+        <action name="addDocumentRelation" method="addDocumentRelation" class="documentAction">
+        	<result name="success" type="redirect">/document/showdoc?docId=${docId}</result>
+        </action>
+        
+    </package>
+    <package name="documentJson" extends="json-default">                
+        <action name="getDocumentJson" method="getJson" class="documentAction">
+        	<result type="json">
+        		<param name="root">
+        			jsonList
+        		</param>
+        	</result>
+        </action>
     </package>
 </struts>
