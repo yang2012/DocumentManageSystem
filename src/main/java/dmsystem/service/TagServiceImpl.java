@@ -1,8 +1,13 @@
 package dmsystem.service;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import dmsystem.dao.TagDao;
 import dmsystem.entity.Document;
 import dmsystem.entity.Tag;
+import dmsystem.util.StringUtil;
 
 /**
  * 
@@ -17,7 +22,10 @@ public class TagServiceImpl implements TagService {
 		tag.setDocument(doc);
 		tag.setName(tagname);
 		try {
-			this.tagDao.add(tag);
+			if (!this.isTagExist(tagname, doc)) {
+				this.tagDao.add(tag);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -29,6 +37,18 @@ public class TagServiceImpl implements TagService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isTagExist(String tagName, Document doc) {
+		Set<Tag> tagSet = doc.getTags();
+		Iterator<Tag> tagIter = tagSet.iterator();
+		while (tagIter.hasNext()) {
+			if (StringUtil.equals(tagName, tagIter.next().getName())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public TagDao getTagDao() {

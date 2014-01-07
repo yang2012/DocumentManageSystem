@@ -218,9 +218,7 @@
                       
                     <#list document.tags as tag>
                     
-                      <span class="label label-success">${tag.name}&nbsp;</span>
-                      <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <span class="label label-success">${tag.name}</span>&nbsp;&nbsp;
 
                     </#list>
                       
@@ -313,7 +311,7 @@
               </div>
               <div class="modal-body">
 
-                <form class="form-horizontal" role="form" method="POST" action="../tag/newtag">
+                <form class="form-horizontal" role="form" method="POST" action="../document/newtag">
                   <div class="form-group">
                     <div class="col-xs-2"></div>
                       <div class="col-sm-8">
