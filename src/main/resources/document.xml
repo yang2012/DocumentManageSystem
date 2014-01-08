@@ -46,6 +46,10 @@
         	<result name="success" type="redirect">/document/showdoc?docId=${docId}</result>
         </action>
         
+        <action name="delDocumentRelation" method="delDocumentRelation" class="documentAction">
+        	<result name="success" type="redirect">/document/showdoc?docId=${docId}</result>
+        </action>
+        
     </package>
     <package name="documentJson" extends="json-default">                
         <action name="getDocumentJson" method="getJson" class="documentAction">

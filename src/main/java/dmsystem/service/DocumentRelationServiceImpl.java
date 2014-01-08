@@ -12,7 +12,10 @@ public class DocumentRelationServiceImpl implements DocumentRelationService{
 		this.documentRelationDao = documentRelationDao;
 	}
 	public void addDocumentRelation(DocumentRelation documentRelation) {
-		this.documentRelationDao.addDocumentRelationDao(documentRelation);
+		this.documentRelationDao.addDocumentRelation(documentRelation);
+	}
+	public void delDocumentRelation(DocumentRelation documentRelation) {
+		this.documentRelationDao.delDocumentRelation(documentRelation);
 	}
 	
 }
