@@ -216,7 +216,7 @@
         <div class="col-xs-12">
             <h4><span class="label label-primary">作者</span></h4>
 
-            <P class="well"><strong>${document.author}</strong></P>
+            <p class="well"><strong>${document.author}</strong></p>
         </div>
 
         <div class="col-xs-12">
@@ -256,9 +256,20 @@
 
             <p class="col-xs-12 well"><a href=${document.url}>${document.url}</a></p>
         </div>
-        <div class="col-xs-12">
-            <h4><span class="label label-primary">文献引用</span></h4>
-            <div class="col-xs-12 well">
+		
+		<div class="row">
+            <div class="col-xs-12">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background:#0174DF;">
+                            <h3 class="panel-title">文献引用</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="col-xs-12 well">
             	<table class="table">
             		<tr>
             			<td align="center"><strong>类型</strong></td>
@@ -301,8 +312,8 @@
 						</form>
 						</tr>	
             	</table>
-            </div>
         </div>
+		
 
         <div class="row">
             <div class="col-xs-12">
