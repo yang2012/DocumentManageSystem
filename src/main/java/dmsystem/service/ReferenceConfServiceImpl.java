@@ -49,5 +49,9 @@ public class ReferenceConfServiceImpl implements ReferenceConfService {
 			e.printStackTrace();
 		}
 	}
+	
+	public RelationType getRelationTypeById(Integer id){
+		return relationTypeDao.getRelationTypeById(id);
+	}
 
 }

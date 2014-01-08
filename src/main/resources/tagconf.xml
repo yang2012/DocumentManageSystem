@@ -23,4 +23,14 @@
 			<result name="success" type="redirect">/tagconf/gettagconf</result>
 		</action> 
 	</package>
+	
+	<package name="tagJson" extends="json-default">                
+        <action name="gettagjson" method="gettagjson" class="tagDefinedAction">
+        	<result type="json">
+        		<param name="root">
+        			tagsJson
+        		</param>
+        	</result>
+        </action>
+    </package>
 </struts>

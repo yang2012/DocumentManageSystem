@@ -19,7 +19,7 @@
 				value="${documentExtraPropertyWrapper.extraPropertyId}"
 				hidden="hidden" /> <input
 				id="${documentExtraPropertyWrapper.extraPropertyName}"
-				class="form-control"
+				class="form-control ui-autocomplete-input"
 				placeholder="${documentExtraPropertyWrapper.extraPropertyName}"
 				value="${documentExtraPropertyWrapper.extraPropertyValue}"
 				name="documentExtraPropertyWrappers[${ws.index}].extraPropertyValue" />
