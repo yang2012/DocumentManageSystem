@@ -36,7 +36,25 @@ public class DocumentAction extends ActionSupport {
     private String refdocument;
     private Integer relationTypeId;
     private DocumentRelationService documentRelationService;
+    private Integer refereeid;
+    private Integer refererid;
 
+
+	public Integer getRefereeid() {
+		return refereeid;
+	}
+
+	public void setRefereeid(Integer refereeid) {
+		this.refereeid = refereeid;
+	}
+
+	public Integer getRefererid() {
+		return refererid;
+	}
+
+	public void setRefererid(Integer refererid) {
+		this.refererid = refererid;
+	}
 
 	public DocumentRelationService getDocumentRelationService() {
 		return documentRelationService;
@@ -241,6 +259,19 @@ public class DocumentAction extends ActionSupport {
     	RelationType relationType=this.relationTypeService.getRelationTypeById(relationTypeId);
     	documentRelation.setRelationType(relationType);
     	this.documentRelationService.addDocumentRelation(documentRelation);
+    	return SUCCESS;
+    }
+    
+    public String delDocumentRelation(){
+    	DocumentRelation documentRelation=new DocumentRelation();
+    	Document documentrefer=this.documentService.get(refererid);
+    	Document documentrefee=this.documentService.get(refereeid);
+    	documentRelation.setReferee(documentrefee);
+    	documentRelation.setReferer(documentrefer);
+    	RelationType relationType=new RelationType();
+    	relationType.setId(relationTypeId);
+    	documentRelation.setRelationType(relationType);
+    	this.documentRelationService.delDocumentRelation(documentRelation);
     	return SUCCESS;
     }
 }

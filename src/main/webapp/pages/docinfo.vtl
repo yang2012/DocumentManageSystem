@@ -271,9 +271,11 @@
             				<td align="center">${relation.relationType.name}</strong></td>
             				<td align="center">${relation.referee.title}</td>
             				<td align="center">
-            					<form>
-            					<input type="hidden" name=refereeid value="${relation.referee.id}" \>
-            					<input type="hidden" name=refererid value="${relation.referer.id}" \>
+            					<form action="../document/delDocumentRelation" method="POST">
+            					<input type="hidden" name="docId" value="${document.id}" \>
+            					<input type="hidden" name="refereeid" value="${relation.referee.id}" \>
+            					<input type="hidden" name="refererid" value="${relation.referer.id}" \>
+            					<input type="hidden" name="relationTypeId" value="${relation.relationType.id}" \>
             					<input class="form-control btn btn-primary" type="submit" value="删除" \>
             					</form>		
             				</td>

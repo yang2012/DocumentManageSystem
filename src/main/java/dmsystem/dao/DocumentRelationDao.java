@@ -17,12 +17,24 @@ public class DocumentRelationDao {
 		this.hibernateUtil = hibernateUtil;
 	}
 
-	public void addDocumentRelationDao(DocumentRelation documentRelation) {
+	public void addDocumentRelation(DocumentRelation documentRelation) {
 		Session session = hibernateUtil.getSessionFactory().openSession();
 		Transaction ts = null;
 		try {
 			ts = session.beginTransaction();
 			session.save(documentRelation);
+			ts.commit();
+		} finally {
+			session.close();
+		}
+	}
+	
+	public void delDocumentRelation(DocumentRelation documentRelation){
+		Session session = hibernateUtil.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			session.delete(documentRelation);
 			ts.commit();
 		} finally {
 			session.close();
