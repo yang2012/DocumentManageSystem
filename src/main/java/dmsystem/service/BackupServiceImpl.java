@@ -107,6 +107,11 @@ public class BackupServiceImpl implements BackupService {
             String fileDirectoryPath = FileUtility.getUploadResourceDirectoryPath();
             File fileDirectory = new File(fileDirectoryPath);
             File[] filesToTar = fileDirectory.listFiles();
+
+            if (filesToTar == null || filesToTar.length == 0) {
+                return exportPath;
+            }
+
             for(File f:filesToTar){
                 out.putNextEntry(new TarEntry(f, f.getName()));
                 origin = new BufferedInputStream(new FileInputStream( f ));

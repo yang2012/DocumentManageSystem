@@ -57,6 +57,6 @@ public class FileUtility {
     }
 
     public static String getAttachmentBackupFilePath() {
-        return FileUtility.getBackupDirectoryPath() + File.separator + "attachment.tar";
+        return FileUtility.getBackupDirectoryPath() + File.separator + "attachments.tar";
     }
 }
