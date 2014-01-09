@@ -39,7 +39,24 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="" data-toggle="modal" data-target="#backupModal"><span class="glyphicon glyphicon-compressed"></span>&nbsp;备份资料</a>
+                    <a id="backup-uri" href=""><span class="glyphicon glyphicon-compressed"></span>&nbsp;备份资料</a>
+                    <script>
+
+                        $("#backup-uri").click(function(e) {
+                            $.ajax(
+                                    {
+                                        url: "../backup/backup",
+                                        type: "GET",
+                                        success: function (data, textStatus, jqXHR) {
+                                            $('#backupModal').modal('show');
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            alert("Fail");
+                                        }
+                                    });
+                            e.preventDefault(); //STOP default action
+                        });
+                        </script>
                 </li>
                 <li>
                     <a href="../account/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
@@ -129,10 +146,10 @@
       </div>
       <div class="modal-body">
         <div style="text-align:center;">
-            <h3><a href="">数据库备份资料下载</a></h3>
+            <h3><a href="../backup/dmsystem.sql">数据库备份资料下载</a></h3>
         </div>
         <div style="text-align:center;">
-            <h3><a href="">文献附件备份资料下载</a></h3>
+            <h3><a href="../backup/attachments.tar">文献附件备份资料下载</a></h3>
         </div>
       </div>
       <div class="modal-footer">
