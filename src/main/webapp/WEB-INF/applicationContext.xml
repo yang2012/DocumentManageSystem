@@ -3,10 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:hdp="http://www.springframework.org/schema/hadoop"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
 	<context:annotation-config />
 	
@@ -14,43 +15,52 @@
 
 	<tx:annotation-driven />
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
+    <hdp:configuration id="hadoopConfiguration">
+        fs.default.name=hdfs://localhost:9000
+    </hdp:configuration>
+
+    <hdp:hbase-configuration id="hbaseConfiguration"  delete-connection="true" configuration-ref="hadoopConfiguration" />
+
+    <bean id="hbaseTemplate" class="org.springframework.data.hadoop.hbase.HbaseTemplate">
+        <property name="configuration" ref="hbaseConfiguration"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="dmsystem.entity"/>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.connection.pool_size">1</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-            </props>
-        </property>
-    </bean>
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8" />-->
+        <!--<property name="username" value="root" />-->
+        <!--<property name="password" value="" />-->
+    <!--</bean>-->
 
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="packagesToScan" value="dmsystem.entity"/>-->
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.connection.pool_size">1</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
+    <!--<bean id="transactionManager"-->
+          <!--class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
 
-    <bean id="session" class="org.springframework.orm.hibernate3.SessionFactoryUtils" factory-method="getSession" scope="prototype">
-        <constructor-arg ref="sessionFactory" />
-        <constructor-arg value="false" />
-    </bean>
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="session" class="org.springframework.orm.hibernate3.SessionFactoryUtils" factory-method="getSession" scope="prototype">-->
+        <!--<constructor-arg ref="sessionFactory" />-->
+        <!--<constructor-arg value="false" />-->
+    <!--</bean>-->
 
     <!-- Hibernate -->
-    <bean id="hibernateUtil" class="dmsystem.util.HibernateUtil">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+    <!--<bean id="hibernateUtil" class="dmsystem.util.HibernateUtil">-->
+        <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
 
     <!-- Actions -->
     <bean id="loginAction" class="dmsystem.action.LoginAction" scope="prototype">
@@ -220,77 +230,77 @@
     
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="modifyPasswordDao" class="dmsystem.dao.ModifyPasswordDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="statisticDao" class="dmsystem.dao.StatisticDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="operationDao" class="dmsystem.dao.OperationDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="documentSearchDao" class="dmsystem.dao.DocumentSearchDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="documentDao" class="dmsystem.dao.DocumentDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
         <property name="documentTypeDao" ref="documentTypeDao" />
         <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
         <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
     </bean>
 
     <bean id="documentTypeDao" class="dmsystem.dao.DocumentTypeDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="documentExtraPropertyDao" class="dmsystem.dao.DocumentExtraPropertyDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="documentWithExtraPropertyDao" class="dmsystem.dao.DocumentWithExtraPropertyDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="evaluationDao" class="dmsystem.dao.EvaluationDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="evaluationExtraPropertyDao" class="dmsystem.dao.EvaluationExtraPropertyDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
 
     <bean id="evaluationWithExtraPropertyDao" class="dmsystem.dao.EvaluationWithExtraPropertyDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="relationTypeDao" class="dmsystem.dao.RelationTypeDao">
-    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    	<!--<property name="hibernateUtil" ref="hibernateUtil"></property>-->
     </bean>
 
     <bean id="meetingNameDao" class="dmsystem.dao.MeetingNameDao">
-    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    	<!--<property name="hibernateUtil" ref="hibernateUtil"></property>-->
     </bean>
     
     <bean id="tagDao" class="dmsystem.dao.TagDao">
-    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    	<!--<property name="hibernateUtil" ref="hibernateUtil"></property>-->
     </bean>
     
     <bean id="tagDefinedDao" class="dmsystem.dao.TagDefinedDao">
-    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    	<!--<property name="hibernateUtil" ref="hibernateUtil"></property>-->
     </bean>
 
     <bean id="attachmentDao" class="dmsystem.dao.AttachmentDao">
-        <property name="hibernateUtil" ref="hibernateUtil" />
+        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
     </bean>
     
     <bean id="documentRelationDao" class="dmsystem.dao.DocumentRelationDao">
-    	<property name="hibernateUtil" ref="hibernateUtil"></property>
+    	<!--<property name="hibernateUtil" ref="hibernateUtil"></property>-->
     </bean>
 </beans>

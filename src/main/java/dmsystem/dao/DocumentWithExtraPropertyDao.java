@@ -4,8 +4,6 @@ import dmsystem.entity.Document;
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.entity.DocumentWithExtraProperty;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 import java.util.Set;
 
@@ -39,17 +37,18 @@ public class DocumentWithExtraPropertyDao {
         }
 
         public DocumentWithExtraProperty find(Document document, DocumentExtraProperty documentExtraProperty) throws Exception {
-            Session session = hibernateUtil.getSessionFactory().openSession();
-
-            session.beginTransaction();
-            Query query = session
-                    .createQuery("from DocumentWithExtraProperty d where d.pk.document=? and d.pk.documentExtraProperty=?");
-            Object dbResult = query.setEntity(0, document).setEntity(1, documentExtraProperty).uniqueResult();
-
-            if (dbResult != null) {
-                return (DocumentWithExtraProperty) dbResult;
-            } else {
-                return null;
-            }
+            return null;
+//            Session session = hibernateUtil.getSessionFactory().openSession();
+//
+//            session.beginTransaction();
+//            Query query = session
+//                    .createQuery("from DocumentWithExtraProperty d where d.pk.document=? and d.pk.documentExtraProperty=?");
+//            Object dbResult = query.setEntity(0, document).setEntity(1, documentExtraProperty).uniqueResult();
+//
+//            if (dbResult != null) {
+//                return (DocumentWithExtraProperty) dbResult;
+//            } else {
+//                return null;
+//            }
         }
 }

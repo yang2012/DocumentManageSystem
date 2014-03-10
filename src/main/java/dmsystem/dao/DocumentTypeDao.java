@@ -4,9 +4,9 @@ import java.util.List;
 
 import dmsystem.entity.DocumentType;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+//import org.hibernate.Query;
+//import org.hibernate.Session;
+//import org.hibernate.Transaction;
 
 public class DocumentTypeDao {
 
@@ -17,28 +17,28 @@ public class DocumentTypeDao {
     }
 
 	public void add(DocumentType transientInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.save(transientInstance);
-			ts.commit();
-		} finally {
-			session.close();
-			}
+//		Session session = hibernateUtil.getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.save(transientInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//			}
 	}
 
 	public void remove(DocumentType persistentInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(persistentInstance);
-			ts.commit();
-		} finally {
-			session.close();
-			}
-		
+//		Session session = hibernateUtil.getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.delete(persistentInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//			}
+//
 	}
 
 	public void update(DocumentType detachedInstance) throws Exception {
@@ -52,18 +52,19 @@ public class DocumentTypeDao {
 	}
 
     public DocumentType findByName(String name) throws Exception {
-        Session session = hibernateUtil.getSessionFactory().openSession();
-
-        session.beginTransaction();
-        Query query = session
-                .createQuery("from DocumentType dt where dt.name=?");
-        Object dbResult = query.setString(0, name).uniqueResult();
-
-        if (dbResult != null) {
-            return (DocumentType) dbResult;
-        } else {
-            return null;
-        }
+//        Session session = hibernateUtil.getSessionFactory().openSession();
+//
+//        session.beginTransaction();
+//        Query query = session
+//                .createQuery("from DocumentType dt where dt.name=?");
+//        Object dbResult = query.setString(0, name).uniqueResult();
+//
+//        if (dbResult != null) {
+//            return (DocumentType) dbResult;
+//        } else {
+//            return null;
+//        }
+        return null;
     }
     
 	@SuppressWarnings("unchecked")

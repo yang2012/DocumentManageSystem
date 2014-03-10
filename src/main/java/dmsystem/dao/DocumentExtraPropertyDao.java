@@ -2,9 +2,6 @@ package dmsystem.dao;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import dmsystem.entity.DocumentExtraProperty;
 import dmsystem.util.HibernateUtil;
 
@@ -26,15 +23,15 @@ public class DocumentExtraPropertyDao {
 	}
 
 	public void remove(DocumentExtraProperty persistentInstance) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(persistentInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+//		Session session = hibernateUtil.getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.delete(persistentInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//		}
 		}
 
 	public void update(DocumentExtraProperty detachedInstance) throws Exception {

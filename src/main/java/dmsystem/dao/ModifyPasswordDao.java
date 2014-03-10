@@ -1,8 +1,5 @@
 package dmsystem.dao;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import dmsystem.entity.User;
 import dmsystem.util.HibernateUtil;
 
@@ -23,12 +20,13 @@ public class ModifyPasswordDao {
 	}
 
 	public String retrievePassword(String username) {
-		Session session = this.hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session
-				.createQuery("select u.password from User u where u.username=?");
-		query.setString(0, username);
-		return (String) query.list().get(0);
+        return null;
+//		Session session = this.hibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		Query query = session
+//				.createQuery("select u.password from User u where u.username=?");
+//		query.setString(0, username);
+//		return (String) query.list().get(0);
 	}
 
 	public void updateUser(User user) {

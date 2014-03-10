@@ -1,0 +1,26 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: justinyang
+  Date: 13-12-25
+  Time: PM7:00
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<#list documentExtraPropertyWrappers as documentExtraPropertyWrapper>
+    <div class="form-group">
+        <label
+                for="documentExtraPropertyWrappers[${documentExtraPropertyWrapper_index}].extraPropertyId"
+                class="col-sm-2 control-label">
+            ${documentExtraPropertyWrapper.extraPropertyName} </label>
+        <div class="col-sm-10">
+            <input
+                    name="documentExtraPropertyWrappers[${documentExtraPropertyWrapper_index}].extraPropertyId"
+                    value="${documentExtraPropertyWrapper.extraPropertyId}"
+                    hidden="hidden" /> <input
+                id="${documentExtraPropertyWrapper.extraPropertyName}"
+                class="form-control ui-autocomplete-input"
+                placeholder="${documentExtraPropertyWrapper.extraPropertyName}"
+                value="${documentExtraPropertyWrapper.extraPropertyValue}"
+                name="documentExtraPropertyWrappers[${documentExtraPropertyWrapper_index}].extraPropertyValue" />
+        </div>
+    </div>
+</#list>

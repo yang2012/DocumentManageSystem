@@ -4,8 +4,6 @@ import dmsystem.entity.Evaluation;
 import dmsystem.entity.EvaluationExtraProperty;
 import dmsystem.entity.EvaluationWithExtraProperty;
 import dmsystem.util.HibernateUtil;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 import java.util.Set;
 
@@ -38,17 +36,18 @@ public class EvaluationWithExtraPropertyDao {
     }
 
     public EvaluationWithExtraProperty find(Evaluation evaluation, EvaluationExtraProperty evaluationExtraProperty) throws Exception {
-        Session session = hibernateUtil.getSessionFactory().openSession();
-
-        session.beginTransaction();
-        Query query = session
-                .createQuery("from EvaluationWithExtraProperty d where d.pk.evaluation=? and d.pk.evaluationExtraProperty=?");
-        Object dbResult = query.setEntity(0, evaluation).setEntity(1, evaluationExtraProperty).uniqueResult();
-
-        if (dbResult != null) {
-            return (EvaluationWithExtraProperty) dbResult;
-        } else {
-            return null;
-        }
+//        Session session = hibernateUtil.getSessionFactory().openSession();
+//
+//        session.beginTransaction();
+//        Query query = session
+//                .createQuery("from EvaluationWithExtraProperty d where d.pk.evaluation=? and d.pk.evaluationExtraProperty=?");
+//        Object dbResult = query.setEntity(0, evaluation).setEntity(1, evaluationExtraProperty).uniqueResult();
+//
+//        if (dbResult != null) {
+//            return (EvaluationWithExtraProperty) dbResult;
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 }

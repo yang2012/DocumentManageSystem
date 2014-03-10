@@ -3,9 +3,6 @@ package dmsystem.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import dmsystem.entity.Document;
 import dmsystem.util.HibernateUtil;
 import dmsystem.util.StringUtil;
@@ -30,12 +27,12 @@ public class DocumentSearchDao {
 	@SuppressWarnings("unchecked")
 	public List<Document> getDocsByType(String docType) throws Exception {
 		List<Document> docList = null;
-		Session session = this.hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session
-				.createQuery("from Document doc where doc.documentType=?");
-		query.setString(0, docType);
-		docList = query.list();
+//		Session session = this.hibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		Query query = session
+//				.createQuery("from Document doc where doc.documentType=?");
+//		query.setString(0, docType);
+//		docList = query.list();
 
 		return docList;
 	}
@@ -43,15 +40,15 @@ public class DocumentSearchDao {
 	@SuppressWarnings("unchecked")
 	public List<Document> simpleSearch(String keywords) throws Exception {
 		List<Document> docList = null;
-		Session session = this.hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session
-				.createQuery("from Document where title like ? or author like ? or keywords like ? or abstracts like ?");
-		query.setString(0, "%" + keywords + "%");
-		query.setString(1, "%" + keywords + "%");
-		query.setString(2, "%" + keywords + "%");
-		query.setString(3, "%" + keywords + "%");
-		docList = query.list();
+//		Session session = this.hibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		Query query = session
+//				.createQuery("from Document where title like ? or author like ? or keywords like ? or abstracts like ?");
+//		query.setString(0, "%" + keywords + "%");
+//		query.setString(1, "%" + keywords + "%");
+//		query.setString(2, "%" + keywords + "%");
+//		query.setString(3, "%" + keywords + "%");
+//		docList = query.list();
 
 		return docList;
 	}
@@ -71,23 +68,23 @@ public class DocumentSearchDao {
 				: paramsMap.get("publishYear");
 		
 		List<Document> docList = null;
-		Session session = this.hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		String sql = "";
-		if (StringUtil.equals(paramsMap.get("documentType"), "0")) {
-			sql = "from Document where title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
-		} else {
-			sql = "from Document where docTypeId='"
-					+ paramsMap.get("documentType")
-					+ "' and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
-		}
-		Query query = session.createQuery(sql);
-		query.setString(0, "%" + title + "%");
-		query.setString(1, "%" + author + "%");
-		query.setString(2, "%" + keywords + "%");
-		query.setString(3, "%" + publisher + "%");
-		query.setString(4, "%" + publishYear + "%");
-		docList = query.list();
+//		Session session = this.hibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		String sql = "";
+//		if (StringUtil.equals(paramsMap.get("documentType"), "0")) {
+//			sql = "from Document where title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
+//		} else {
+//			sql = "from Document where docTypeId='"
+//					+ paramsMap.get("documentType")
+//					+ "' and title like ? and author like ? and keywords like ? and publisher like ? and year like ?";
+//		}
+//		Query query = session.createQuery(sql);
+//		query.setString(0, "%" + title + "%");
+//		query.setString(1, "%" + author + "%");
+//		query.setString(2, "%" + keywords + "%");
+//		query.setString(3, "%" + publisher + "%");
+//		query.setString(4, "%" + publishYear + "%");
+//		docList = query.list();
 
 		return docList;
 	}

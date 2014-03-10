@@ -2,9 +2,6 @@ package dmsystem.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import dmsystem.entity.MeetingName;
 import dmsystem.entity.Tag;
 import dmsystem.util.HibernateUtil;
@@ -21,15 +18,15 @@ public class MeetingNameDao {
 	}
 
 	public void remove(MeetingName meetingName) throws Exception {
-		Session session = hibernateUtil.getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(meetingName);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+//		Session session = hibernateUtil.getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.delete(meetingName);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//		}
 	}
 
 	public void update(MeetingName detachedInstance) throws Exception {

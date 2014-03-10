@@ -7,9 +7,6 @@ import java.util.List;
 import dmsystem.entity.RelationType;
 import dmsystem.util.HibernateUtil;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 /**
  * Utility object for domain model class RelationType.
  * @see dmsystem.entity.RelationType
@@ -24,39 +21,39 @@ public class RelationTypeDao {
     }
 	
 	public void add(RelationType transientInstance) throws Exception {
-		Session session = getHibernateUtil().getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.save(transientInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+//		Session session = getHibernateUtil().getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.save(transientInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//		}
 	}
 
 	public void remove(RelationType persistentInstance) throws Exception {
-		Session session = getHibernateUtil().getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.delete(persistentInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+//		Session session = getHibernateUtil().getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.delete(persistentInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//		}
 	}
 
 	public void update(RelationType detachedInstance) throws Exception {
-		Session session = getHibernateUtil().getSessionFactory().openSession();
-		Transaction ts = null;
-		try {
-			ts = session.beginTransaction();
-			session.update(detachedInstance);
-			ts.commit();
-		} finally {
-			session.close();
-		}
+//		Session session = getHibernateUtil().getSessionFactory().openSession();
+//		Transaction ts = null;
+//		try {
+//			ts = session.beginTransaction();
+//			session.update(detachedInstance);
+//			ts.commit();
+//		} finally {
+//			session.close();
+//		}
 	}
 
 	public RelationType findById(int id) throws Exception {

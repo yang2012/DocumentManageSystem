@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>文献管理系统</title>
-    <link rel="stylesheet" href="<c:url value="/source/static/bootstrap/css/bootstrap.css" />" />
+    <link rel="stylesheet" href="../source/static/bootstrap/css/bootstrap.css" />
     <style type="text/css">
       body {
         padding-top: 80px;
@@ -54,7 +53,7 @@
           <br/>
         </div>
 
-        <div class="col-xs-4"><img src="<c:url value="/source/image/background.jpg" />" /></div>
+        <div class="col-xs-4"><img src="../source/image/background.jpg" /></div>
       </div> 
     </div>
   </body>

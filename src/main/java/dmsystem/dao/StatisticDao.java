@@ -3,9 +3,6 @@ package dmsystem.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import dmsystem.entity.Operation;
 import dmsystem.util.DateUtil;
 import dmsystem.util.HibernateUtil;
@@ -55,13 +52,14 @@ public class StatisticDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Operation> getOperationsByDate(Date fromDate, Date toDate) {
-		Session session = this.hibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session
-				.createQuery("from Operation op where op.time>? and op.time<=?");
-		query.setDate(0, fromDate);
-		query.setDate(1, toDate);
-
-		return query.list();
+//		Session session = this.hibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		Query query = session
+//				.createQuery("from Operation op where op.time>? and op.time<=?");
+//		query.setDate(0, fromDate);
+//		query.setDate(1, toDate);
+//
+//		return query.list();
+        return null;
 	}
 }
