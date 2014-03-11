@@ -3,7 +3,6 @@ package dmsystem.dao;
 import java.util.List;
 
 import dmsystem.entity.MeetingName;
-import dmsystem.entity.Tag;
 import dmsystem.util.HibernateUtil;
 
 public class MeetingNameDao {

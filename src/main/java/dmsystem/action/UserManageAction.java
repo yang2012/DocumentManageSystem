@@ -17,7 +17,7 @@ public class UserManageAction extends ActionSupport {
 	private Integer authority;
 	private UserService userService;
 	private List<User> users;
-	private int id;
+	private String id;
 	private String success;
 
 	public String getSuccess() {
@@ -28,11 +28,11 @@ public class UserManageAction extends ActionSupport {
 		this.success = success;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

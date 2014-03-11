@@ -1,11 +1,24 @@
 package dmsystem.util;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * 
  * @author bryant zhang
  * 
  */
 public class StringUtil {
+
+    public static String md5(String content) throws NoSuchAlgorithmException {
+        if (content == null) {
+            return null;
+        }
+        MessageDigest mdEnc = MessageDigest.getInstance("MD5");
+        mdEnc.update(content.getBytes(), 0, content.length());
+        return new BigInteger(1, mdEnc.digest()).toString(16);
+    }
 
 	public static boolean equals(String str1, String str2) {
 

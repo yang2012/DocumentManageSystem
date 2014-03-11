@@ -6,18 +6,18 @@ package dmsystem.entity;
  * 
  */
 public class Statistic {
-	private Integer userId;
+	private String userId;
 	private String username;
 	private Integer docimport;
 	private Integer uploadattachment;
 	private Integer simplecomment;
 	private Integer detailedcomment;
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

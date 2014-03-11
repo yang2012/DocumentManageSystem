@@ -62,6 +62,10 @@
         <!--<property name="sessionFactory" ref="sessionFactory" />-->
     <!--</bean>-->
 
+    <bean id="hbaseUtil" class="dmsystem.util.HBaseUtil">
+        <property name="hbaseTemplate" ref="hbaseTemplate" />
+    </bean>
+
     <!-- Actions -->
     <bean id="loginAction" class="dmsystem.action.LoginAction" scope="prototype">
         <property name="userService" ref="userService" />
@@ -231,6 +235,7 @@
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
         <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
+        <property name="hBaseUtil" ref="hbaseUtil" />
     </bean>
     
     <bean id="modifyPasswordDao" class="dmsystem.dao.ModifyPasswordDao">

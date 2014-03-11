@@ -31,11 +31,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public User authenticate(String username, String password) {
-        User u = getUser(username);
-        if (u != null && password.equals(u.getPassword())) {
-            return u;
+        if (username == null || password == null) {
+            return null;
         }
-        return null;
+        User user = getUser(username);
+        if (user != null && password.equals(user.getPassword())) {
+            return user;
+        } else {
+            return null;
+        }
     }
 
     public User getUser(String username) {
