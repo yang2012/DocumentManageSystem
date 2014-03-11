@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AttachmentService {
 
-    public Attachment upload(Integer documentId, Attachment attachment);
+    public Attachment upload(String documentId, Attachment attachment);
 
     public Boolean delete(Attachment attachment);
 }

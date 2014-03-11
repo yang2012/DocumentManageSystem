@@ -2,18 +2,14 @@ package dmsystem.dao;
 
 // Generated Dec 16, 2013 7:25:34 PM by Hibernate Tools 4.0.0
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
-import dmsystem.entity.Document;
-import dmsystem.entity.User;
-import dmsystem.entity.DocumentExtraProperty;
-import dmsystem.entity.DocumentWithExtraProperty;
-import dmsystem.entity.DocumentType;
+import com.google.gson.Gson;
+import dmsystem.entity.*;
 import dmsystem.util.Constants;
-import dmsystem.util.HibernateUtil;
+import dmsystem.util.HBaseUtil;
+import dmsystem.util.StringUtil;
 
 /**
  * Utility object for domain model class Document.
@@ -23,13 +19,19 @@ import dmsystem.util.HibernateUtil;
  */
 public class DocumentDao {
 
-    private HibernateUtil hibernateUtil;
+    private String table = "Docs";
+    private String infoFamily = "Info";
+    private String basicInfoQualifier = "Basis";
+
+    private HBaseUtil hBaseUtil;
     private DocumentTypeDao documentTypeDao;
     private DocumentWithExtraPropertyDao documentWithExtraPropertyDao;
     private DocumentExtraPropertyDao documentExtraPropertyDao;
 
-    public void setHibernateUtil(HibernateUtil hibernateUtil) {
-        this.hibernateUtil = hibernateUtil;
+    private Gson gson = new Gson();
+
+    public void sethBaseUtil(HBaseUtil hBaseUtil) {
+        this.hBaseUtil = hBaseUtil;
     }
 
     public DocumentTypeDao getDocumentTypeDao() {
@@ -73,46 +75,65 @@ public class DocumentDao {
         document.setCreateTime(new Date());
 
         // Save document
-		hibernateUtil.persist(document);
+        this.add(document);
 
 		return this.update(document.getId(), values);
 	}
 
-	public Document update(Integer docId, Map<String, String> values)
+	public Document update(String docId, Map<String, String> values)
 			throws Exception {
 		Document document = this.findById(docId);
-
 		return this._update(document, values);
 	}
 
 	public void add(Document transientInstance) throws Exception {
-        hibernateUtil.persist(transientInstance);
+        String rowKey= this._generateRowKey(transientInstance);
+        transientInstance.setId(rowKey);
+        String json = gson.toJson(transientInstance);
+        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, json);
 	}
 
 	public void remove(Document persistentInstance) throws Exception {
-        hibernateUtil.remove(persistentInstance);
+        this.hBaseUtil.delete(this.table, persistentInstance.getId());
 	}
 
 	public void update(Document detachedInstance) throws Exception {
 		if (detachedInstance != null) {
-            hibernateUtil.update(detachedInstance);
+            String json = gson.toJson(detachedInstance);
+            this.hBaseUtil.put(this.table, detachedInstance.getId(), this.infoFamily, this.basicInfoQualifier, json);
 		}
 	}
 
-	public Document findById(int id) throws Exception {
-		return (Document) hibernateUtil.findById(Document.class, id);
+	public Document findById(String id) throws Exception {
+        Document document = null;
+        String json = this.hBaseUtil.get(this.table, id, this.infoFamily, this.basicInfoQualifier);
+        if (json != null) {
+            document = this.gson.fromJson(json, Document.class);
+        }
+		return document;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Document> getAll() throws Exception {
-		return hibernateUtil.getAll(Document.class, "createTime", false);
+        List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
+        List<Document> documents = new ArrayList<Document>();
+        Gson gson = new Gson();
+        for (String json : jsons) {
+            documents.add(gson.fromJson(json, Document.class));
+        }
+        return documents;
 	}
+
+    private String _generateRowKey(Document document) throws NoSuchAlgorithmException {
+        String titleMd5 = StringUtil.md5(document.getTitle());
+        long reverseTimestamp = Long.MAX_VALUE - Calendar.getInstance().getTime().getTime();
+        return titleMd5 + reverseTimestamp;
+    }
 
     private Document _update(Document document, Map<String, String> values) throws Exception {
         if (document != null) {
             this._updateBasisValues(document, values);
-
-            hibernateUtil.update(document);
+            String json = gson.toJson(document);
+            this.hBaseUtil.put(this.table, document.getId(), this.infoFamily, this.basicInfoQualifier, json);
         }
 
         return document;
@@ -155,7 +176,7 @@ public class DocumentDao {
             } else {
                 String[] components = key.split("-");
                 if (components.length == 2) {
-                    Integer extraPropertyId = Integer.parseInt(components[1]);
+                    String extraPropertyId = components[1];
 
                     DocumentExtraProperty extraProperty = documentExtraPropertyDao.findById(extraPropertyId);
                     DocumentWithExtraProperty documentWithExtraProperty = documentWithExtraPropertyDao.find(document, extraProperty);
@@ -178,7 +199,7 @@ public class DocumentDao {
 	
 	private void _updateDocumentType(Document document, Map<String, String> values) throws Exception {
         if (values.containsKey(Constants.kDocumentTypeField)) {
-            Integer docTypeId = Integer.parseInt(values.get(Constants.kDocumentTypeField));
+            String docTypeId = values.get(Constants.kDocumentTypeField);
             DocumentType docType = documentTypeDao.findById(docTypeId);
             document.setDocumentType(docType);
         }

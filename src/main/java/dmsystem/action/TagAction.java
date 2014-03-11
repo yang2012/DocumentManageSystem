@@ -24,7 +24,7 @@ public class TagAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private String tagname;
-	private int documentId;
+	private String documentId;
 
 	private User user;
 
@@ -71,11 +71,11 @@ public class TagAction extends ActionSupport {
 		this.tagname = tagname;
 	}
 
-	public int getDocumentId() {
+	public String getDocumentId() {
 		return documentId;
 	}
 
-	public void setDocumentId(int documentId) {
+	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
 

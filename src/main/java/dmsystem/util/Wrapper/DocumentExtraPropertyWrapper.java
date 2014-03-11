@@ -4,15 +4,15 @@ package dmsystem.util.Wrapper;
  * Created by justinyang on 13-12-25.
  */
 public class DocumentExtraPropertyWrapper {
-    private Integer extraPropertyId;
+    private String extraPropertyId;
     private String extraPropertyName;
     private String extraPropertyValue;
 
-    public Integer getExtraPropertyId() {
+    public String getExtraPropertyId() {
         return extraPropertyId;
     }
 
-    public void setExtraPropertyId(Integer extraPropertyId) {
+    public void setExtraPropertyId(String extraPropertyId) {
         this.extraPropertyId = extraPropertyId;
     }
 

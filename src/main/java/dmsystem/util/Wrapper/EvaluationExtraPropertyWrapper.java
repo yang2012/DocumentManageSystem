@@ -5,15 +5,15 @@ package dmsystem.util.Wrapper;
  */
 public class EvaluationExtraPropertyWrapper {
 
-    private Integer extraPropertyId;
+    private String extraPropertyId;
     private String extraPropertyName;
     private String extraPropertyValue;
 
-    public Integer getExtraPropertyId() {
+    public String getExtraPropertyId() {
         return extraPropertyId;
     }
 
-    public void setExtraPropertyId(Integer extraPropertyId) {
+    public void setExtraPropertyId(String extraPropertyId) {
         this.extraPropertyId = extraPropertyId;
     }
 

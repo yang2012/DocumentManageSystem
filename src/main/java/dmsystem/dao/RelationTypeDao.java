@@ -56,7 +56,7 @@ public class RelationTypeDao {
 //		}
 	}
 
-	public RelationType findById(int id) throws Exception {
+	public RelationType findById(String id) throws Exception {
 		return (RelationType) getHibernateUtil().findById(RelationType.class, id);
 	}
 	
@@ -75,7 +75,7 @@ public class RelationTypeDao {
 		return hibernateUtil;
 	}
 
-	public RelationType getRelationTypeById(Integer id) {
+	public RelationType getRelationTypeById(String id) {
 		// TODO Auto-generated method stub
 		try {
 			return (RelationType)getHibernateUtil().findById(RelationType.class,id );

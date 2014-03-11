@@ -46,7 +46,7 @@ public class DocumentServiceImpl implements DocumentService {
         return documents;
     }
 
-    public Document get(Integer docId) {
+    public Document get(String docId) {
         Document document = null;
         try {
             document = this.documentDao.findById(docId);
@@ -56,7 +56,7 @@ public class DocumentServiceImpl implements DocumentService {
         return document;
     }
 
-    public Document upload(User user, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
+    public Document upload(User user, String documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
         if (user == null || documentTypeId == null || transientDocument == null) {
@@ -86,7 +86,7 @@ public class DocumentServiceImpl implements DocumentService {
         return persistentDocument;
     }
 
-    public Document update(Integer documentId, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
+    public Document update(String documentId, String documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers) {
         Document persistentDocument = null;
 
         if (documentTypeId == null || transientDocument == null) {

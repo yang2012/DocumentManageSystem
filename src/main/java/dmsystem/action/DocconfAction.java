@@ -19,8 +19,8 @@ public class DocconfAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 7832026651557331002L;
 	private String name;
-	private int id;
-	private int docTypeId;
+	private String id;
+	private String docTypeId;
 	private String propertyName;
 	public String getPropertyName() {
 		return propertyName;
@@ -28,16 +28,16 @@ public class DocconfAction extends ActionSupport{
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
 	}
-	public int getDocTypeId() {
+	public String getDocTypeId() {
 		return docTypeId;
 	}
-	public void setDocTypeId(int docTypeId) {
+	public void setDocTypeId(String docTypeId) {
 		this.docTypeId = docTypeId;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

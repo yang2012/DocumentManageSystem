@@ -44,7 +44,7 @@ public class EvaluationExtraPropertyDao {
 //		}
     }
 
-    public EvaluationExtraProperty findById(int id) throws Exception {
+    public EvaluationExtraProperty findById(String id) throws Exception {
         return (EvaluationExtraProperty) hibernateUtil.findById(EvaluationExtraProperty.class, id);
     }
 

@@ -11,9 +11,9 @@ public interface DocumentTypeService {
 	public List<DocumentType> getAll();
 	public void addDocType(DocumentType documentType);
 	public void delDocType(DocumentType documentType);
-	public DocumentType getDocumentTypeById(int id);
+	public DocumentType getDocumentTypeById(String id);
 	public void addDocumentExtraProperty(DocumentExtraProperty documentExtraProperty);
 	public void delDocumentExtraProperty(DocumentExtraProperty documentExtraProperty);
 
-    public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId);
+    public Set<DocumentExtraProperty> getExtraProperties(String documentTypeId);
 }

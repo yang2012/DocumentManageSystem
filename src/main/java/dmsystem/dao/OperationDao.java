@@ -33,7 +33,7 @@ public class OperationDao {
 		}
 	}
 
-	public Operation findById(int id) throws Exception {
+	public Operation findById(String id) throws Exception {
 		return (Operation) hibernateUtil.findById(Operation.class, id);
 	}
 

@@ -58,7 +58,7 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 	}
 	
-	public DocumentType getDocumentTypeById(int id){
+	public DocumentType getDocumentTypeById(String id){
 		DocumentType dt=null;
 		try {
 			dt=this.documentTypeDao.findById(id);
@@ -87,7 +87,7 @@ public class DocumentTypeServiceImpl  implements DocumentTypeService  {
 		}
 	}
 
-    public Set<DocumentExtraProperty> getExtraProperties(Integer documentTypeId) {
+    public Set<DocumentExtraProperty> getExtraProperties(String documentTypeId) {
         Set<DocumentExtraProperty> extraProperties = null;
         try {
             DocumentType documentType = this.documentTypeDao.findById(documentTypeId);

@@ -25,7 +25,7 @@ public class AttachmentAction extends ActionSupport {
 	private static final int BUFFER_SIZE = 16 * 1024;
 
     // Form input
-    private Integer documentId;
+    private String documentId;
     private File upload;
     private String attachmentType;
 
@@ -35,11 +35,11 @@ public class AttachmentAction extends ActionSupport {
     private String uploadContentType;
 
     // Setter and Getter
-    public Integer getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(Integer documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 

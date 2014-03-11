@@ -4,21 +4,12 @@ package dmsystem.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dmsystem.entity.Document;
-import dmsystem.entity.Evaluation;
 import dmsystem.util.HBaseUtil;
-import dmsystem.util.Json.UserBasicInfoSerializer;
 import dmsystem.util.StringUtil;
-import org.apache.hadoop.hbase.MasterNotRunningException;
-import org.apache.hadoop.hbase.ZooKeeperConnectionException;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import dmsystem.entity.User;
 import dmsystem.util.Constants;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +24,7 @@ import java.util.Set;
 public class UserDao {
 
     private HBaseUtil hBaseUtil;
+    private Gson gson = new Gson();
 
     public void sethBaseUtil(HBaseUtil hBaseUtil) {
         this.hBaseUtil = hBaseUtil;
@@ -51,7 +43,7 @@ public class UserDao {
         User user = null;
         try {
             String rowKey = StringUtil.md5(username);
-            this.findById(rowKey);
+            user = this.findById(rowKey);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,11 +51,10 @@ public class UserDao {
 	}
 
 	public void add(User user) throws Exception {
-        Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserBasicInfoSerializer()).create();
-        String jsonData = gson.toJson(user);
         String rowKey = StringUtil.md5(user.getUsername());
-        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, jsonData);
         user.setId(rowKey);
+        String jsonData = this.gson.toJson(user);
+        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, jsonData);
 	}
 
 	public void add(Map<String, String> values) throws Exception {
@@ -84,8 +75,7 @@ public class UserDao {
         User user = null;
         String json = this.hBaseUtil.get(this.table, id, this.infoFamily, this.basicInfoQualifier);
         if (json != null) {
-            Gson gson = new Gson();
-            user = gson.fromJson(json, User.class);
+            user = this.gson.fromJson(json, User.class);
         }
         return user;
 	}
@@ -93,9 +83,8 @@ public class UserDao {
 	public List<User> getAllUser() throws Exception {
         List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
         List<User> users = new ArrayList<User>();
-        Gson gson = new Gson();
         for (String json : jsons) {
-            users.add(gson.fromJson(json, User.class));
+            users.add(this.gson.fromJson(json, User.class));
         }
         return users;
 	}

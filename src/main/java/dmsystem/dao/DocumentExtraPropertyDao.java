@@ -40,7 +40,7 @@ public class DocumentExtraPropertyDao {
 		}
 	}
 
-	public DocumentExtraProperty findById(int id) throws Exception {
+	public DocumentExtraProperty findById(String id) throws Exception {
 		return (DocumentExtraProperty) hibernateUtil.findById(DocumentExtraProperty.class, id);
 	}
 }

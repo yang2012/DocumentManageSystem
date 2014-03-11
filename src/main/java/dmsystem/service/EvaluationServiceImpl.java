@@ -44,7 +44,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         this.evaluationWithExtraPropertyDao = evaluationWithExtraPropertyDao;
     }
 
-    public Evaluation saveEvaluation(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    public Evaluation saveEvaluation(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
             if (evaluationId != null) {
@@ -64,7 +64,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         return persistentEvaluation;
     }
 
-    public Evaluation saveDraft(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    public Evaluation saveDraft(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
             if (evaluationId != null) {
@@ -136,7 +136,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         return persistentEvaluation;
     }
 
-    private Evaluation _addNewEvaluation(User user, Integer documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    private Evaluation _addNewEvaluation(User user, String documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
 
         if (user == null || documentId == null || transientEvaluation == null) {

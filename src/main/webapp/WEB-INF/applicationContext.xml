@@ -234,7 +234,6 @@
     
     <!-- DAO -->
     <bean id="userDao" class="dmsystem.dao.UserDao">
-        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
         <property name="hBaseUtil" ref="hbaseUtil" />
     </bean>
     
@@ -255,14 +254,14 @@
     </bean>
 
     <bean id="documentDao" class="dmsystem.dao.DocumentDao">
-        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
+        <property name="hBaseUtil" ref="hbaseUtil" />
         <property name="documentTypeDao" ref="documentTypeDao" />
         <property name="documentExtraPropertyDao" ref="documentExtraPropertyDao" />
         <property name="documentWithExtraPropertyDao" ref="documentWithExtraPropertyDao" />
     </bean>
 
     <bean id="documentTypeDao" class="dmsystem.dao.DocumentTypeDao">
-        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
+        <property name="hBaseUtil" ref="hbaseUtil" />
     </bean>
 
     <bean id="documentExtraPropertyDao" class="dmsystem.dao.DocumentExtraPropertyDao">

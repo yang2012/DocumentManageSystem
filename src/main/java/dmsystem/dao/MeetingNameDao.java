@@ -34,7 +34,7 @@ public class MeetingNameDao {
 		}
 	}
 
-	public MeetingName findById(int id) throws Exception {
+	public MeetingName findById(String id) throws Exception {
 		return (MeetingName) hibernateUtil.findById(MeetingName.class, id);
 	}
 

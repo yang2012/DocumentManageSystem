@@ -15,11 +15,11 @@ public interface DocumentService {
 
     public List<Document> getAll();
 
-    public Document get(Integer docId);
+    public Document get(String docId);
 
-    public Document upload(User user, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
+    public Document upload(User user, String documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
 
-    public Document update(Integer documentId, Integer documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
+    public Document update(String documentId, String documentTypeId, Document transientDocument, List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers);
     
     public DocumentWithExtraProperty getDocumentExtraProperty(Document document, DocumentExtraProperty documentExtraProperty);
 }

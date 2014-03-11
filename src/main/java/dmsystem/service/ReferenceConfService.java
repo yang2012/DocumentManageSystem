@@ -9,5 +9,5 @@ public interface ReferenceConfService {
 	public void addRelationType(RelationType relationType);
 	public void delRelationType(RelationType relationType);
 	public void modRelationType(RelationType relationType);
-	public RelationType getRelationTypeById(Integer id);
+	public RelationType getRelationTypeById(String id);
 }
