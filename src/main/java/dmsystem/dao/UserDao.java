@@ -28,15 +28,18 @@ public class UserDao {
     private HBaseUtil hBaseUtil;
 
 	public User getUser(String username) {
-
+		User u=new User();
         try {
             this.hBaseUtil = HBaseUtil.defaultInstance();
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             byte[] rowKey = messageDigest.digest(username.getBytes());
-            this.hBaseUtil.put("Users", "123123123", "Basis", "info", Bytes.toBytes("JustinYang"));
-
-            byte[] result = this.hBaseUtil.get("Users", "123123123", "Basis", "info");
-            System.out.println(result);
+//            this.hBaseUtil.put("Users", new String(rowKey), "info", "authority", Bytes.toBytes("2"));
+//            this.hBaseUtil.put("Users", new String(rowKey), "info", "name", Bytes.toBytes("admin"));
+            byte[] password= this.hBaseUtil.get("Users", new String(rowKey), "info", "password");
+//            System.out.println(new String(password));
+            byte[] authority= this.hBaseUtil.get("Users", new String(rowKey), "info", "authority");
+            u.setAuthority(new String(authority));
+            
         } catch (MasterNotRunningException e) {
             e.printStackTrace();
         } catch (ZooKeeperConnectionException e) {
@@ -46,7 +49,7 @@ public class UserDao {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return null;
+        return u;
 
 //		Session session = hibernateUtil.getSessionFactory().openSession();
 //		try {

@@ -22,9 +22,9 @@ public class ExampleClient {
 		
 		byte [] tablename = htd.getName();
 		HTableDescriptor [] tables = admin.listTables();
-		if (tables.length != 1 && Bytes.equals(tablename, tables[0].getName())) {
-			throw new IOException("Failed create of table");
-        }
+//		if (tables.length != 1 && Bytes.equals(tablename, tables[0].getName())) {
+//			throw new IOException("Failed create of table");
+//        }
 		// Run some operations -- a put, a get, and a scan -- against the table.
 		HTable table = new HTable(config, tablename);
         byte[] row1 = Bytes.toBytes("row1");
