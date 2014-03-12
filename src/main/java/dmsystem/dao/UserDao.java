@@ -23,8 +23,8 @@ import java.util.Set;
  */
 public class UserDao {
 
-    private HBaseUtil hBaseUtil;
-    private Gson gson = new Gson();
+	private HBaseUtil hBaseUtil;
+	private Gson gson = new Gson();
 
 	public void sethBaseUtil(HBaseUtil hBaseUtil) {
 		this.hBaseUtil = hBaseUtil;
@@ -36,25 +36,25 @@ public class UserDao {
 	private String opFamily = "Ops";
 
 	public User getUser(String username) {
-        if (username == null) {
-            return null;
-        }
+		if (username == null) {
+			return null;
+		}
 
-        User user = null;
-        try {
-            String rowKey = StringUtil.md5(username);
-            user = this.findById(rowKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
+		User user = null;
+		try {
+			String rowKey = StringUtil.md5(username);
+			user = this.findById(rowKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 	public void add(User user) throws Exception {
-        String rowKey = StringUtil.md5(user.getUsername());
-        user.setId(rowKey);
-        String jsonData = this.gson.toJson(user);
-        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, jsonData);
+		String rowKey = StringUtil.md5(user.getUsername());
+		String jsonData = this.gson.toJson(user);
+		this.hBaseUtil.put(this.table, rowKey, this.infoFamily,
+				this.basicInfoQualifier, jsonData);
 	}
 
 	public void add(Map<String, String> values) throws Exception {
@@ -64,8 +64,15 @@ public class UserDao {
 	}
 
 	public void remove(User user) throws Exception {
-		this.hBaseUtil.delete(this.table, StringUtil.md5(user.getUsername()),
-				this.infoFamily, this.basicInfoQualifier);
+		String json = this.hBaseUtil.get(this.table,
+				StringUtil.md5(user.getUsername()), this.infoFamily,
+				this.basicInfoQualifier);
+		User u = new Gson().fromJson(json, User.class);
+		u.setAuthority(0);
+		json = new Gson().toJson(u);
+		System.out.println(json);
+		this.hBaseUtil.put(this.table, StringUtil.md5(user.getUsername()),
+				this.infoFamily, this.basicInfoQualifier, json);
 	}
 
 	public void update(User detachedInstance) throws Exception {
@@ -89,7 +96,10 @@ public class UserDao {
 		List<User> users = new ArrayList<User>();
 		Gson gson = new Gson();
 		for (String json : jsons) {
-			users.add(gson.fromJson(json, User.class));
+			User u = gson.fromJson(json, User.class);
+			if (u.getAuthority() != 0) {
+				users.add(u);
+			}
 		}
 		return users;
 	}

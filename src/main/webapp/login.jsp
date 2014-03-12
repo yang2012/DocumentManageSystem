@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <title>文献管理系统</title>
-    <link rel="stylesheet" href="../source/static/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="source/static/bootstrap/css/bootstrap.css" />
     <style type="text/css">
       body {
         padding-top: 80px;
@@ -53,7 +53,7 @@
           <br/>
         </div>
 
-        <div class="col-xs-4"><img src="../source/image/background.jpg" /></div>
+        <div class="col-xs-4"><img src="source/image/background.jpg" /></div>
       </div> 
     </div>
   </body>

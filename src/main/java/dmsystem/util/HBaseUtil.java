@@ -91,7 +91,7 @@ public class HBaseUtil {
     public void delete(String table, String rowKey, String family, String qualifier) throws IOException {
         HTable hTable = new HTable(this.config, Bytes.toBytes(table));
         Delete delete = new Delete(Bytes.toBytes(rowKey));
-        delete.deleteColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+//        delete.deleteColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
         hTable.delete(delete);
     }
 
