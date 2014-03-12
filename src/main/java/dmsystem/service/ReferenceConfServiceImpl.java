@@ -50,7 +50,7 @@ public class ReferenceConfServiceImpl implements ReferenceConfService {
 		}
 	}
 	
-	public RelationType getRelationTypeById(Integer id){
+	public RelationType getRelationTypeById(String id){
 		return relationTypeDao.getRelationTypeById(id);
 	}
 

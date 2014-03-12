@@ -126,7 +126,7 @@ public class HibernateUtil {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public Object findById(Class objectClass, int id) throws Exception {
+	public Object findById(Class objectClass, String id) throws Exception {
 		log.debug("getting instance with id: " + id);
         return null;
 //		Session session = sessionFactory.getCurrentSession();

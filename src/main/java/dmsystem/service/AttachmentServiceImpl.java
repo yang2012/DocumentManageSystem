@@ -23,7 +23,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         this.documentDao = documentDao;
     }
 
-    public Attachment upload(Integer documentId, Attachment attachment) {
+    public Attachment upload(String documentId, Attachment attachment) {
         Attachment persistentAttachment = attachment;
         try {
             Document document = this.documentDao.findById(documentId);

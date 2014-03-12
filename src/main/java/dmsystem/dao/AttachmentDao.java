@@ -38,12 +38,12 @@ public class AttachmentDao {
 		}
 	}
 
-	public Attachment findById(int id) throws Exception {
+	public Attachment findById(String id) throws Exception {
 		return (Attachment) hibernateUtil.findById(Attachment.class, id);
 	}
 	
-	public void removeAttachments(List<Integer> attachmentIds) throws Exception {
-		for (Integer attachmentId : attachmentIds) {
+	public void removeAttachments(List<String> attachmentIds) throws Exception {
+		for (String attachmentId : attachmentIds) {
 			Attachment attachment = this.findById(attachmentId);
 			this.remove(attachment);
 		}

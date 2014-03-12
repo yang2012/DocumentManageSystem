@@ -5,7 +5,6 @@ package dmsystem.dao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dmsystem.util.HBaseUtil;
-import dmsystem.util.Json.UserBasicInfoSerializer;
 import dmsystem.util.StringUtil;
 
 import dmsystem.entity.User;
@@ -24,7 +23,8 @@ import java.util.Set;
  */
 public class UserDao {
 
-	private HBaseUtil hBaseUtil;
+    private HBaseUtil hBaseUtil;
+    private Gson gson = new Gson();
 
 	public void sethBaseUtil(HBaseUtil hBaseUtil) {
 		this.hBaseUtil = hBaseUtil;
@@ -36,28 +36,25 @@ public class UserDao {
 	private String opFamily = "Ops";
 
 	public User getUser(String username) {
-		if (username == null) {
-			return null;
-		}
+        if (username == null) {
+            return null;
+        }
 
-		User user = null;
-		try {
-			String rowKey = StringUtil.md5(username);
-			user = this.findById(rowKey);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return user;
+        User user = null;
+        try {
+            String rowKey = StringUtil.md5(username);
+            user = this.findById(rowKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
 	}
 
 	public void add(User user) throws Exception {
-		Gson gson = new GsonBuilder().registerTypeAdapter(User.class,
-				new UserBasicInfoSerializer()).create();
-		String jsonData = gson.toJson(user);
-		String rowKey = StringUtil.md5(user.getUsername());
-		this.hBaseUtil.put(this.table, rowKey, this.infoFamily,
-				this.basicInfoQualifier, jsonData);
-		user.setId(rowKey);
+        String rowKey = StringUtil.md5(user.getUsername());
+        user.setId(rowKey);
+        String jsonData = this.gson.toJson(user);
+        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, jsonData);
 	}
 
 	public void add(Map<String, String> values) throws Exception {

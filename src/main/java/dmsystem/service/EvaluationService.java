@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface EvaluationService {
 
-    public Evaluation saveEvaluation(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
+    public Evaluation saveEvaluation(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
 
-    public Evaluation saveDraft(User user, Integer documentId, Integer evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
+    public Evaluation saveDraft(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers);
 
     public List<EvaluationExtraProperty> getExtraProperties();
 

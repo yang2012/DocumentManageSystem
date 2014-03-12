@@ -34,7 +34,7 @@ public class TagDao {
 		}
 	}
 
-	public Tag findById(int id) throws Exception {
+	public Tag findById(String id) throws Exception {
 		return (Tag) hibernateUtil.findById(Tag.class, id);
 	}
 	

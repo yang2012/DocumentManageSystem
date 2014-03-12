@@ -22,7 +22,7 @@ public class DocumentAction extends ActionSupport {
     private DocumentService documentService;
     private EvaluationService evaluationService;
     private ReferenceConfService relationTypeService;
-    private Integer docId;
+    private String docId;
     private User user;
     private Document document;
     private Evaluation draftEvaluation;
@@ -34,25 +34,25 @@ public class DocumentAction extends ActionSupport {
     private ArrayList<String> jsonList;
     private List<Document> documents;
     private String refdocument;
-    private Integer relationTypeId;
+    private String relationTypeId;
     private DocumentRelationService documentRelationService;
-    private Integer refereeid;
-    private Integer refererid;
+    private String refereeid;
+    private String refererid;
 
 
-	public Integer getRefereeid() {
+	public String getRefereeid() {
 		return refereeid;
 	}
 
-	public void setRefereeid(Integer refereeid) {
+	public void setRefereeid(String refereeid) {
 		this.refereeid = refereeid;
 	}
 
-	public Integer getRefererid() {
+	public String getRefererid() {
 		return refererid;
 	}
 
-	public void setRefererid(Integer refererid) {
+	public void setRefererid(String refererid) {
 		this.refererid = refererid;
 	}
 
@@ -65,11 +65,11 @@ public class DocumentAction extends ActionSupport {
 		this.documentRelationService = documentRelationService;
 	}
 
-	public Integer getRelationTypeId() {
+	public String getRelationTypeId() {
 		return relationTypeId;
 	}
 
-	public void setRelationTypeId(Integer relationTypeId) {
+	public void setRelationTypeId(String relationTypeId) {
 		this.relationTypeId = relationTypeId;
 	}
 
@@ -153,11 +153,11 @@ public class DocumentAction extends ActionSupport {
         this.evaluationService = evaluationService;
     }
 
-    public Integer getDocId() {
+    public String getDocId() {
         return docId;
     }
 
-    public void setDocId(Integer docId) {
+    public void setDocId(String docId) {
         this.docId = docId;
     }
 
@@ -250,7 +250,7 @@ public class DocumentAction extends ActionSupport {
     }
     
     public String addDocumentRelation(){
-    	int refid=Integer.parseInt(refdocument.split("_")[0]);
+    	String refid=refdocument.split("_")[0];
     	DocumentRelation documentRelation=new DocumentRelation();
     	Document refer=this.documentService.get(docId);
     	Document refee=this.documentService.get(refid);

@@ -1,16 +1,5 @@
 package dmsystem.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "TagDefined", catalog = "mydb")
-
 public class TagDefined {
 	private int id;
 	private String name;
@@ -25,10 +14,7 @@ public class TagDefined {
 		this.id = id;
 		this.name = name;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+
 	public int getId() {
 		return this.id;
 	}
@@ -37,7 +23,6 @@ public class TagDefined {
 		this.id = id;
 	}
 
-	@Column(name = "name", length = 45)
 	public String getName() {
 		return this.name;
 	}

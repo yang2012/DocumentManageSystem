@@ -36,7 +36,7 @@ public class EvaluationDao {
 		}
 	}
 
-	public Evaluation findById(int id) throws Exception {
+	public Evaluation findById(String id) throws Exception {
 		return (Evaluation) hibernateUtil.findById(Evaluation.class, id);
 	}
 

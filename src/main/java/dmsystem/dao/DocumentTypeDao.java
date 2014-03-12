@@ -1,19 +1,17 @@
 package dmsystem.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dmsystem.entity.DocumentType;
-import dmsystem.util.HibernateUtil;
-//import org.hibernate.Query;
-//import org.hibernate.Session;
-//import org.hibernate.Transaction;
+import dmsystem.util.HBaseUtil;
 
 public class DocumentTypeDao {
 
-    private HibernateUtil hibernateUtil;
+    private HBaseUtil hBaseUtil;
 
-    public void setHibernateUtil(HibernateUtil hibernateUtil) {
-        this.hibernateUtil = hibernateUtil;
+    public void sethBaseUtil(HBaseUtil hBaseUtil) {
+        this.hBaseUtil = hBaseUtil;
     }
 
 	public void add(DocumentType transientInstance) throws Exception {
@@ -42,13 +40,14 @@ public class DocumentTypeDao {
 	}
 
 	public void update(DocumentType detachedInstance) throws Exception {
-		if (detachedInstance != null) {
-			hibernateUtil.update(detachedInstance);
-		}
+//		if (detachedInstance != null) {
+//			hibernateUtil.update(detachedInstance);
+//		}
 	}
 
-	public DocumentType findById(int id) throws Exception {
-		return (DocumentType) hibernateUtil.findById(DocumentType.class, id);
+	public DocumentType findById(String id) throws Exception {
+//		return (DocumentType) hibernateUtil.findById(DocumentType.class, id);
+        return null;
 	}
 
     public DocumentType findByName(String name) throws Exception {
@@ -69,7 +68,8 @@ public class DocumentTypeDao {
     
 	@SuppressWarnings("unchecked")
 	public List<DocumentType> getAll() throws Exception {
-		return hibernateUtil.getAll(DocumentType.class, "id", false);
+//		return hibernateUtil.getAll(DocumentType.class, "id", false);
+        return new ArrayList<DocumentType>();
 	}
 
 }

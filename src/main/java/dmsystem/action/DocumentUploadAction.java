@@ -32,13 +32,13 @@ public class DocumentUploadAction extends ActionSupport {
 	private DocumentTypeService documentTypeService;
 	private OperationService operationService;
 
-	private Integer docId;
+	private String docId;
 
 	private User user;
 
 	private Document document;
 
-	private Integer documentTypeId;
+	private String documentTypeId;
 	private List<DocumentType> documentTypes;
 	private List<DocumentExtraPropertyWrapper> documentExtraPropertyWrappers;
 
@@ -66,11 +66,11 @@ public class DocumentUploadAction extends ActionSupport {
 		this.documentTypeService = documentTypeService;
 	}
 
-	public Integer getDocId() {
+	public String getDocId() {
 		return docId;
 	}
 
-	public void setDocId(Integer docId) {
+	public void setDocId(String docId) {
 		this.docId = docId;
 	}
 
@@ -82,11 +82,11 @@ public class DocumentUploadAction extends ActionSupport {
 		this.user = user;
 	}
 
-	public Integer getDocumentTypeId() {
+	public String getDocumentTypeId() {
 		return documentTypeId;
 	}
 
-	public void setDocumentTypeId(Integer documentTypeId) {
+	public void setDocumentTypeId(String documentTypeId) {
 		this.documentTypeId = documentTypeId;
 	}
 

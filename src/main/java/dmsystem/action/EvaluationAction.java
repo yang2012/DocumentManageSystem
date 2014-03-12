@@ -24,8 +24,8 @@ public class EvaluationAction extends ActionSupport {
     private User user;
 
     // Form fields
-    private Integer documentId;
-    private Integer evalulationId;
+    private String documentId;
+    private String evalulationId;
     private Evaluation evaluation;
 
     private List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers;
@@ -46,19 +46,19 @@ public class EvaluationAction extends ActionSupport {
         this.user = user;
     }
 
-    public Integer getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(Integer documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
-    public Integer getEvaluationId() {
+    public String getEvaluationId() {
         return evalulationId;
     }
 
-    public void setEvaluationId(Integer evaluationId) {
+    public void setEvaluationId(String evaluationId) {
         this.evalulationId = evaluationId;
     }
 

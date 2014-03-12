@@ -39,7 +39,6 @@ public class HBaseUtil {
         } catch (ZooKeeperConnectionException e) {
             e.printStackTrace();
         }
-
     }
 
     public void put(String table, String rowKey, String family, String qualifier, String jsonData) throws IOException, NoSuchAlgorithmException {
