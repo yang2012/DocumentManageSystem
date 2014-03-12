@@ -91,17 +91,15 @@ public class UserDao {
 	}
 
 	public List<User> getAllUser() throws Exception {
-		List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily,
-				this.basicInfoQualifier);
-		List<User> users = new ArrayList<User>();
-		Gson gson = new Gson();
-		for (String json : jsons) {
-			User u = gson.fromJson(json, User.class);
-			if (u.getAuthority() != 0) {
-				users.add(u);
-			}
-		}
-		return users;
+        List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
+        List<User> users = new ArrayList<User>();
+        for (String json : jsons) {
+            User user = this.gson.fromJson(json, User.class);
+            if (user.getAuthority() != Constants.kDisableAuthority) {
+                users.add(user);
+            }
+        }
+        return users;
 	}
 
 	private User _update(User user, Map<String, String> values)

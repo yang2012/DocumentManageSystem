@@ -10,7 +10,7 @@ public class Constants {
 	// Authorities
 	public static final Integer kAdminAuthority = 2;
 	public static final Integer kNormalAuthority = 1;
-	public static final Integer kUnauthorizedAuthority = 0;
+	public static final Integer kDisableAuthority = 0;
 
 	// Authority of system Roles
 	public static enum Authority {
