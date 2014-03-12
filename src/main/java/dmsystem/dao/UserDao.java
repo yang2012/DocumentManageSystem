@@ -4,21 +4,13 @@ package dmsystem.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dmsystem.entity.Document;
-import dmsystem.entity.Evaluation;
 import dmsystem.util.HBaseUtil;
 import dmsystem.util.Json.UserBasicInfoSerializer;
 import dmsystem.util.StringUtil;
-import org.apache.hadoop.hbase.MasterNotRunningException;
-import org.apache.hadoop.hbase.ZooKeeperConnectionException;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import dmsystem.entity.User;
 import dmsystem.util.Constants;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,72 +24,77 @@ import java.util.Set;
  */
 public class UserDao {
 
-    private HBaseUtil hBaseUtil;
+	private HBaseUtil hBaseUtil;
 
-    public void sethBaseUtil(HBaseUtil hBaseUtil) {
-        this.hBaseUtil = hBaseUtil;
-    }
+	public void sethBaseUtil(HBaseUtil hBaseUtil) {
+		this.hBaseUtil = hBaseUtil;
+	}
 
-    private String table = "Users";
-    private String infoFamily = "Info";
-    private String basicInfoQualifier = "Basis";
-    private String opFamily = "Ops";
+	private String table = "Users";
+	private String infoFamily = "Info";
+	private String basicInfoQualifier = "Basis";
+	private String opFamily = "Ops";
 
 	public User getUser(String username) {
-        if (username == null) {
-            return null;
-        }
+		if (username == null) {
+			return null;
+		}
 
-        User user = null;
-        try {
-            String rowKey = StringUtil.md5(username);
-            this.findById(rowKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
+		User user = null;
+		try {
+			String rowKey = StringUtil.md5(username);
+			user = this.findById(rowKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 	public void add(User user) throws Exception {
-        Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserBasicInfoSerializer()).create();
-        String jsonData = gson.toJson(user);
-        String rowKey = StringUtil.md5(user.getUsername());
-        this.hBaseUtil.put(this.table, rowKey, this.infoFamily, this.basicInfoQualifier, jsonData);
-        user.setId(rowKey);
+		Gson gson = new GsonBuilder().registerTypeAdapter(User.class,
+				new UserBasicInfoSerializer()).create();
+		String jsonData = gson.toJson(user);
+		String rowKey = StringUtil.md5(user.getUsername());
+		this.hBaseUtil.put(this.table, rowKey, this.infoFamily,
+				this.basicInfoQualifier, jsonData);
+		user.setId(rowKey);
 	}
 
 	public void add(Map<String, String> values) throws Exception {
 		User transientInstance = new User();
 		transientInstance = this._update(transientInstance, values);
-        this.add(transientInstance);
+		this.add(transientInstance);
 	}
 
-	public void remove(User persistentInstance) throws Exception {
-//		hibernateUtil.remove(persistentInstance);
+	public void remove(User user) throws Exception {
+		this.hBaseUtil.delete(this.table, StringUtil.md5(user.getUsername()),
+				this.infoFamily, this.basicInfoQualifier);
 	}
 
 	public void update(User detachedInstance) throws Exception {
-        this.add(detachedInstance);
+		this.add(detachedInstance);
 	}
 
 	public User findById(String id) throws Exception {
-        User user = null;
-        String json = this.hBaseUtil.get(this.table, id, this.infoFamily, this.basicInfoQualifier);
-        if (json != null) {
-            Gson gson = new Gson();
-            user = gson.fromJson(json, User.class);
-        }
-        return user;
+		User user = null;
+		String json = this.hBaseUtil.get(this.table, id, this.infoFamily,
+				this.basicInfoQualifier);
+		if (json != null) {
+			Gson gson = new Gson();
+			user = gson.fromJson(json, User.class);
+		}
+		return user;
 	}
 
 	public List<User> getAllUser() throws Exception {
-        List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
-        List<User> users = new ArrayList<User>();
-        Gson gson = new Gson();
-        for (String json : jsons) {
-            users.add(gson.fromJson(json, User.class));
-        }
-        return users;
+		List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily,
+				this.basicInfoQualifier);
+		List<User> users = new ArrayList<User>();
+		Gson gson = new Gson();
+		for (String json : jsons) {
+			users.add(gson.fromJson(json, User.class));
+		}
+		return users;
 	}
 
 	private User _update(User user, Map<String, String> values)

@@ -86,9 +86,6 @@
                 <table class="table table-hover table-bordered">
                     <thead>
                         <td align="center">
-                            <h3>编号</h3>
-                        </td>
-                        <td align="center">
                             <h3>用户名</h3>
                         </td>
                         <td align="center">
@@ -105,10 +102,7 @@
                     <tr align="center">
                         <form method="POST" action="user/moduser" name="moduser">
                             <td>
-                                <input type="text" name="id" value="${user.id}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" name="username" value="${user.username}">
+                                <input type="text" name="username" value="${user.username}" readonly>
                             </td>
                             <td>
                                 <input type="text" name="name" value="${user.name}">
@@ -126,7 +120,7 @@
                         </form>
                         <form method="POST" action="user/deluser" name="deluser">
                             <td>
-                            	<input  type="hidden" name="id" value="${user.id}">
+                            	<input  type="hidden" name="username" value="${user.username}">
                                 <input  type="submit" name="delete" value="删除">
                             </td>
                         </form>

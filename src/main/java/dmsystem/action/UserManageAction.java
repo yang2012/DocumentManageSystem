@@ -148,7 +148,7 @@ public class UserManageAction extends ActionSupport {
 		}
 		if(user.getAuthority().equals(Constants.kAdminAuthority)){
 			User deluser=new User();
-			deluser.setId(id);
+			deluser.setUsername(username);
 			userService.delete(deluser);
 			result=SUCCESS;
 		}
