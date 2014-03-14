@@ -11,13 +11,19 @@ import java.security.NoSuchAlgorithmException;
  */
 public class StringUtil {
 
-    public static String md5(String content) throws NoSuchAlgorithmException {
+    public static String md5(String content) {
         if (content == null) {
             return null;
         }
-        MessageDigest mdEnc = MessageDigest.getInstance("MD5");
-        mdEnc.update(content.getBytes(), 0, content.length());
-        return new BigInteger(1, mdEnc.digest()).toString(16);
+        String md5 = null;
+        try {
+            MessageDigest mdEnc = MessageDigest.getInstance("MD5");
+            mdEnc.update(content.getBytes(), 0, content.length());
+            md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5;
     }
 
 	public static boolean equals(String str1, String str2) {

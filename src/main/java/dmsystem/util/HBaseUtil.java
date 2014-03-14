@@ -7,15 +7,13 @@ import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
+import org.springframework.data.hadoop.hbase.ResultsExtractor;
 import org.springframework.data.hadoop.hbase.RowMapper;
 
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by justinyang on 14-3-10.
@@ -70,8 +68,10 @@ public class HBaseUtil {
         HTableDescriptor dt = new HTableDescriptor("Docs");
         HColumnDescriptor di = new HColumnDescriptor("Info");
         HColumnDescriptor de = new HColumnDescriptor("Evas");
+        HColumnDescriptor dd = new HColumnDescriptor("Drafts");
         dt.addFamily(di);
         dt.addFamily(de);
+        dt.addFamily(dd);
         admin.createTable(dt);
 
         HTableDescriptor ct = new HTableDescriptor("Configs");
@@ -116,8 +116,7 @@ public class HBaseUtil {
 
         String titleMd5 = StringUtil.md5(document.getTitle());
         long reverseTimestamp = Long.MAX_VALUE - Calendar.getInstance().getTime().getTime();
-        String docid = titleMd5 + reverseTimestamp;
-        document.setId(docid);
+        document.setId(titleMd5 + reverseTimestamp);
 
         User normalUser = new User();
         normalUser.setUsername("user");
@@ -133,6 +132,42 @@ public class HBaseUtil {
         adminUser.setName("Admin");
         adminUser.setId(adminUser.getName());
 
+        Evaluation evaluation = new Evaluation();
+        evaluation.setDocId(document.getId());
+        evaluation.setContent("Very Good");
+        evaluation.setUserName(normalUser.getName());
+        evaluation.setUserId(normalUser.getId());
+        evaluation.setCreateTime(new Date());
+        evaluation.setType(Constants.kSimpleEvaluation);
+        evaluation.setPoint(4);
+        evaluation.setPublished(true);
+        String contentMd5 = StringUtil.md5(evaluation.getContent());
+        reverseTimestamp = Long.MAX_VALUE - Calendar.getInstance().getTime().getTime();
+        evaluation.setId(contentMd5 + reverseTimestamp);
+
+        Evaluation evaluation2 = new Evaluation();
+        evaluation2.setDocId(document.getId());
+        evaluation2.setContent("So Good");
+        evaluation2.setUserId(normalUser.getId());
+        evaluation2.setUserName(normalUser.getName());
+        evaluation2.setCreateTime(new Date());
+        evaluation2.setType(Constants.kSimpleEvaluation);
+        evaluation2.setPoint(3);
+        evaluation2.setPublished(true);
+        contentMd5 = StringUtil.md5(evaluation2.getContent());
+        reverseTimestamp = Long.MAX_VALUE - Calendar.getInstance().getTime().getTime();
+        evaluation2.setId(contentMd5 + reverseTimestamp);
+
+        Evaluation draft = new Evaluation();
+        draft.setDocId(document.getId());
+        draft.setContent("Draft");
+        draft.setUserId(normalUser.getId());
+        draft.setCreateTime(new Date());
+        draft.setType(Constants.kSimpleEvaluation);
+        draft.setPoint(5);
+        draft.setPublished(true);
+        draft.setId(normalUser.getId());
+
         // Run some operations -- a put, a get, and a scan -- against the table.
         HTable table = new HTable(config, "Configs");
         Put put = new Put(Bytes.toBytes(documentType.getId()));
@@ -146,6 +181,9 @@ public class HBaseUtil {
         table = new HTable(config, "Docs");
         put = new Put(Bytes.toBytes(document.getId()));
         put.add(Bytes.toBytes("Info"), Bytes.toBytes("Basis"), Bytes.toBytes(gson.toJson(document)));
+        put.add(Bytes.toBytes("Evas"), Bytes.toBytes(evaluation.getId()), Bytes.toBytes(gson.toJson(evaluation)));
+        put.add(Bytes.toBytes("Evas"), Bytes.toBytes(evaluation2.getId()), Bytes.toBytes(gson.toJson(evaluation2)));
+        put.add(Bytes.toBytes("Drafts"), Bytes.toBytes(normalUser.getId()), Bytes.toBytes(gson.toJson(draft)));
         table.put(put);
 
         table = new HTable(config, "Users");
@@ -158,7 +196,7 @@ public class HBaseUtil {
         table.put(put);
     }
 
-    public void put(String table, String rowKey, String family, String qualifier, String jsonData) throws IOException, NoSuchAlgorithmException {
+    public void put(String table, String rowKey, String family, String qualifier, String jsonData) throws IOException {
         if (table == null || rowKey == null || family == null || qualifier == null || jsonData == null) {
             System.err.println("Null parameters when calling HBaseUtil:put method");
             return;
@@ -169,31 +207,59 @@ public class HBaseUtil {
         hTable.put(put);
     }
 
-    public String get(String table, String rowKey, String family, String qualifier) throws IOException {
+    public String get(String table, String rowKey, final String family, final String qualifier) throws IOException {
         if (table == null || rowKey == null || family == null || qualifier == null) {
             System.err.println("Null parameters when calling HBaseUtil:get method");
             return null;
         }
-        Result result = this.hbaseTemplate.get(table, rowKey, family, qualifier, new RowMapper<Result>() {
+
+        return this.hbaseTemplate.get(table, rowKey, family, qualifier, new RowMapper<String>() {
             @Override
-            public Result mapRow(Result result, int rowNum) throws Exception {
-                return result;
+            public String mapRow(Result result, int rowNum) throws Exception {
+                byte[] bytes = result.getValue(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+                if (bytes != null) {
+                    return new String(bytes);
+                } else {
+                    return null;
+                }
             }
         });
-
-        byte[] bytes = result.getValue(Bytes.toBytes(family), Bytes.toBytes(qualifier));
-        return new String(bytes);
     }
 
-    public List<String> find(String table, String family) {
+    public List<String> get(String table, final String rowKey, final String family) {
+        return this.hbaseTemplate.find(table, family, new ResultsExtractor<List<String>>() {
+            @Override
+            public List<String> extractData(ResultScanner results) throws Exception {
+                List<String> jsons = new ArrayList<String>();
+                for (Result result : results) {
+                    if (Bytes.equals(result.getRow(), Bytes.toBytes(rowKey))) {
+                        for (KeyValue keyValue : result.list()) {
+                            String value = Bytes.toString(keyValue.getValue());
+                            jsons.add(value);
+                        }
+                    }
+                }
+                return jsons;
+            }
+        });
+    }
+
+    public List<String> find(String table, final String family, final String qualifier) {
         if (table == null || family == null) {
             System.err.println("Null parameters when calling HBaseUtil:find method");
             return null;
         }
-        return this.hbaseTemplate.find(table, family, new RowMapper<String>() {
+        return this.hbaseTemplate.find(table, family, qualifier, new ResultsExtractor<List<String>>() {
             @Override
-            public String mapRow(Result result, int i) throws Exception {
-                return result.toString();
+            public List<String> extractData(ResultScanner results) throws Exception {
+                List<String> strings = new ArrayList<String>();
+                Iterator<Result> it = results.iterator();
+                while (it.hasNext()) {
+                    Result result = it.next();
+                    byte[] bytes = result.getValue(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+                    strings.add(new String(bytes));
+                }
+                return strings;
             }
         });
     }
@@ -206,17 +272,24 @@ public class HBaseUtil {
         List<String> jsons = new ArrayList<String>();
 
         Scan scan = new Scan();
+
         byte[] familyBytes = Bytes.toBytes(family);
         byte[] qualifierBytes = Bytes.toBytes(qualifier);
         scan.addColumn(familyBytes, qualifierBytes);
 
         HTable hTable = new HTable(this.config, Bytes.toBytes(table));
 
-        ResultScanner scanner = hTable.getScanner(scan);
-        Result result = null;
-        while ((result = scanner.next()) != null) {
-            byte[] bytes = result.getValue(familyBytes, qualifierBytes);
-            jsons.add(new String(bytes));
+        ResultScanner scanner = null;
+        try {
+            scanner = hTable.getScanner(scan);
+            for (Result result : scanner) {
+                byte[] bytes = result.getValue(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+                jsons.add(new String(bytes));
+            }
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
         }
         return jsons;
     }
@@ -228,7 +301,7 @@ public class HBaseUtil {
         }
         HTable hTable = new HTable(this.config, Bytes.toBytes(table));
         Delete delete = new Delete(Bytes.toBytes(rowKey));
-//        delete.deleteColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+        delete.deleteColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
         hTable.delete(delete);
     }
 

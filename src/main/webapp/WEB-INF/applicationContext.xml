@@ -9,10 +9,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
-	<context:annotation-config />
-	
-	<context:component-scan base-package="dmsystem" />
-
 	<tx:annotation-driven />
 
     <hdp:configuration id="hadoopConfiguration">
@@ -24,43 +20,6 @@
     <bean id="hbaseTemplate" class="org.springframework.data.hadoop.hbase.HbaseTemplate">
         <property name="configuration" ref="hbaseConfiguration"/>
     </bean>
-
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
-        <!--<property name="url" value="jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8" />-->
-        <!--<property name="username" value="root" />-->
-        <!--<property name="password" value="" />-->
-    <!--</bean>-->
-
-    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource" />-->
-        <!--<property name="packagesToScan" value="dmsystem.entity"/>-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.connection.pool_size">1</prop>-->
-                <!--<prop key="hibernate.show_sql">true</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--<bean id="transactionManager"-->
-          <!--class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
-
-    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="session" class="org.springframework.orm.hibernate3.SessionFactoryUtils" factory-method="getSession" scope="prototype">-->
-        <!--<constructor-arg ref="sessionFactory" />-->
-        <!--<constructor-arg value="false" />-->
-    <!--</bean>-->
-
-    <!-- Hibernate -->
-    <!--<bean id="hibernateUtil" class="dmsystem.util.HibernateUtil">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
 
     <bean id="hbaseUtil" class="dmsystem.util.HBaseUtil">
         <property name="hbaseTemplate" ref="hbaseTemplate" />
@@ -246,7 +205,7 @@
     </bean>
     
     <bean id="operationDao" class="dmsystem.dao.OperationDao">
-        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
+        <property name="hBaseUtil" ref="hbaseUtil" />
     </bean>
     
     <bean id="documentSearchDao" class="dmsystem.dao.DocumentSearchDao">
@@ -273,7 +232,7 @@
     </bean>
 
     <bean id="evaluationDao" class="dmsystem.dao.EvaluationDao">
-        <!--<property name="hibernateUtil" ref="hibernateUtil" />-->
+        <property name="hBaseUtil" ref="hbaseUtil" />
     </bean>
 
     <bean id="evaluationExtraPropertyDao" class="dmsystem.dao.EvaluationExtraPropertyDao">

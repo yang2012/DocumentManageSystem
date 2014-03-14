@@ -28,7 +28,7 @@ public class OperationServiceImpl implements OperationService {
         operation.setExpression(this._getExpression(type));
         operation.setTime(DateUtil.getCurrentDate());
         operation.setType(type);
-        operation.setUser(user);
+        operation.setUserId(user.getId());
 
         try {
             this.operationDao.add(operation);

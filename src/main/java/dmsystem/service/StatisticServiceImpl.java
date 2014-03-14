@@ -56,8 +56,7 @@ public class StatisticServiceImpl implements StatisticService {
 		}
 		for (int i = 0; i < operationList.size(); i++) {
 			for (int j = 0; j < statList.size(); j++) {
-				if (statList.get(j).getUserId() == operationList.get(i)
-						.getUser().getId()) {
+				if (statList.get(j).getUserId() == operationList.get(i).getUserId()) {
 					switch (operationList.get(i).getType()) {
 					case 1:
 						statList.get(j).setDocimport(

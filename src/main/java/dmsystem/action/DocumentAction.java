@@ -199,6 +199,11 @@ public class DocumentAction extends ActionSupport {
         this.relationTypes=this.relationTypeService.getRelationType();
         this.document = this.documentService.get(this.docId);
 
+        Set<Evaluation> evaluations = this.evaluationService.getEvaluations(this.document);
+        if (evaluations != null) {
+            this.document.setEvaluations(this.evaluationService.getEvaluations(this.document));
+        }
+
         this.draftEvaluation = this.evaluationService.getSavedDraft(this.user, this.document);
         this.evaluationExtraPropertyWrappers = this._getExtrapropertyWrapper(this.draftEvaluation);
 

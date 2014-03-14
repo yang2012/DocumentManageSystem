@@ -23,29 +23,13 @@ public class Evaluation implements java.io.Serializable {
 	private Integer point;
 	private Boolean published;
     private Date createTime;
-	private transient Document document;
-	private transient User user;
+	private String docId;
+    private String userName;
+	private String userId;
 
 	private Set<EvaluationWithExtraProperty> extraProperties = new HashSet<EvaluationWithExtraProperty>(0);
 
 	public Evaluation() {
-	}
-
-	public Evaluation(String id, Document document, User user) {
-		this.id = id;
-		this.setDocument(document);
-		this.setUser(user);
-	}
-
-	public Evaluation(String id, String content, Integer type, Integer point,
-			Boolean published, Document document, User user) {
-		this.id = id;
-		this.content = content;
-		this.type = type;
-		this.point = point;
-		this.published = published;
-		this.setDocument(document);
-		this.setUser(user);
 	}
 
 	public String getId() {
@@ -96,23 +80,31 @@ public class Evaluation implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-	public Document getDocument() {
-		return document;
-	}
+    public String getDocId() {
+        return docId;
+    }
 
-	public void setDocument(Document document) {
-		this.document = document;
-	}
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public Set<EvaluationWithExtraProperty> getExtraProperties() {
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Set<EvaluationWithExtraProperty> getExtraProperties() {
 		return extraProperties;
 	}
 

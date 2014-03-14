@@ -17,7 +17,6 @@ public class ReferenceConfServiceImpl implements ReferenceConfService {
 	}
 
 	public List<RelationType> getRelationType() {
-		// TODO Auto-generated method stub
 		return relationTypeDao.getAll();
 	}
 
@@ -25,27 +24,22 @@ public class ReferenceConfServiceImpl implements ReferenceConfService {
 		try {
 			relationTypeDao.add(relationType);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void delRelationType(RelationType relationType) {
-		// TODO Auto-generated method stub
 		try {
 			relationTypeDao.remove(relationType);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void modRelationType(RelationType relationType) {
-		// TODO Auto-generated method stub
 		try {
 			relationTypeDao.update(relationType);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

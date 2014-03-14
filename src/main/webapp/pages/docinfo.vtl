@@ -334,7 +334,7 @@
             <br />
             <form method="POST" id="evaluationForm" role="form">
                 <input name="documentId" value="${document.id}" hidden="hidden" />
-                <input class="volatile" type="text" name="evaluationId" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
+                <input class="volatile" type="text" name="evaluation.id" value="${(draftEvaluation.id)!0}" hidden="hidden" id="evalId" />
                 <input name="evaluation.type" value="${(draftEvaluation.type)!0}" hidden="hidden" id="evalType"/>
                 <div class="star" style="float:right; margin-bottom:10px" data-score="${(draftEvaluation.point)!0}" data-readOnly="false"></div>
                 <textarea class="form-control" name="evaluation.content" rows="3" placeholder="请输入评论内容...">${(draftEvaluation.content)!""}</textarea>
@@ -364,7 +364,7 @@
 
                     <div class="well">
                         <div class="star" data-score="${(evaluation.point)!0}" data-readOnly="true"></div>
-                        <p>在${evaluation.formatTime}, <strong>${evaluation.user.name}&nbsp;</strong>说：</p>
+                        <p>在${evaluation.formatTime}, <strong>${evaluation.userName}&nbsp;</strong>说：</p>
                         <p>内容 : ${evaluation.content}</P>
                         <#if (evaluation.extraProperties)??>
                         <#list evaluation.extraProperties as extraProperty >

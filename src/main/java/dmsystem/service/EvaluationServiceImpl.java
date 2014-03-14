@@ -8,9 +8,8 @@ import dmsystem.entity.*;
 import dmsystem.util.Constants;
 import dmsystem.util.Wrapper.EvaluationExtraPropertyWrapper;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by justinyang on 13-12-26.
@@ -44,19 +43,18 @@ public class EvaluationServiceImpl implements EvaluationService {
         this.evaluationWithExtraPropertyDao = evaluationWithExtraPropertyDao;
     }
 
-    public Evaluation saveEvaluation(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    public Evaluation saveEvaluation(User user, String documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
-            if (evaluationId != null) {
-                persistentEvaluation = this.evaluationDao.findById(evaluationId);
+            Evaluation persistentDraft;
+            if (user.getId() != null && documentId != null) {
+                persistentDraft = this.evaluationDao.getDraft(user.getId(), documentId);
+                if (persistentDraft != null) {
+                    this.evaluationDao.removeDraft(persistentDraft);
+                }
             }
-            if (persistentEvaluation == null) {
-                persistentEvaluation = this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers);
-            } else  {
-                // Save from draft, so set it's created time to now
-                transientEvaluation.setCreateTime(new Date());
-                this._updateEvaluation(persistentEvaluation, transientEvaluation, evaluationExtraPropertyWrappers);
-            }
+            persistentEvaluation = this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers, false);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,16 +62,14 @@ public class EvaluationServiceImpl implements EvaluationService {
         return persistentEvaluation;
     }
 
-    public Evaluation saveDraft(User user, String documentId, String evaluationId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    public Evaluation saveDraft(User user, String documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
         Evaluation persistentEvaluation = null;
         try {
-            if (evaluationId != null) {
-                persistentEvaluation = this.evaluationDao.findById(evaluationId);
-            }
+            persistentEvaluation = this.evaluationDao.getDraft(user.getId(), documentId);
             if (persistentEvaluation == null) {
-                persistentEvaluation = this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers);
+                persistentEvaluation = this._addNewEvaluation(user, documentId, transientEvaluation, evaluationExtraPropertyWrappers, true);
             } else {
-                this._updateEvaluation(persistentEvaluation, transientEvaluation, evaluationExtraPropertyWrappers);
+                this._updateDraft(persistentEvaluation, transientEvaluation, evaluationExtraPropertyWrappers);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +78,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     public List<EvaluationExtraProperty> getExtraProperties() {
-        List<EvaluationExtraProperty> evaluationExtraProperties = null;
+        List<EvaluationExtraProperty> evaluationExtraProperties;
         try {
             evaluationExtraProperties = this.evaluationExtraPropertyDao.getAll();
         } catch (Exception e) {
@@ -98,7 +94,22 @@ public class EvaluationServiceImpl implements EvaluationService {
         if (user == null || document == null) {
             return null;
         }
-        return this.evaluationDao.getDraft(user, document);
+        return this.evaluationDao.getDraft(user.getId(), document.getId());
+    }
+
+    public Set<Evaluation> getEvaluations(Document document) {
+        Set<Evaluation> evaluations = new HashSet<Evaluation>();
+        if (document == null) {
+            System.err.println("Null parameters when calling getEvaluations");
+            return evaluations;
+        }
+
+        try {
+            evaluations = this.evaluationDao.getEvaluations(document);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return evaluations;
     }
 
     public List<EvaluationExtraProperty> getAllExtraProperties() {
@@ -123,20 +134,20 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
     }
 
-    private Evaluation _updateEvaluation(Evaluation persistentEvaluation, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) throws Exception {
-        if (persistentEvaluation == null || transientEvaluation == null) {
-            return persistentEvaluation;
+    private Evaluation _updateDraft(Evaluation persistentDraft, Evaluation transientDraft, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) throws Exception {
+        if (persistentDraft == null || transientDraft == null) {
+            return persistentDraft;
         }
 
-        persistentEvaluation.updateBasicInfo(transientEvaluation);
-        this.evaluationDao.update(persistentEvaluation);
-
+        persistentDraft.updateBasicInfo(transientDraft);
         // Update extra properties
-        this._updateExtraProperties(persistentEvaluation, evaluationExtraPropertyWrappers);
-        return persistentEvaluation;
+        this._updateExtraProperties(persistentDraft, evaluationExtraPropertyWrappers);
+        this.evaluationDao.updateDraft(persistentDraft);
+
+        return persistentDraft;
     }
 
-    private Evaluation _addNewEvaluation(User user, String documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers) {
+    private Evaluation _addNewEvaluation(User user, String documentId, Evaluation transientEvaluation, List<EvaluationExtraPropertyWrapper> evaluationExtraPropertyWrappers, Boolean isDraft) {
         Evaluation persistentEvaluation = null;
 
         if (user == null || documentId == null || transientEvaluation == null) {
@@ -144,20 +155,23 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         try {
-            Document document = this.documentDao.findById(documentId);
-
             persistentEvaluation = new Evaluation();
             // Basis information
             persistentEvaluation.updateBasicInfo(transientEvaluation);
             persistentEvaluation.setCreateTime(new Date());
             // Build up relationship
-            persistentEvaluation.setDocument(document);
-            persistentEvaluation.setUser(user);
-
-            this.evaluationDao.add(persistentEvaluation);
+            persistentEvaluation.setDocId(documentId);
+            persistentEvaluation.setUserId(user.getId());
+            persistentEvaluation.setUserName(user.getName());
 
             // Update extra properties
             this._updateExtraProperties(persistentEvaluation, evaluationExtraPropertyWrappers);
+
+            if (isDraft) {
+                this.evaluationDao.addDraft(persistentEvaluation);
+            } else {
+                this.evaluationDao.addEvaluation(persistentEvaluation);
+            }
 
             // Record operation
             if (persistentEvaluation.getType() == Constants.kDetailEvaluation) {
@@ -189,7 +203,6 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     private void _removeExtraProperties(Evaluation evaluation) throws Exception {
-        this.evaluationWithExtraPropertyDao.remove(evaluation.getExtraProperties());
         evaluation.getExtraProperties().clear();
     }
 
@@ -201,25 +214,15 @@ public class EvaluationServiceImpl implements EvaluationService {
                 continue;
             }
 
-            EvaluationExtraProperty extraProperty = this.evaluationExtraPropertyDao.findById(evaluationExtraPropertyWrapper.getExtraPropertyId());
-            EvaluationWithExtraProperty evaluationWithExtraProperty = this.evaluationWithExtraPropertyDao.find(evaluation, extraProperty);
+            EvaluationExtraProperty extraProperty = new EvaluationExtraProperty();
+            extraProperty.setPropertyName(evaluationExtraPropertyWrapper.getExtraPropertyName());
 
-            if (evaluationWithExtraProperty == null) {
-                evaluationWithExtraProperty = new EvaluationWithExtraProperty();
+            EvaluationWithExtraProperty evaluationWithExtraProperty = new EvaluationWithExtraProperty();
+            evaluationWithExtraProperty.setEvaluation(evaluation);
+            evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
+            evaluationWithExtraProperty.setEvaluationExtraProperty(extraProperty);
 
-                evaluationWithExtraProperty.setEvaluation(evaluation);
-                evaluation.getExtraProperties().add(evaluationWithExtraProperty);
-                evaluationWithExtraProperty.setEvaluationExtraProperty(extraProperty);
-                extraProperty.getExtraProperties().add(evaluationWithExtraProperty);
-
-                evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
-
-                this.evaluationWithExtraPropertyDao.add(evaluationWithExtraProperty);
-            } else {
-                evaluationWithExtraProperty.setPropertyValue(extraPropertyValue);
-
-                this.evaluationWithExtraPropertyDao.update(evaluationWithExtraProperty);
-            }
+            evaluation.getExtraProperties().add(evaluationWithExtraProperty);
         }
     }
  }

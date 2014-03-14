@@ -17,24 +17,7 @@ public class Operation implements java.io.Serializable {
 	private Integer type;
 	private Date time;
 	private String expression;
-	private User user;
-
-	public Operation() {
-	}
-
-	public Operation(String id, User user) {
-		this.id = id;
-		this.setUser(user);
-	}
-
-	public Operation(String id, Integer type, Date time, String expression,
-			User user) {
-		this.id = id;
-		this.type = type;
-		this.time = time;
-		this.expression = expression;
-		this.setUser(user);
-	}
+	private String userId;
 
 	public String getId() {
 		return this.id;
@@ -68,12 +51,11 @@ public class Operation implements java.io.Serializable {
 		this.expression = expression;
 	}
 
-	public User getUser() {
-		return user;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

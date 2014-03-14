@@ -1,23 +1,17 @@
 package dmsystem.dao;
 
-import dmsystem.entity.Evaluation;
 import dmsystem.entity.EvaluationExtraProperty;
-import dmsystem.util.HibernateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by justinyang on 13-12-26.
  */
 public class EvaluationExtraPropertyDao {
-    private HibernateUtil hibernateUtil;
-
-    public void setHibernateUtil(HibernateUtil hibernateUtil) {
-        this.hibernateUtil = hibernateUtil;
-    }
 
     public void add(EvaluationExtraProperty transientInstance) throws Exception {
-        hibernateUtil.persist(transientInstance);
+//        hibernateUtil.persist(transientInstance);
     }
 
     public void remove(EvaluationExtraProperty persistentInstance) throws Exception {
@@ -45,11 +39,13 @@ public class EvaluationExtraPropertyDao {
     }
 
     public EvaluationExtraProperty findById(String id) throws Exception {
-        return (EvaluationExtraProperty) hibernateUtil.findById(EvaluationExtraProperty.class, id);
+//        return (EvaluationExtraProperty) hibernateUtil.findById(EvaluationExtraProperty.class, id);
+        return null;
     }
 
     @SuppressWarnings("unchecked")
 	public List<EvaluationExtraProperty> getAll() throws Exception {
-        return hibernateUtil.getAll(EvaluationExtraProperty.class, "propertyName", true);
+//        return hibernateUtil.getAll(EvaluationExtraProperty.class, "propertyName", true);
+        return new ArrayList<EvaluationExtraProperty>();
     }
 }

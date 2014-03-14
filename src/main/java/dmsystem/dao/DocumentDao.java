@@ -114,11 +114,12 @@ public class DocumentDao {
 	}
 
 	public List<Document> getAll() throws Exception {
-        List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
         List<Document> documents = new ArrayList<Document>();
-        Gson gson = new Gson();
-        for (String json : jsons) {
-            documents.add(gson.fromJson(json, Document.class));
+        List<String> jsons = this.hBaseUtil.getAll(this.table, this.infoFamily, this.basicInfoQualifier);
+        if (jsons != null) {
+            for (String json : jsons) {
+                documents.add(gson.fromJson(json, Document.class));
+            }
         }
         return documents;
 	}
